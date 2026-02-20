@@ -18,9 +18,9 @@ collections:
       - { label: "ID", name: "id", widget: "string" }
       - { label: "Nombre", name: "nombre", widget: "string" }
       - { label: "Precio", name: "precio", widget: "string" }
-      - { label: "Descripción", name: "descripcion", widget: "text" }
+      - { label: "Descripcion", name: "descripcion", widget: "text" }
       - { label: "Imagen principal", name: "imagen", widget: "image" }
-      - label: "Galería"
+      - label: "Galeria"
         name: "galeria"
         widget: "list"
         field: { label: "Imagen", name: "imagen", widget: "image" }
