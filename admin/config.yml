@@ -1,15 +1,3 @@
-backend:
-  name: git-gateway
-  branch: main
-
-media_folder: "img"
-public_folder: "/img"
-
-media_library:
-  name: uploadcare
-  config:
-    publicKey: "demopublickey" # můžeš smazat nebo nahradit, není povinné
-
 collections:
   - name: "productos"
     label: "Productos"
@@ -21,19 +9,19 @@ collections:
       - { label: "ID", name: "id", widget: "string" }
       - { label: "Nombre", name: "nombre", widget: "string" }
       - { label: "Precio", name: "precio", widget: "string" }
-      - { label: "Descripcion", name: "descripcion", widget: "text" }
+      - { label: "Descripción", name: "descripcion", widget: "text" }
       - { label: "Imagen principal", name: "imagen", widget: "image" }
 
-      - label: "Kategorie"
-        name: "kategorie"
+      - label: "Categoría"
+        name: "categoria"
         widget: "select"
         options:
-          - { label: "Elektronika", value: "elektronika" }
-          - { label: "Domácnost", value: "domacnost" }
-          - { label: "Solární technika", value: "solarni" }
-          - { label: "Příslušenství", value: "prislusenstvi" }
+          - { label: "Powerbanks", value: "powerbanks" }
+          - { label: "Paneles", value: "paneles" }
+          - { label: "Luces", value: "luces" }
+          - { label: "Sistemas", value: "sistemas" }
 
-      - label: "Galeria"
+      - label: "Galería"
         name: "galeria"
         widget: "list"
         field: { label: "Imagen", name: "imagen", widget: "image" }
