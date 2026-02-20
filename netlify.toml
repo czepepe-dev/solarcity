@@ -1,2 +1,4 @@
+[build]
+command = "echo 'Activating functions'"
 [functions]
 directory = "netlify/functions"
