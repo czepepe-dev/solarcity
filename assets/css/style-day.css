@@ -64,6 +64,7 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   justify-items: center;
+  justify-content: center;   /* 🔥 KLÍČOVÝ FIX */
   gap: 20px;
   width: 100%;
   margin: 0 auto;
@@ -185,6 +186,7 @@ footer {
   .nuevos #nove-produkty {
     grid-template-columns: 1fr;
     justify-items: center;
+    justify-content: center;
   }
 
   /* Categorías – 2 v řadě */
@@ -211,13 +213,4 @@ footer {
     padding: 12px;
     font-size: 16px;
   }
-}
-/* FINÁLNÍ FIX – centrování Nuevos productos */
-.nuevos #nove-produkty {
-  display: grid;
-  grid-template-columns: 1fr;
-  justify-items: center;
-  justify-content: center;   /* 🔥 TOTO JE TEN CHYBĚJÍCÍ FIX */
-  width: 100%;
-  margin: 0 auto;
 }
