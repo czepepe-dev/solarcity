@@ -76,7 +76,6 @@ body {
    PRODUKTOVÉ GRIDY
 ------------------------------ */
 
-/* Kategorie stránky */
 .produkty-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -85,7 +84,6 @@ body {
   justify-items: center;
 }
 
-/* Nové produkty – max 3 na desktopu */
 .produkty-grid-3 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -118,7 +116,6 @@ body {
   box-shadow: 0 6px 16px rgba(0,0,0,0.15);
 }
 
-/* Obrázek produktu */
 .produkt-card img {
   width: 100%;
   max-width: 250px;
@@ -128,28 +125,24 @@ body {
   margin-bottom: 12px;
 }
 
-/* Název */
 .produkt-nazev {
   font-size: 18px;
   font-weight: bold;
   margin-bottom: 6px;
 }
 
-/* Cena */
 .produkt-cena {
   color: #008000;
   font-weight: bold;
   margin-bottom: 10px;
 }
 
-/* Popis */
 .produkt-popis {
   color: #444;
   font-size: 14px;
   margin-bottom: 15px;
 }
 
-/* Tlačítka */
 .produkt-btn,
 .produkt-info-btn {
   width: 100%;
@@ -224,13 +217,13 @@ footer {
 
 @media (max-width: 600px) {
 
-  /* Nové produkty – jen 1 v řadě */
+  /* Nuevos productos – 1 v řadě */
   .produkty-grid-3 {
     grid-template-columns: 1fr;
     max-width: 100%;
   }
 
-  /* Kategorie – max 2 v řadě */
+  /* Categorías – max 2 v řadě */
   .categorias .grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
