@@ -237,9 +237,10 @@
 
         files
           .filter(f => f.type === "file")
+          .sort((a, b) => a.name.localeCompare(b.name))
           .forEach(f => {
             gal.innerHTML += `
-              <img src="${f.download_url}" onclick="openLightbox('${f.download_url}')">
+              <img src="${f.download_url}" loading="lazy" onclick="openLightbox('${f.download_url}')">
             `;
           });
 
