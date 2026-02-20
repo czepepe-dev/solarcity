@@ -32,7 +32,7 @@ collections:
         name: "descripcion"
         widget: "markdown"
         modes: ["rich_text", "raw"]
-        hint: "Puedes usar HTML y Markdown."
+        hint: "Puedes usar Markdown y HTML."
 
       - { label: "Imagen principal", name: "imagen", widget: "image" }
 
