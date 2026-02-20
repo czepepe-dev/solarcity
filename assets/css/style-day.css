@@ -34,10 +34,11 @@ body {
 .produkty-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
-  padding: 20px;
-  justify-items: center;   /* 🔥 toto zarovná každou kartu na střed */
+  gap: 10px;              /* menší mezera mezi produkty */
+  padding: 10px 0;        /* menší horní a spodní odsazení */
+  justify-items: center;  /* centrování karet */
 }
+
 
 
 /* Karta produktu */
