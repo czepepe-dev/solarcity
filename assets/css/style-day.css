@@ -148,16 +148,16 @@ footer {
 
 @media (max-width: 600px) {
 
-  /* TOPBAR – menu na střed */
+  /* SKRYTÍ MENU NA MOBILU */
+  .topbar nav {
+    display: none;
+  }
+
+  /* TOPBAR – centrování */
   .topbar {
     flex-direction: column;
     gap: 10px;
     text-align: center;
-  }
-
-  .topbar nav {
-    justify-content: center;
-    flex-wrap: wrap;
   }
 
   /* Sekce centrovat */
@@ -172,16 +172,19 @@ footer {
     box-sizing: border-box;
   }
 
-  /* Nuevos productos – 1 v řadě */
+  /* Nuevos productos – 1 v řadě + centrování */
   .produkty-grid-3 {
     grid-template-columns: 1fr;
-    max-width: 100%;
+    justify-items: center;
+    width: 100%;
+    margin: 0 auto;
   }
 
   /* Categorías – max 2 v řadě */
   .categorias .grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
+    justify-items: center;
   }
 
   /* Produktová karta – větší a centrovaná */
