@@ -81,6 +81,14 @@
       margin-bottom: 30px;
     }
 
+    .product-description img {
+      max-width: 100%;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 10px 0;
+      box-shadow: 0 0 6px #0002;
+    }
+
     .product-order-btn {
       background: #2a7a2a;
       color: white;
@@ -219,6 +227,12 @@
         .trim();
 
       document.getElementById("p-popis").innerHTML = marked.parse(popis);
+
+      /* 🔥 KROK 3 — obrázky v popisu → kliknutelné → lightbox */
+      document.querySelectorAll("#p-popis img").forEach(img => {
+        img.style.cursor = "pointer";
+        img.onclick = () => openLightbox(img.src);
+      });
 
       const gal = document.getElementById("galerie");
       gal.innerHTML = "";
