@@ -10,21 +10,29 @@ collections:
     label: "Productos"
     folder: "data/productos"
     create: true
-    format: "json"
+    slug: "{{slug}}"
     extension: "json"
-
-    identifier_field: nombre
-    slug: "{{nombre | slugify}}"
+    format: "json"
 
     fields:
       - { label: "Nombre", name: "nombre", widget: "string" }
-      - { label: "ID", name: "id", widget: "string" }
+
+      - label: "Slug"
+        name: "slug"
+        widget: "string"
+        required: false
+        hint: "Se generará automáticamente si se deja vacío."
+
+      - { label: "ID", name: "id", widget: "string", required: false }
+
       - { label: "Precio", name: "precio", widget: "string" }
 
-      - label: "Descripción"
+      # 🔥 POPIS – ČISTÉ HTML, ŽÁDNÝ MARKDOWN
+      - label: "Descripción (HTML)"
         name: "descripcion"
-        widget: "markdown"
-        modes: [rich_text, raw]
+        widget: "text"
+        editor_components: []
+        hint: "Puedes usar HTML: <b>, <p>, <ul>, <li>, <table>, etc."
 
       - { label: "Imagen principal", name: "imagen", widget: "image" }
 
@@ -37,7 +45,12 @@ collections:
           - { label: "Luces", value: "luces" }
           - { label: "Sistemas", value: "sistemas" }
 
+      # 🔥 GALERIE – HROMADNÉ Nahrávání
       - label: "Galería"
         name: "galeria"
         widget: "list"
-        field: { label: "Imagen", name: "imagen", widget: "image" }
+        summary: "Imagen: {{fields.imagen}}"
+        field:
+          label: "Imagen"
+          name: "imagen"
+          widget: "image"
