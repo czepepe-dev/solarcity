@@ -216,113 +216,14 @@ footer {
   text-align: center !important;
 
   .nuevos {
-    max-width: 600px;
-    margin: 0 auto;
-  }
-
-}
-  transition: 0.25s ease;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.produkt-card img {
-  width: 100%;
-  max-width: 250px;
-  height: 250px;
-  object-fit: cover;
-  border-radius: 10px;
-  margin-bottom: 12px;
-}
-
-.produkt-btn,
-.produkt-info-btn {
-  width: 100%;
-  max-width: 200px;
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
-  cursor: pointer;
-  margin-top: 8px;
-  font-size: 15px;
-  font-weight: bold;
-}
-
-/* ------------------------------
-   FOOTER
------------------------------- */
-
-footer {
-  text-align: center;
-  padding: 16px;
-  font-size: 0.9rem;
-  color: #777;
-  border-top: 1px solid #e0e0e0;
-}
-
-/* ------------------------------
-   MOBILNÍ OPTIMALIZACE
------------------------------- */
-
-@media (max-width: 600px) {
-
-  .topbar nav {
-    display: none;
-  }
-
-  .topbar {
-    flex-direction: column;
-    gap: 10px;
-    text-align: center;
-  }
-
-  section,
-  .hero,
-  .nuevos,
-  .categorias {
-    width: 100%;
-    margin: 0 auto;
-    padding-left: 10px;
-    padding-right: 10px;
-    text-align: center;
-    box-sizing: border-box;
-  }
-
-  .nuevos #nove-produkty {
-    grid-template-columns: 1fr;
-    justify-items: center;
-    justify-content: center;
-  }
-
-  .categorias .grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-  }
-
-  .produkt-card {
     width: 100%;
     max-width: 360px;
     margin: 0 auto;
   }
 
-  .produkt-card img {
+  .nuevos #nove-produkty {
     width: 100%;
-    height: auto;
+    margin: 0 auto;
   }
 
-  .produkt-btn,
-  .produkt-info-btn {
-    max-width: 90%;
-    padding: 12px;
-    font-size: 16px;
-  }
-   /* DEFINITIVNÍ FIX – zrušení flexboxu na .hero */
-.hero {
-  display: block !important;
-  width: 100% !important;
-  margin: 0 auto !important;
-  text-align: center !important;
 }
