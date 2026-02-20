@@ -1,4 +1,7 @@
 [build]
-command = "echo 'Activating functions'"
+command = ""
+publish = "."
+
 [functions]
 directory = "netlify/functions"
+node_bundler = "esbuild"
