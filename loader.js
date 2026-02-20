@@ -1,26 +1,23 @@
 <script>
 async function nactiProdukty(kategorie) {
-  // načteme HTML výpis složky
-  const htmlText = await fetch("/data/productos/").then(r => r.text());
+  // 1) načteme seznam souborů z GitHub API
+  const apiUrl = "https://api.github.com/repos/czepepe-dev/solarcity/contents/data/productos";
+  const files = await fetch(apiUrl).then(r => r.json());
 
-  // převedeme HTML na DOM
-  const parser = new DOMParser();
-  const html = parser.parseFromString(htmlText, "text/html");
-
-  // najdeme všechny odkazy na .json
-  const links = [...html.querySelectorAll("a")]
-    .map(a => a.getAttribute("href"))
-    .filter(h => h.endsWith(".json"));
+  // 2) vyfiltrujeme jen .json soubory
+  const jsonFiles = files
+    .filter(f => f.name.endsWith(".json"))
+    .map(f => f.name);
 
   const produkty = [];
 
-  // načteme každý JSON soubor
-  for (const file of links) {
+  // 3) načteme každý JSON soubor přímo z webu
+  for (const file of jsonFiles) {
     const data = await fetch(`/data/productos/${file}`).then(r => r.json());
     if (data.categoria === kategorie) produkty.push(data);
   }
 
-  // vykreslení
+  // 4) vykreslení
   const cont = document.getElementById("produkty");
   cont.innerHTML = "";
 
