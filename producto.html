@@ -24,10 +24,16 @@
       align-items: flex-start;
     }
 
-    .product-image img {
+    .product-image {
       width: 420px;
+      overflow: hidden;
       border-radius: 10px;
       box-shadow: 0 0 10px #0002;
+    }
+
+    .product-image img {
+      width: 100%;
+      display: block;
     }
 
     .product-info {
@@ -82,11 +88,12 @@
       border-radius: 8px;
       cursor: pointer;
       box-shadow: 0 0 6px #0002;
-      transition: transform .2s;
+      transition: transform .25s ease;
     }
 
+    /* 🔥 ZOOM PŘI NAJETÍ NA MINIATURU */
     .product-gallery img:hover {
-      transform: scale(1.05);
+      transform: scale(1.15);
     }
 
     /* --- LIGHTBOX --- */
