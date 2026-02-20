@@ -169,11 +169,11 @@ footer {
   }
 
   /* zúžení celého hlavního obsahu */
-  .hero {
-    max-width: 380px;
-    margin: 0 auto;
-    padding: 20px 0;
-  }
+.hero {
+  max-width: 320px;
+  margin: 0 auto;
+  padding: 20px 0;
+}
 
   .nuevos #nove-produkty {
     grid-template-columns: 1fr;
