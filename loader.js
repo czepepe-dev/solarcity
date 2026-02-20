@@ -8,7 +8,7 @@ async function nactiProdukty(kategorie) {
     .filter(f => f.name.endsWith(".json"))
     .map(f => f.name);
 
-  // 3) seřadíme podle nejnovějších (GitHub API vrací nové soubory dole → otočíme)
+  // 3) seřadíme podle nejnovějších
   jsonFiles = jsonFiles.reverse();
 
   const produkty = [];
@@ -24,17 +24,30 @@ async function nactiProdukty(kategorie) {
   cont.innerHTML = "";
 
   produkty.forEach(p => {
-    const shortDesc = p.descripcion.length > 10
-      ? p.descripcion.substring(0, 10) + "... más info"
+    const shortDesc = p.descripcion.length > 40
+      ? p.descripcion.substring(0, 40) + "... más info"
       : p.descripcion;
 
     cont.innerHTML += `
-      <div class="produkt-card" onclick="alert('${p.descripcion.replace(/'/g, "\\'")}')">
-        <img src="${p.imagen}">
+      <div class="produkt-card">
+        <img src="${p.imagen}" alt="${p.nombre}">
         <div class="produkt-nazev">${p.nombre}</div>
         <div class="produkt-cena">${p.precio}</div>
         <div class="produkt-popis">${shortDesc}</div>
+
+        <button class="produkt-btn" onclick="window.location.href='/contact'">
+          ORDENAR
+        </button>
+
+        <button class="produkt-info-btn" onclick="zobrazDetail('${p.descripcion.replace(/'/g, "\\'")}')">
+          Más información
+        </button>
       </div>
     `;
   });
+}
+
+// Funkce pro zobrazení celého popisu
+function zobrazDetail(text) {
+  alert(text);
 }
