@@ -64,9 +64,18 @@ collections:
         widget: "list"
         allow_add: true
         summary: "{{fields.imagen}}"
+
         fields:
           - label: "Imagen"
             name: "imagen"
             widget: "image"
             media_folder: "data/productos/{{slug}}/galeria"
             public_folder: "/data/productos/{{slug}}/galeria"
+
+          # Toto pole je klíčové – díky němu CMS pochopí,
+          # že jde o seznam položek a povolí hromadný upload.
+          - label: "Alt"
+            name: "alt"
+            widget: "string"
+            required: false
+            hint: "Texto alternativo (opcional)"
