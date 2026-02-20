@@ -168,6 +168,11 @@ footer {
     text-align: center;
   }
 
+  .hero {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
   section,
   .hero,
   .nuevos,
@@ -180,20 +185,16 @@ footer {
     box-sizing: border-box;
   }
 
+  /* NUEVOS – zúžené a vystředěné */
   .nuevos #nove-produkty {
     grid-template-columns: 1fr;
-    justify-items: center;
-    justify-content: center;
-  }
-
-  .categorias .grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    max-width: 420px;
+    margin: 0 auto;
   }
 
   .produkt-card {
     width: 100%;
-    max-width: 100%;
+    max-width: 420px;
     margin: 0 auto;
   }
 
@@ -202,24 +203,16 @@ footer {
     height: auto;
   }
 
+  .categorias .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
   .produkt-btn,
   .produkt-info-btn {
     max-width: 90%;
     padding: 12px;
     font-size: 16px;
-  }
-   /* DEFINITIVNÍ FIX – zrušení flexboxu na .hero */
-.hero {
-  display: block !important;
-  width: 100% !important;
-  margin: 0 auto !important;
-  text-align: center !important;
-}
-@media (max-width: 600px) {
-
-  .hero {
-    padding-left: 0;
-    padding-right: 0;
   }
 
 }
