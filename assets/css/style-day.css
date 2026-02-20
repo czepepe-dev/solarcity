@@ -215,6 +215,15 @@ footer {
   gap: 20px;
   padding: 20px;
 }
+.produkty-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  max-width: 900px;        /* 3 × 300px */
+  margin: 0 auto;          /* centrování celé sekce */
+  gap: 20px;
+  justify-items: center;
+}
+
 
 /* Karta produktu */
 .produkt-card {
@@ -299,3 +308,4 @@ footer {
     grid-template-columns: 1fr;
   }
 }
+
