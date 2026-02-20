@@ -13,12 +13,12 @@ collections:
     format: "json"
     extension: "json"
 
-    # AUTOMATICKÝ SLUG Z NOMBRE
+    identifier_field: nombre
     slug: "{{nombre | slugify}}"
 
     fields:
-      - { label: "ID", name: "id", widget: "string" }
       - { label: "Nombre", name: "nombre", widget: "string" }
+      - { label: "ID", name: "id", widget: "string" }
       - { label: "Precio", name: "precio", widget: "string" }
 
       - label: "Descripción"
