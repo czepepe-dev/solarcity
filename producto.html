@@ -30,6 +30,7 @@
 
   <main class="contenido">
     <div id="detalle-producto"></div>
+
     <!-- CATEGORY GRID -->
     <section class="categorias">
       <h2>Categorías</h2>
@@ -44,12 +45,76 @@
   </main>
 
   <footer>
-    <p>      <a href="admin/login.html">Admin</a>© 2026 Tecnología Solar para el Caribe</p>
+    <p><a href="admin/login.html">Admin</a> © 2026 Tecnología Solar para el Caribe</p>
   </footer>
 
-  <script src="assets/js/app.js"></script>
+  <script>
+    // ---------------------------------------------------------
+    // 1) ZÍSKÁNÍ SLUGU Z URL
+    // ---------------------------------------------------------
+    const slug = new URLSearchParams(window.location.search).get("slug");
+
+    // ---------------------------------------------------------
+    // 2) NAČTENÍ PRODUKTU PODLE SLUGU
+    // ---------------------------------------------------------
+    async function nactiDetailProduktu() {
+      const apiUrl = "https://api.github.com/repos/czepepe-dev/solarcity/contents/data/productos";
+      const files = await fetch(apiUrl).then(r => r.json());
+
+      let jsonFiles = files
+        .filter(f => f.name.endsWith(".json"))
+        .map(f => f.name);
+
+      for (const file of jsonFiles) {
+        const data = await fetch(`/data/productos/${file}`).then(r => r.json());
+
+        // pokud produkt nemá slug → vytvoříme ho z názvu
+        if (!data.slug) {
+          data.slug = data.nombre
+            .toLowerCase()
+            .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-+|-+$/g, "");
+        }
+
+        // 🔥 NALEZENÍ PRODUKTU PODLE SLUGU
+        if (data.slug === slug) {
+          zobrazProdukt(data);
+          return;
+        }
+      }
+
+      document.getElementById("detalle-producto").innerHTML =
+        "<p>Producto no encontrado.</p>";
+    }
+
+    // ---------------------------------------------------------
+    // 3) VYKRESLENÍ DETAILU PRODUKTU
+    // ---------------------------------------------------------
+    function zobrazProdukt(p) {
+      document.getElementById("detalle-producto").innerHTML = `
+        <div class="produkt-detail">
+          <img src="${p.imagen}" alt="${p.nombre}" class="produkt-detail-img">
+
+          <h1>${p.nombre}</h1>
+          <div class="produkt-detail-cena">${p.precio}</div>
+
+          <div class="produkt-detail-popis">
+            ${p.descripcion}
+          </div>
+
+          <button class="produkt-btn" onclick="window.location.href='contacto.html'">
+            ORDENAR
+          </button>
+        </div>
+      `;
+    }
+
+    // ---------------------------------------------------------
+    // 4) SPUŠTĚNÍ
+    // ---------------------------------------------------------
+    nactiDetailProduktu();
+  </script>
+
 </body>
 </html>
-
-
-
