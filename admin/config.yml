@@ -45,14 +45,14 @@ collections:
           - { label: "Luces", value: "luces" }
           - { label: "Sistemas", value: "sistemas" }
 
-      # 🔥 GALERIE – MULTI-FOTO + DRAG‑AND‑DROP
+      # 🔥 GALERIE – MULTI-FOTO + DRAG‑AND‑DROP (OPRAVENO)
       - label: "Galería"
         name: "galeria"
         widget: "list"
         sortable: true
         allow_add: true
         summary: "Imagen: {{fields.imagen}}"
-        field:
-          label: "Imagen"
-          name: "imagen"
-          widget: "image"
+        fields:
+          - label: "Imagen"
+            name: "imagen"
+            widget: "image"
