@@ -14,7 +14,7 @@ collections:
     folder: "data/productos"
     create: true
 
-    # Slug se generuje automaticky z pole "nombre"
+    # Slug se generuje automaticky z Nombre
     identifier_field: "nombre"
     slug: "{{slug}}"
 
@@ -25,7 +25,7 @@ collections:
       # Název produktu
       - { label: "Nombre", name: "nombre", widget: "string" }
 
-      # Slug se generuje automaticky → skrytý
+      # Slug – generuje se automaticky → skrytý
       - label: "Slug"
         name: "slug"
         widget: "hidden"
@@ -61,7 +61,12 @@ collections:
       # ---------------------------------------------------------
       - label: "Galería"
         name: "galeria"
-        widget: "image"
-        allow_multiple: true
-        media_folder: "data/productos/{{slug}}/galeria"
-        public_folder: "/data/productos/{{slug}}/galeria"
+        widget: "list"
+        allow_add: true
+        summary: "{{fields.imagen}}"
+        fields:
+          - label: "Imagen"
+            name: "imagen"
+            widget: "image"
+            media_folder: "data/productos/{{slug}}/galeria"
+            public_folder: "/data/productos/{{slug}}/galeria"
