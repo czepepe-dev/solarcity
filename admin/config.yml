@@ -45,10 +45,11 @@ collections:
           - { label: "Luces", value: "luces" }
           - { label: "Sistemas", value: "sistemas" }
 
-      # 🔥 GALERIE – HROMADNÉ Nahrávání
+      # 🔥 GALERIE – HROMADNÉ Nahrávání + DRAG‑AND‑DROP
       - label: "Galería"
         name: "galeria"
         widget: "list"
+        sortable: true
         summary: "Imagen: {{fields.imagen}}"
         field:
           label: "Imagen"
