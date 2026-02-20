@@ -8,25 +8,27 @@ public_folder: "/img"
 collections:
   - name: "productos"
     label: "Productos"
-    file: "data/productos.json"
-    create: true
-    fields:
-      - { label: "ID", name: "id", widget: "string" }
-      - { label: "Nombre", name: "nombre", widget: "string" }
-      - { label: "Precio", name: "precio", widget: "string" }
-      - { label: "Descripción", name: "descripcion", widget: "text" }
-      - { label: "Imagen principal", name: "imagen", widget: "image" }
+    files:
+      - name: "lista"
+        label: "Lista de productos"
+        file: "data/productos.json"
+        fields:
+          - { label: "ID", name: "id", widget: "string" }
+          - { label: "Nombre", name: "nombre", widget: "string" }
+          - { label: "Precio", name: "precio", widget: "string" }
+          - { label: "Descripción", name: "descripcion", widget: "text" }
+          - { label: "Imagen principal", name: "imagen", widget: "image" }
 
-      - label: "Categoría"
-        name: "categoria"
-        widget: "select"
-        options:
-          - { label: "Powerbanks", value: "powerbanks" }
-          - { label: "Paneles", value: "paneles" }
-          - { label: "Luces", value: "luces" }
-          - { label: "Sistemas", value: "sistemas" }
+          - label: "Categoría"
+            name: "categoria"
+            widget: "select"
+            options:
+              - { label: "Powerbanks", value: "powerbanks" }
+              - { label: "Paneles", value: "paneles" }
+              - { label: "Luces", value: "luces" }
+              - { label: "Sistemas", value: "sistemas" }
 
-      - label: "Galería"
-        name: "galeria"
-        widget: "list"
-        field: { label: "Imagen", name: "imagen", widget: "image" }
+          - label: "Galería"
+            name: "galeria"
+            widget: "list"
+            field: { label: "Imagen", name: "imagen", widget: "image" }
