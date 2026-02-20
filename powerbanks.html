@@ -8,35 +8,7 @@
   <h1>Powerbanks</h1>
   <div id="produkty"></div>
 
-  <script>
-    const kategorie = "powerbanks";
-    const soubory = [
-      "22.json",
-      "23.json",
-      "24.json"
-    ];
-
-    async function nacti() {
-      const cont = document.getElementById("produkty");
-      cont.innerHTML = "";
-
-      for (const file of soubory) {
-        const res = await fetch(`/data/productos/${file}`);
-        const p = await res.json();
-        if (p.categoria !== kategorie) continue;
-
-        cont.innerHTML += `
-          <div>
-            <img src="${p.imagen}" width="150">
-            <h3>${p.nombre}</h3>
-            <p>${p.descripcion}</p>
-            <strong>${p.precio}</strong>
-          </div>
-        `;
-      }
-    }
-
-    nacti();
-  </script>
+  <script src="/loader.js"></script>
+  <script>nactiProdukty("powerbanks")</script>
 </body>
 </html>
