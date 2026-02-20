@@ -168,11 +168,6 @@ footer {
     text-align: center;
   }
 
-  .hero {
-    padding-left: 0;
-    padding-right: 0;
-  }
-
   section,
   .hero,
   .nuevos,
@@ -188,13 +183,13 @@ footer {
   /* NUEVOS – zúžené a vystředěné */
   .nuevos #nove-produkty {
     grid-template-columns: 1fr;
-    max-width: 420px;
+    max-width: 380px;
     margin: 0 auto;
   }
 
   .produkt-card {
     width: 100%;
-    max-width: 420px;
+    max-width: 380px;
     margin: 0 auto;
   }
 
