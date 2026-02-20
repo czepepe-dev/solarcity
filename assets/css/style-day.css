@@ -217,26 +217,41 @@ footer {
 
 @media (max-width: 600px) {
 
+  /* Centrovat všechny sekce */
+  section,
+  .hero,
+  .categorias {
+    width: 100%;
+    margin: 0 auto;
+    padding-left: 10px;
+    padding-right: 10px;
+    text-align: center;
+  }
+
   /* Nuevos productos – 1 v řadě */
   .produkty-grid-3 {
     grid-template-columns: 1fr;
     max-width: 100%;
+    justify-items: center;
   }
 
   /* Categorías – max 2 v řadě */
   .categorias .grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
+    justify-items: center;
   }
 
-  /* Produktová karta – větší */
+  /* Produktová karta – větší a centrovaná */
   .produkt-card {
-    width: 90%;
-    max-width: 350px;
+    width: 100%;
+    max-width: 360px;
+    margin: 0 auto;
   }
 
   /* Obrázek – zvětšit */
   .produkt-card img {
+    width: 100%;
     max-width: 100%;
     height: auto;
   }
@@ -247,5 +262,13 @@ footer {
     max-width: 90%;
     padding: 12px;
     font-size: 16px;
+  }
+
+  /* Grid produktů – centrovat */
+  .produkty-grid {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    width: 100%;
+    margin: 0 auto;
   }
 }
