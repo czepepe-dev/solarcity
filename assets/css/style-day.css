@@ -197,3 +197,94 @@ footer {
   color: #777;
   border-top: 1px solid #e0e0e0;
 }
+/* GRID rozložení produktů */
+.produkty-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+/* Karta produktu */
+.produkt-card {
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 15px;
+  background: #fff;
+  transition: 0.25s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.produkt-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+/* Obrázek */
+.produkt-card img {
+  width: 100%;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+/* Název */
+.produkt-nazev {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+/* Cena */
+.produkt-cena {
+  color: #008000;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+/* Popis */
+.produkt-popis {
+  color: #444;
+  font-size: 14px;
+  margin-bottom: 15px;
+}
+
+/* Tlačítka */
+.produkt-btn,
+.produkt-info-btn {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  margin-top: 8px;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.produkt-btn {
+  background: #007bff;
+  color: white;
+}
+
+.produkt-btn:hover {
+  background: #0056b3;
+}
+
+.produkt-info-btn {
+  background: #f0f0f0;
+  color: #333;
+}
+
+.produkt-info-btn:hover {
+  background: #e0e0e0;
+}
+
+/* Mobilní optimalizace */
+@media (max-width: 600px) {
+  .produkty-grid {
+    grid-template-columns: 1fr;
+  }
+}
