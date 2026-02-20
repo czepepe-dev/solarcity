@@ -1,0 +1,15 @@
+{
+  "nombre": "test",
+  "precio": "44",
+  "descripcion": "d﻿ghjlýit",
+  "imagen": "/img/solar_powerbank_018.jpg",
+  "categoria": "powerbanks",
+  "galeria": [
+    {
+      "imagen": "/img/galeria/test/solar_powerbank_004.jpg"
+    },
+    {
+      "imagen": "/img/galeria/test/solar_powerbank_019.jpg"
+    }
+  ]
+}
