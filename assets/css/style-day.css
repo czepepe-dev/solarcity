@@ -215,3 +215,11 @@ footer {
   margin: 0 auto !important;
   text-align: center !important;
 }
+@media (max-width: 600px) {
+
+  .hero {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+}
