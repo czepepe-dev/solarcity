@@ -58,6 +58,7 @@ body {
   gap: 16px;
   width: 100%;
   box-sizing: border-box;
+  justify-items: center;
 }
 
 .card {
@@ -88,6 +89,18 @@ body {
 .produkty-grid-3 {
   max-width: 900px;
   margin: 0 auto;
+}
+
+/* ------------------------------
+   FIX PRO NUEVOS PRODUCTOS
+------------------------------ */
+
+#nove-produkty {
+  display: grid !important;
+  justify-items: center !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  text-align: center !important;
 }
 
 /* ------------------------------
@@ -172,13 +185,13 @@ footer {
     box-sizing: border-box;
   }
 
-  /* Nuevos productos – 1 v řadě + PERFEKTNÍ CENTROVÁNÍ */
-  .produkty-grid-3 {
-    grid-template-columns: 1fr;
-    justify-items: center;
-    align-items: center;
-    width: 100%;
-    margin: 0 auto;
+  /* Nuevos productos – 1 v řadě + centrování */
+  .produkty-grid-3,
+  #nove-produkty {
+    grid-template-columns: 1fr !important;
+    justify-items: center !important;
+    width: 100% !important;
+    margin: 0 auto !important;
   }
 
   /* Categorías – max 2 v řadě */
