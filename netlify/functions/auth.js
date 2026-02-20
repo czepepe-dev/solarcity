@@ -1,8 +1,11 @@
-export default async (req, context) => {
+exports.handler = async (event, context) => {
   const clientId = process.env.GITHUB_CLIENT_ID;
-  const redirectUri = `${req.url}/callback`;
+  const redirectUri = `${event.headers.origin}/api/auth-callback`;
 
-  const url = `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=repo,user`;
-
-  return Response.redirect(url, 302);
+  return {
+    statusCode: 302,
+    headers: {
+      Location: `https://github.com/login/oauth/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=repo,user`,
+    },
+  };
 };
