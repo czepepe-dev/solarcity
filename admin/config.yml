@@ -45,14 +45,15 @@ collections:
           - { label: "Luces", value: "luces" }
           - { label: "Sistemas", value: "sistemas" }
 
-      # 🔥 GALERIE – MULTI-FOTO + DRAG‑AND‑DROP (OPRAVENO)
+      # 🔥 GALERIE JAKO SLOŽKA – HROMADNÝ UPLOAD + NÁHLEDY + ŘAZENÍ
       - label: "Galería"
         name: "galeria"
         widget: "list"
-        sortable: true
         allow_add: true
-        summary: "Imagen: {{fields.imagen}}"
+        summary: "{{fields.imagen}}"
         fields:
           - label: "Imagen"
             name: "imagen"
             widget: "image"
+            media_folder: "data/productos/{{slug}}/galeria"
+            public_folder: "/data/productos/{{slug}}/galeria"
