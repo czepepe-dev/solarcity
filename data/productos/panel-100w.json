@@ -4,6 +4,7 @@
     "nombre": "Panel Solar 100W",
     "precio": "120 USD",
     "descripcion": "Panel solar de 100W ideal para casas pequenas y negocios en el Caribe.",
+    "categoria": "paneles",
     "imagen": "assets/img/panel100.jpg",
     "galeria": [
       "assets/img/panel100_1.jpg",
