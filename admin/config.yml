@@ -27,12 +27,12 @@ collections:
 
       - { label: "Precio", name: "precio", widget: "string" }
 
-      # 🔥 POPIS – ČISTÉ HTML, ŽÁDNÝ MARKDOWN
-      - label: "Descripción (HTML)"
+      # 🔥 POPIS – MARKDOWN + HTML POVOLENO
+      - label: "Descripción"
         name: "descripcion"
-        widget: "text"
-        editor_components: []
-        hint: "Puedes usar HTML: <b>, <p>, <ul>, <li>, <table>, etc."
+        widget: "markdown"
+        modes: ["rich_text", "raw"]
+        hint: "Puedes usar HTML y Markdown."
 
       - { label: "Imagen principal", name: "imagen", widget: "image" }
 
@@ -45,11 +45,12 @@ collections:
           - { label: "Luces", value: "luces" }
           - { label: "Sistemas", value: "sistemas" }
 
-      # 🔥 GALERIE – HROMADNÉ Nahrávání + DRAG‑AND‑DROP
+      # 🔥 GALERIE – MULTI-FOTO + DRAG‑AND‑DROP
       - label: "Galería"
         name: "galeria"
         widget: "list"
         sortable: true
+        allow_add: true
         summary: "Imagen: {{fields.imagen}}"
         field:
           label: "Imagen"
