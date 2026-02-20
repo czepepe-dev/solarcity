@@ -172,10 +172,11 @@ footer {
     box-sizing: border-box;
   }
 
-  /* Nuevos productos – 1 v řadě + centrování */
+  /* Nuevos productos – 1 v řadě + PERFEKTNÍ CENTROVÁNÍ */
   .produkty-grid-3 {
     grid-template-columns: 1fr;
     justify-items: center;
+    align-items: center;
     width: 100%;
     margin: 0 auto;
   }
