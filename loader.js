@@ -1,12 +1,21 @@
 <script>
 async function nactiProdukty(kategorie) {
-  // načteme seznam souborů
-  const seznam = await fetch("/data/productos/index.json").then(r => r.json());
+  // načteme HTML výpis složky
+  const htmlText = await fetch("/data/productos/").then(r => r.text());
+
+  // převedeme HTML na DOM
+  const parser = new DOMParser();
+  const html = parser.parseFromString(htmlText, "text/html");
+
+  // najdeme všechny odkazy na .json
+  const links = [...html.querySelectorAll("a")]
+    .map(a => a.getAttribute("href"))
+    .filter(h => h.endsWith(".json"));
 
   const produkty = [];
 
-  // načteme každý produkt
-  for (const file of seznam) {
+  // načteme každý JSON soubor
+  for (const file of links) {
     const data = await fetch(`/data/productos/${file}`).then(r => r.json());
     if (data.categoria === kategorie) produkty.push(data);
   }
