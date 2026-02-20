@@ -40,13 +40,17 @@ body {
 
 /* Karta produktu */
 .produkt-card {
+  width: 260px;                 /* pevná šířka jako v e‑shopech */
   border: 1px solid #ddd;
   border-radius: 12px;
   padding: 15px;
   background: #fff;
-  cursor: pointer;
   transition: 0.25s ease;
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;          /* zarovnání obsahu */
+  text-align: center;           /* hezké centrování textu */
 }
 
 .produkt-card:hover {
