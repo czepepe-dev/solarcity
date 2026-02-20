@@ -36,7 +36,9 @@ body {
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 20px;
   padding: 20px;
+  justify-items: center;   /* 🔥 toto zarovná každou kartu na střed */
 }
+
 
 /* Karta produktu */
 .produkt-card {
