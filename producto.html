@@ -67,61 +67,47 @@
       background: #1f5d1f;
     }
 
+    /* --- GALERIE MINIATUR --- */
     .product-gallery {
-      margin-top: 40px;
+      margin-top: 30px;
       display: flex;
-      gap: 15px;
+      gap: 12px;
       flex-wrap: wrap;
     }
 
     .product-gallery img {
-      width: 140px;
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
       border-radius: 8px;
       cursor: pointer;
       box-shadow: 0 0 6px #0002;
+      transition: transform .2s;
     }
-    /* --- GALERIE MINIATUR --- */
-.product-gallery {
-  margin-top: 30px;
-  display: flex;
-  gap: 12px;
-  flex-wrap: wrap;
-}
 
-.product-gallery img {
-  width: 120px;
-  height: 120px;
-  object-fit: cover;
-  border-radius: 8px;
-  cursor: pointer;
-  box-shadow: 0 0 6px #0002;
-  transition: transform .2s;
-}
+    .product-gallery img:hover {
+      transform: scale(1.05);
+    }
 
-.product-gallery img:hover {
-  transform: scale(1.05);
-}
+    /* --- LIGHTBOX --- */
+    #lightbox {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,.85);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+    }
 
-/* --- LIGHTBOX --- */
-#lightbox {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,.85);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-
-#lightbox img {
-  max-width: 90%;
-  max-height: 90%;
-  border-radius: 10px;
-}
-
+    #lightbox img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 10px;
+    }
   </style>
 </head>
 
@@ -173,6 +159,11 @@
     <p><a href="admin/login.html">Admin</a> © 2026 Tecnología Solar para el Caribe</p>
   </footer>
 
+  <!-- LIGHTBOX -->
+  <div id="lightbox" onclick="this.style.display='none'">
+    <img id="lightbox-img" src="" alt="">
+  </div>
+
   <script>
     const slug = new URLSearchParams(window.location.search).get("slug");
 
@@ -211,12 +202,21 @@
       document.getElementById("p-cena").textContent = p.precio;
       document.getElementById("p-popis").innerHTML = p.descripcion;
 
+      const gal = document.getElementById("galerie");
+      gal.innerHTML = "";
+
       if (p.galeria && p.galeria.length > 0) {
-        const gal = document.getElementById("galerie");
         p.galeria.forEach(img => {
-          gal.innerHTML += `<img src="${img.imagen}" alt="">`;
+          gal.innerHTML += `
+            <img src="${img.imagen}" onclick="openLightbox('${img.imagen}')">
+          `;
         });
       }
+    }
+
+    function openLightbox(src) {
+      document.getElementById("lightbox-img").src = src;
+      document.getElementById("lightbox").style.display = "flex";
     }
 
     nactiDetailProduktu();
@@ -224,4 +224,3 @@
 
 </body>
 </html>
-
