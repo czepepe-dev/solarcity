@@ -47,24 +47,11 @@ collections:
           - { label: "Luces", value: "luces" }
           - { label: "Sistemas", value: "sistemas" }
 
-  # ---------------------------------------------------------
-  # GALERIE UVNITŘ PRODUKTU (HROMADNÝ UPLOAD)
-  # ---------------------------------------------------------
-  - name: "galeria"
-    label: "Galería de productos"
-    folder: "data/productos"
-    create: false
-    nested:
-      depth: 2
-    filter:
-      field: "type"
-      value: "galeria"
-
-    fields:
-      - { label: "Tipo", name: "type", widget: "hidden", default: "galeria" }
-
-      - label: "Imágenes"
-        name: "imagenes"
+      # ---------------------------------------------------------
+      # GALERIE UVNITŘ PRODUKTU (HROMADNÝ UPLOAD)
+      # ---------------------------------------------------------
+      - label: "Galería"
+        name: "galeria"
         widget: "image"
         allow_multiple: true
         media_folder: "data/productos/{{slug}}/galeria"
