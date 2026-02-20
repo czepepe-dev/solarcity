@@ -36,6 +36,28 @@
       display: block;
     }
 
+    /* --- GALERIE MINIATUR (NYNÍ POD HLAVNÍ FOTKOU) --- */
+    .product-gallery {
+      margin-top: 15px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .product-gallery img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 0 6px #0002;
+      transition: transform .25s ease;
+    }
+
+    .product-gallery img:hover {
+      transform: scale(1.15);
+    }
+
     .product-info {
       flex: 1;
       min-width: 300px;
@@ -71,29 +93,6 @@
 
     .product-order-btn:hover {
       background: #1f5d1f;
-    }
-
-    /* --- GALERIE MINIATUR --- */
-    .product-gallery {
-      margin-top: 30px;
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-    }
-
-    .product-gallery img {
-      width: 120px;
-      height: 120px;
-      object-fit: cover;
-      border-radius: 8px;
-      cursor: pointer;
-      box-shadow: 0 0 6px #0002;
-      transition: transform .25s ease;
-    }
-
-    /* 🔥 ZOOM PŘI NAJETÍ NA MINIATURU */
-    .product-gallery img:hover {
-      transform: scale(1.15);
     }
 
     /* --- LIGHTBOX --- */
@@ -141,8 +140,13 @@
 
     <div class="product-container">
 
-      <div class="product-image">
-        <img id="p-img" src="" alt="" loading="lazy">
+      <div>
+        <div class="product-image">
+          <img id="p-img" src="" alt="" loading="lazy">
+        </div>
+
+        <!-- 🔥 GALERIE PŘESUNUTA SEM -->
+        <div id="galerie" class="product-gallery"></div>
       </div>
 
       <div class="product-info">
@@ -157,8 +161,6 @@
       </div>
 
     </div>
-
-    <div id="galerie" class="product-gallery"></div>
 
   </main>
 
@@ -203,25 +205,21 @@
 
     function zobrazProdukt(p) {
 
-      // --- LAZY LOADING + HLAVNÍ OBRÁZEK ---
       const mainImg = document.getElementById("p-img");
       mainImg.src = p.imagen;
       mainImg.alt = p.nombre;
       mainImg.loading = "lazy";
 
-      // --- TITUL, CENA, POPIS ---
       document.getElementById("p-nazev").textContent = p.nombre;
       document.getElementById("p-cena").textContent = p.precio;
 
-      // 🔥 AUTOMATICKÉ ČIŠTĚNÍ POPISU
       let popis = p.descripcion
         .replace(/<!--StartFragment-->/g, "")
         .replace(/<!--EndFragment-->/g, "")
         .trim();
 
-document.getElementById("p-popis").innerHTML = marked.parse(popis);
+      document.getElementById("p-popis").innerHTML = marked.parse(popis);
 
-      // --- GALERIE ---
       const gal = document.getElementById("galerie");
       gal.innerHTML = "";
 
@@ -241,8 +239,7 @@ document.getElementById("p-popis").innerHTML = marked.parse(popis);
 
     nactiDetailProduktu();
   </script>
-<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </body>
 </html>
-
-
