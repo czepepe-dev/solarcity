@@ -12,6 +12,10 @@ collections:
     create: true
     format: "json"
     extension: "json"
+
+    # AUTOMATICKÝ SLUG Z NOMBRE
+    slug: "{{nombre | slugify}}"
+
     fields:
       - { label: "ID", name: "id", widget: "string" }
       - { label: "Nombre", name: "nombre", widget: "string" }
