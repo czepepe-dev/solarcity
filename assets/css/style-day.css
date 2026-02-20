@@ -277,4 +277,22 @@ footer {
   cursor: pointer;
   box-shadow: 0 0 6px #0002;
 }
+/* --- LIGHTBOX ANIMACE --- */
+#lightbox {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+#lightbox.show {
+  opacity: 1;
+}
+
+#lightbox-img {
+  transform: scale(0.85);
+  transition: transform 0.25s ease;
+}
+
+#lightbox.show #lightbox-img {
+  transform: scale(1);
+}
 
