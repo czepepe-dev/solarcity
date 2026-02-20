@@ -6,7 +6,7 @@ exports.handler = async (event, context) => {
   const clientSecret = process.env.GITHUB_CLIENT_SECRET;
 
   const tokenResponse = await fetch(
-    `https://github.com/login/oauth/access_token`,
+    "https://github.com/login/oauth/access_token",
     {
       method: "POST",
       headers: { Accept: "application/json" },
