@@ -1,10 +1,6 @@
 backend:
-  name: github
-  repo: czepepe-dev/solarcity
+  name: git-gateway
   branch: main
-  auth_type: implicit
-  base_url: https://solarcitycuba.netlify.app
-  auth_endpoint: /.netlify/functions/auth
 
 media_folder: "img"
 public_folder: "/img"
