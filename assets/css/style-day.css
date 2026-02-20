@@ -38,7 +38,7 @@ body {
 }
 
 /* ------------------------------
-   HERO / ÚVOD
+   HERO
 ------------------------------ */
 
 .hero {
@@ -49,16 +49,43 @@ body {
 }
 
 /* ------------------------------
+   SEKCIA NUEVOS PRODUCTOS
+------------------------------ */
+
+.nuevos {
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+  padding: 20px 0;
+  box-sizing: border-box;
+}
+
+.nuevos #nove-produkty {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  justify-items: center;
+  gap: 20px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ------------------------------
    KATEGORIE GRID
 ------------------------------ */
+
+.categorias {
+  width: 100%;
+  margin: 0 auto;
+  text-align: center;
+}
 
 .categorias .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
+  justify-items: center;
   width: 100%;
   box-sizing: border-box;
-  justify-items: center;
 }
 
 .card {
@@ -69,38 +96,6 @@ body {
   color: #222;
   border: 1px solid #e0e0e0;
   text-align: center;
-}
-
-/* ------------------------------
-   PRODUKTOVÉ GRIDY
------------------------------- */
-
-.produkty-grid,
-.produkty-grid-3 {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 20px;
-  padding: 20px;
-  justify-items: center;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.produkty-grid-3 {
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-/* ------------------------------
-   FIX PRO NUEVOS PRODUCTOS
------------------------------- */
-
-#nove-produkty {
-  display: grid !important;
-  justify-items: center !important;
-  width: 100% !important;
-  margin: 0 auto !important;
-  text-align: center !important;
 }
 
 /* ------------------------------
@@ -166,16 +161,16 @@ footer {
     display: none;
   }
 
-  /* TOPBAR – centrování */
   .topbar {
     flex-direction: column;
     gap: 10px;
     text-align: center;
   }
 
-  /* Sekce centrovat */
+  /* Centrovat sekce */
   section,
   .hero,
+  .nuevos,
   .categorias {
     width: 100%;
     margin: 0 auto;
@@ -185,78 +180,34 @@ footer {
     box-sizing: border-box;
   }
 
-  /* Nuevos productos – 1 v řadě + centrování */
-  .produkty-grid-3,
-  #nove-produkty {
-    grid-template-columns: 1fr !important;
-    justify-items: center !important;
-    width: 100% !important;
-    margin: 0 auto !important;
-  }
-
-  /* Categorías – max 2 v řadě */
-  .categorias .grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+  /* Nuevos productos – 1 v řadě */
+  .nuevos #nove-produkty {
+    grid-template-columns: 1fr;
     justify-items: center;
   }
 
-  /* Produktová karta – větší a centrovaná */
+  /* Categorías – 2 v řadě */
+  .categorias .grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+
+  /* Produktová karta – větší */
   .produkt-card {
     width: 100%;
     max-width: 360px;
     margin: 0 auto;
   }
 
-  /* Obrázek – zvětšit */
   .produkt-card img {
     width: 100%;
-    max-width: 100%;
     height: auto;
   }
 
-  /* Tlačítka – větší */
   .produkt-btn,
   .produkt-info-btn {
     max-width: 90%;
     padding: 12px;
     font-size: 16px;
   }
-
-  /* Grid produktů – centrovat */
-  .produkty-grid {
-    grid-template-columns: 1fr;
-    justify-items: center;
-    width: 100%;
-  }
 }
-/* ------------------------------------
-   ABSOLUTNÍ FIX PRO NUEVOS PRODUCTOS
------------------------------------- */
-
-#nove-produkty {
-  display: grid !important;
-  grid-template-columns: 1fr !important;
-  justify-items: center !important;
-  align-items: center !important;
-  width: 100% !important;
-  margin: 0 auto !important;
-  padding: 0 !important;
-  text-align: center !important;
-  box-sizing: border-box !important;
-}
-
-/* Mobilní verze – ještě tvrdší fix */
-@media (max-width: 600px) {
-  #nove-produkty {
-    display: grid !important;
-    grid-template-columns: 1fr !important;
-    justify-items: center !important;
-    align-items: center !important;
-    width: 100% !important;
-    margin: 0 auto !important;
-    padding: 0 !important;
-    text-align: center !important;
-  }
-}
-
