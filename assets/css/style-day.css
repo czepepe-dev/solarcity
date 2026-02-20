@@ -168,34 +168,15 @@ footer {
     text-align: center;
   }
 
-  section,
-  .hero,
-  .nuevos,
-  .categorias {
-    width: 100%;
+  /* zúžení celého hlavního obsahu */
+  .hero {
+    max-width: 380px;
     margin: 0 auto;
-    padding-left: 10px;
-    padding-right: 10px;
-    text-align: center;
-    box-sizing: border-box;
+    padding: 20px 0;
   }
 
-  /* NUEVOS – zúžené a vystředěné */
   .nuevos #nove-produkty {
     grid-template-columns: 1fr;
-    max-width: 380px;
-    margin: 0 auto;
-  }
-
-  .produkt-card {
-    width: 100%;
-    max-width: 380px;
-    margin: 0 auto;
-  }
-
-  .produkt-card img {
-    width: 100%;
-    height: auto;
   }
 
   .categorias .grid {
@@ -203,11 +184,13 @@ footer {
     gap: 12px;
   }
 
-  .produkt-btn,
-  .produkt-info-btn {
-    max-width: 90%;
-    padding: 12px;
-    font-size: 16px;
+  .produkt-card {
+    width: 100%;
+  }
+
+  .produkt-card img {
+    width: 100%;
+    height: auto;
   }
 
 }
