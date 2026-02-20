@@ -142,7 +142,7 @@
     <div class="product-container">
 
       <div class="product-image">
-        <img id="p-img" src="" alt="">
+        <img id="p-img" src="" alt="" loading="lazy">
       </div>
 
       <div class="product-info">
@@ -202,20 +202,33 @@
     }
 
     function zobrazProdukt(p) {
-      document.getElementById("p-img").src = p.imagen;
-      document.getElementById("p-img").alt = p.nombre;
 
+      // --- LAZY LOADING + HLAVNÍ OBRÁZEK ---
+      const mainImg = document.getElementById("p-img");
+      mainImg.src = p.imagen;
+      mainImg.alt = p.nombre;
+      mainImg.loading = "lazy";
+
+      // --- TITUL, CENA, POPIS ---
       document.getElementById("p-nazev").textContent = p.nombre;
       document.getElementById("p-cena").textContent = p.precio;
-      document.getElementById("p-popis").innerHTML = p.descripcion;
 
+      // 🔥 AUTOMATICKÉ ČIŠTĚNÍ POPISU
+      let popis = p.descripcion
+        .replace(/<!--StartFragment-->/g, "")
+        .replace(/<!--EndFragment-->/g, "")
+        .trim();
+
+      document.getElementById("p-popis").innerHTML = popis;
+
+      // --- GALERIE ---
       const gal = document.getElementById("galerie");
       gal.innerHTML = "";
 
       if (p.galeria && p.galeria.length > 0) {
         p.galeria.forEach(img => {
           gal.innerHTML += `
-            <img src="${img.imagen}" onclick="openLightbox('${img.imagen}')">
+            <img src="${img.imagen}" loading="lazy" onclick="openLightbox('${img.imagen}')">
           `;
         });
       }
