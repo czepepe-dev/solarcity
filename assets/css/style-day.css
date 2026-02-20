@@ -71,29 +71,7 @@ body {
 }
 
 /* ------------------------------
-   MOBILNÍ VERZE
------------------------------- */
-
-@media (max-width: 600px) {
-
-  .nuevos {
-    width: 100%;
-    margin: 0 auto;
-    padding-left: 10px;
-    padding-right: 10px;
-    text-align: center;
-  }
-
-  .nuevos #nove-produkty {
-    grid-template-columns: 1fr;
-    justify-items: center;
-    width: 100%;
-    margin: 0 auto;
-  }
-}
-
-/* ------------------------------
-   KATEGORIE GRID
+   KATEGORÍAS
 ------------------------------ */
 
 .categorias {
