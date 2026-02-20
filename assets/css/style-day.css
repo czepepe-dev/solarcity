@@ -57,9 +57,12 @@ body {
 /* Obrázek */
 .produkt-card img {
   width: 100%;
+  height: 180px;            /* pevná výška jako v e‑shopech */
+  object-fit: cover;        /* ořízne obrázek esteticky */
   border-radius: 10px;
   margin-bottom: 12px;
 }
+
 
 /* Název */
 .produkt-nazev {
