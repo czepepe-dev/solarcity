@@ -208,4 +208,10 @@ footer {
     padding: 12px;
     font-size: 16px;
   }
+   /* DEFINITIVNÍ FIX – zrušení flexboxu na .hero */
+.hero {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+  text-align: center !important;
 }
