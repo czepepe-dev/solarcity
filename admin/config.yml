@@ -1,0 +1,26 @@
+backend:
+  name: github
+  repo: czepepe-dev/solarcity
+  branch: main
+  auth_type: implicit
+  base_url: https://solarcitycuba.netlify.app
+  auth_endpoint: /api/auth
+
+media_folder: "img"
+public_folder: "/img"
+
+collections:
+  - name: "productos"
+    label: "Productos"
+    file: "data/productos.json"
+    format: "json"
+    fields:
+      - { label: "ID", name: "id", widget: "string" }
+      - { label: "Nombre", name: "nombre", widget: "string" }
+      - { label: "Precio", name: "precio", widget: "string" }
+      - { label: "Descripción", name: "descripcion", widget: "text" }
+      - { label: "Imagen principal", name: "imagen", widget: "image" }
+      - label: "Galería"
+        name: "galeria"
+        widget: "list"
+        field: { label: "Imagen", name: "imagen", widget: "image" }
