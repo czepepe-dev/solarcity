@@ -64,7 +64,7 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   justify-items: center;
-  justify-content: center;   /* 🔥 KLÍČOVÝ FIX */
+  justify-content: center;
   gap: 20px;
   width: 100%;
   margin: 0 auto;
@@ -158,7 +158,6 @@ footer {
 
 @media (max-width: 600px) {
 
-  /* SKRYTÍ MENU NA MOBILU */
   .topbar nav {
     display: none;
   }
@@ -169,7 +168,6 @@ footer {
     text-align: center;
   }
 
-  /* Centrovat sekce */
   section,
   .hero,
   .nuevos,
@@ -182,20 +180,17 @@ footer {
     box-sizing: border-box;
   }
 
-  /* Nuevos productos – 1 v řadě */
   .nuevos #nove-produkty {
     grid-template-columns: 1fr;
     justify-items: center;
     justify-content: center;
   }
 
-  /* Categorías – 2 v řadě */
   .categorias .grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
   }
 
-  /* Produktová karta – větší */
   .produkt-card {
     width: 100%;
     max-width: 360px;
