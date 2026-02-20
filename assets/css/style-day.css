@@ -83,33 +83,35 @@ body {
 
 .categorias .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 14px;
   justify-items: center;
   width: 100%;
   box-sizing: border-box;
 }
 
 .card {
-  background: #6ccf55;       /* světle zelená podle loga */
+  background: #6ccf55;
   border-radius: 8px;
   text-decoration: none;
   color: #ffffff;
   border: none;
 
-  width: 180px;              /* pevná šířka */
-  height: 70px;              /* pevná výška */
+  width: 100%;
+  max-width: 150px;   /* menší a bezpečné */
+  height: 55px;       /* kompaktní výška */
 
   display: flex;
   align-items: center;
   justify-content: center;
 
   font-weight: 600;
+  font-size: 14px;
   transition: 0.2s ease;
 }
 
 .card:hover {
-  background: #58b844;       /* lehce tmavší při hover */
+  background: #58b844;
   transform: translateY(-2px);
 }
 
@@ -194,7 +196,7 @@ footer {
 
   .categorias .grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    gap: 10px;
   }
 
   .produkt-card {
