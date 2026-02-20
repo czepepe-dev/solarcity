@@ -168,12 +168,13 @@ footer {
     text-align: center;
   }
 
-  /* zúžení celého hlavního obsahu */
-.hero {
-  max-width: 320px;
-  margin: 0 auto;
-  padding: 20px 0;
-}
+  /* hlavní kontejner procentuálně */
+  .hero {
+    width: 88%;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 20px 0;
+  }
 
   .nuevos #nove-produkty {
     grid-template-columns: 1fr;
