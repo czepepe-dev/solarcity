@@ -1,85 +1,283 @@
-<script>
-  const slug = new URLSearchParams(window.location.search).get("slug");
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Producto - Tecnología solar para Cuba</title>
 
-  async function nactiDetailProduktu() {
-    const apiUrl = "https://api.github.com/repos/czepepe-dev/solarcity/contents/data/productos";
-    const files = await fetch(apiUrl).then(r => r.json());
+  <link rel="icon" href="favicon.png" type="image/png">
+  <link id="theme-style" rel="stylesheet" href="assets/css/style-day.css">
 
-    let jsonFiles = files.filter(f => f.name.endsWith(".json")).map(f => f.name);
-
-    for (const file of jsonFiles) {
-      const data = await fetch(`/data/productos/${file}`).then(r => r.json());
-
-      if (!data.slug) {
-        data.slug = data.nombre
-          .toLowerCase()
-          .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
-          .replace(/[^a-z0-9]+/g, "-")
-          .replace(/^-+|-+$/g, "");
-      }
-
-      if (data.slug === slug) {
-        zobrazProdukt(data);
-        return;
-      }
+  <style>
+    .product-page {
+      max-width: 1100px;
+      margin: 40px auto;
+      padding: 20px;
     }
 
-    document.querySelector(".product-page").innerHTML =
-      "<p>Producto no encontrado.</p>";
-  }
+    .product-container {
+      display: flex;
+      gap: 40px;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
 
-  async function zobrazProdukt(p) {
+    .product-image {
+      width: 420px;
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #0002;
+    }
 
-    document.getElementById("p-img").src = p.imagen;
-    document.getElementById("p-nazev").textContent = p.nombre;
-    document.getElementById("p-cena").textContent = p.precio;
+    .product-image img {
+      width: 100%;
+      display: block;
+    }
 
-    let popis = p.descripcion
-      .replace(/<!--StartFragment-->/g, "")
-      .replace(/<!--EndFragment-->/g, "")
-      .trim();
+    /* --- GALERIE MINIATUR: 4 v řádku --- */
+    .product-gallery {
+      margin-top: 15px;
+      width: 420px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
 
-    document.getElementById("p-popis").innerHTML = marked.parse(popis);
+    .product-gallery img {
+      width: 100%;
+      height: 95px;
+      object-fit: cover;
+      border-radius: 8px;
+      cursor: pointer;
+      box-shadow: 0 0 6px #0002;
+      transition: transform .25s ease;
+    }
 
-    document.querySelectorAll("#p-popis img").forEach(img => {
-      img.style.cursor = "pointer";
-      img.onclick = () => openLightbox(img.src);
-    });
+    .product-gallery img:hover {
+      transform: scale(1.15);
+    }
 
-    /* -------------------------------
-       NOVÁ GALERIE Z JSONU
-    --------------------------------*/
-    const gal = document.getElementById("galerie");
-    gal.innerHTML = "";
+    .product-info {
+      flex: 1;
+      min-width: 300px;
+    }
 
-    if (Array.isArray(p.galeria) && p.galeria.length > 0) {
-      p.galeria.forEach(item => {
-        gal.innerHTML += `
-          <img src="${item.imagen}" loading="lazy" onclick="openLightbox('${item.imagen}')">
-        `;
+    .product-info h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .product-price {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #2a7a2a;
+    }
+
+    .product-description {
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 30px;
+    }
+
+    .product-description img {
+      max-width: 100%;
+      border-radius: 8px;
+      cursor: pointer;
+      margin: 10px 0;
+      box-shadow: 0 0 6px #0002;
+    }
+
+    .product-order-btn {
+      background: #2a7a2a;
+      color: white;
+      padding: 14px 26px;
+      border: none;
+      border-radius: 6px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .product-order-btn:hover {
+      background: #1f5d1f;
+    }
+
+    /* --- LIGHTBOX ANIMACE --- */
+    #lightbox {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,.85);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    #lightbox.show {
+      opacity: 1;
+    }
+
+    #lightbox-img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 10px;
+
+      transform: scale(0.85);
+      transition: transform 0.25s ease;
+    }
+
+    #lightbox.show #lightbox-img {
+      transform: scale(1);
+    }
+  </style>
+</head>
+
+<body>
+
+  <header class="topbar">
+    <div class="logo">
+      <a href="index.html">
+        <img src="logo.png" alt="SolarCity logo" style="height:80px;">
+      </a>
+    </div>
+
+    <nav>
+      <a href="categoria.html?cat=powerbanks">Powerbanks</a>
+      <a href="categoria.html?cat=paneles">Paneles</a>
+      <a href="categoria.html?cat=luces">Luces</a>
+      <a href="categoria.html?cat=sistemas">Sistemas</a>
+      <a href="contacto.html">Contacto</a>
+    </nav>
+  </header>
+
+  <main class="product-page">
+
+    <div class="product-container">
+
+      <div>
+        <div class="product-image">
+          <img id="p-img" src="" alt="" loading="lazy">
+        </div>
+
+        <div id="galerie" class="product-gallery"></div>
+      </div>
+
+      <div class="product-info">
+        <h1 id="p-nazev"></h1>
+        <div class="product-price" id="p-cena"></div>
+
+        <div class="product-description" id="p-popis"></div>
+
+        <button class="product-order-btn" onclick="window.location.href='contacto.html'">
+          ORDENAR
+        </button>
+      </div>
+
+    </div>
+
+  </main>
+
+  <footer>
+    <p><a href="admin/login.html">Admin</a> © 2026 Tecnología Solar para el Caribe</p>
+  </footer>
+
+  <!-- LIGHTBOX -->
+  <div id="lightbox" onclick="closeLightbox()">
+    <img id="lightbox-img" src="" alt="">
+  </div>
+
+  <script>
+    const slug = new URLSearchParams(window.location.search).get("slug");
+
+    async function nactiDetailProduktu() {
+      const apiUrl = "https://api.github.com/repos/czepepe-dev/solarcity/contents/data/productos";
+      const files = await fetch(apiUrl).then(r => r.json());
+
+      let jsonFiles = files.filter(f => f.name.endsWith(".json")).map(f => f.name);
+
+      for (const file of jsonFiles) {
+        const data = await fetch(`/data/productos/${file}`).then(r => r.json());
+
+        if (!data.slug) {
+          data.slug = data.nombre
+            .toLowerCase()
+            .normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+            .replace(/[^a-z0-9]+/g, "-")
+            .replace(/^-+|-+$/g, "");
+        }
+
+        if (data.slug === slug) {
+          zobrazProdukt(data);
+          return;
+        }
+      }
+
+      document.querySelector(".product-page").innerHTML =
+        "<p>Producto no encontrado.</p>";
+    }
+
+    async function zobrazProdukt(p) {
+
+      document.getElementById("p-img").src = p.imagen;
+      document.getElementById("p-nazev").textContent = p.nombre;
+      document.getElementById("p-cena").textContent = p.precio;
+
+      let popis = p.descripcion
+        .replace(/<!--StartFragment-->/g, "")
+        .replace(/<!--EndFragment-->/g, "")
+        .trim();
+
+      document.getElementById("p-popis").innerHTML = marked.parse(popis);
+
+      document.querySelectorAll("#p-popis img").forEach(img => {
+        img.style.cursor = "pointer";
+        img.onclick = () => openLightbox(img.src);
       });
+
+      /* -------------------------------
+         NOVÁ GALERIE Z JSONU
+      --------------------------------*/
+      const gal = document.getElementById("galerie");
+      gal.innerHTML = "";
+
+      if (Array.isArray(p.galeria) && p.galeria.length > 0) {
+        p.galeria.forEach(item => {
+          gal.innerHTML += `
+            <img src="${item.imagen}" loading="lazy" onclick="openLightbox('${item.imagen}')">
+          `;
+        });
+      }
     }
-  }
 
-  /* --- LIGHTBOX FUNKCE S ANIMACÍ --- */
-  function openLightbox(src) {
-    const lb = document.getElementById("lightbox");
-    const img = document.getElementById("lightbox-img");
+    /* --- LIGHTBOX FUNKCE S ANIMACÍ --- */
+    function openLightbox(src) {
+      const lb = document.getElementById("lightbox");
+      const img = document.getElementById("lightbox-img");
 
-    img.src = src;
-    lb.style.display = "flex";
+      img.src = src;
+      lb.style.display = "flex";
 
-    setTimeout(() => lb.classList.add("show"), 10);
-  }
+      setTimeout(() => lb.classList.add("show"), 10);
+    }
 
-  function closeLightbox() {
-    const lb = document.getElementById("lightbox");
-    lb.classList.remove("show");
+    function closeLightbox() {
+      const lb = document.getElementById("lightbox");
+      lb.classList.remove("show");
 
-    setTimeout(() => {
-      lb.style.display = "none";
-    }, 250);
-  }
+      setTimeout(() => {
+        lb.style.display = "none";
+      }, 250);
+    }
 
-  nactiDetailProduktu();
-</script>
+    nactiDetailProduktu();
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</body>
+</html>
