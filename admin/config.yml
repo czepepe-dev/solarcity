@@ -2,7 +2,7 @@ backend:
   name: git-gateway
   branch: main
 
-media_folder: "img"
+media_folder: "/img"
 public_folder: "/img"
 
 collections:
@@ -45,9 +45,6 @@ collections:
           - { label: "Luces", value: "luces" }
           - { label: "Sistemas", value: "sistemas" }
 
-      # ---------------------------------------------------------
-      # GALERÍA – FUNGUJÍCÍ, VEŘEJNÁ, S MULTI-UPLOAD
-      # ---------------------------------------------------------
       - label: "Galería"
         name: "galeria"
         widget: "list"
@@ -57,7 +54,7 @@ collections:
           - label: "Imagen"
             name: "imagen"
             widget: "image"
-            media_folder: "img/galeria/{{slug}}"
+            media_folder: "/img/galeria/{{slug}}"
             public_folder: "/img/galeria/{{slug}}"
 
           - label: "Alt"
