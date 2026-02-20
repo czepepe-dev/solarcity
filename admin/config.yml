@@ -6,6 +6,9 @@ media_folder: "img"
 public_folder: "/img"
 
 collections:
+  # ---------------------------------------------------------
+  # HLAVNÍ KOLEKCE PRODUKTŮ
+  # ---------------------------------------------------------
   - name: "productos"
     label: "Productos"
     folder: "data/productos"
@@ -27,7 +30,6 @@ collections:
 
       - { label: "Precio", name: "precio", widget: "string" }
 
-      # 🔥 POPIS – MARKDOWN + HTML POVOLENO
       - label: "Descripción"
         name: "descripcion"
         widget: "markdown"
@@ -45,15 +47,25 @@ collections:
           - { label: "Luces", value: "luces" }
           - { label: "Sistemas", value: "sistemas" }
 
-      # 🔥 GALERIE JAKO SLOŽKA – HROMADNÝ UPLOAD + NÁHLEDY + ŘAZENÍ
-      - label: "Galería"
-        name: "galeria"
-        widget: "list"
-        allow_add: true
-        summary: "{{fields.imagen}}"
-        fields:
-          - label: "Imagen"
-            name: "imagen"
-            widget: "image"
-            media_folder: "data/productos/{{slug}}/galeria"
-            public_folder: "/data/productos/{{slug}}/galeria"
+  # ---------------------------------------------------------
+  # GALERIE UVNITŘ PRODUKTU (HROMADNÝ UPLOAD)
+  # ---------------------------------------------------------
+  - name: "galeria"
+    label: "Galería de productos"
+    folder: "data/productos"
+    create: false
+    nested:
+      depth: 2
+    filter:
+      field: "type"
+      value: "galeria"
+
+    fields:
+      - { label: "Tipo", name: "type", widget: "hidden", default: "galeria" }
+
+      - label: "Imágenes"
+        name: "imagenes"
+        widget: "image"
+        allow_multiple: true
+        media_folder: "data/productos/{{slug}}/galeria"
+        public_folder: "/data/productos/{{slug}}/galeria"
