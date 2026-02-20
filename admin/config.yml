@@ -8,10 +8,8 @@ public_folder: "/img"
 collections:
   - name: "productos"
     label: "Productos"
-    folder: "data/productos"
+    file: "data/productos.json"
     create: true
-    format: "json"
-    extension: "json"
     fields:
       - { label: "ID", name: "id", widget: "string" }
       - { label: "Nombre", name: "nombre", widget: "string" }
