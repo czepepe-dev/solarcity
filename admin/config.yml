@@ -6,47 +6,34 @@ media_folder: "img"
 public_folder: "/img"
 
 collections:
-  # ---------------------------------------------------------
-  # HLAVNÍ KOLEKCE PRODUKTŮ
-  # ---------------------------------------------------------
   - name: "productos"
     label: "Productos"
     folder: "data/productos"
     create: true
-
-    # Slug se generuje automaticky z Nombre
     identifier_field: "nombre"
     slug: "{{slug}}"
-
     extension: "json"
     format: "json"
 
     fields:
-      # Název produktu
       - { label: "Nombre", name: "nombre", widget: "string" }
 
-      # Slug – generuje se automaticky → skrytý
       - label: "Slug"
         name: "slug"
         widget: "hidden"
 
-      # ID (volitelné)
       - { label: "ID", name: "id", widget: "string", required: false }
 
-      # Cena
       - { label: "Precio", name: "precio", widget: "string" }
 
-      # Popis produktu
       - label: "Descripción"
         name: "descripcion"
         widget: "markdown"
         modes: ["rich_text", "raw"]
         hint: "Puedes usar Markdown y HTML."
 
-      # Hlavní obrázek
       - { label: "Imagen principal", name: "imagen", widget: "image" }
 
-      # Kategorie
       - label: "Categoría"
         name: "categoria"
         widget: "select"
@@ -56,15 +43,11 @@ collections:
           - { label: "Luces", value: "luces" }
           - { label: "Sistemas", value: "sistemas" }
 
-      # ---------------------------------------------------------
-      # GALERIE UVNITŘ PRODUKTU (HROMADNÝ UPLOAD)
-      # ---------------------------------------------------------
       - label: "Galería"
         name: "galeria"
         widget: "list"
         allow_add: true
         summary: "{{fields.imagen}}"
-
         fields:
           - label: "Imagen"
             name: "imagen"
@@ -72,10 +55,7 @@ collections:
             media_folder: "data/productos/{{slug}}/galeria"
             public_folder: "/data/productos/{{slug}}/galeria"
 
-          # Toto pole je klíčové – díky němu CMS pochopí,
-          # že jde o seznam položek a povolí hromadný upload.
           - label: "Alt"
             name: "alt"
             widget: "string"
             required: false
-            hint: "Texto alternativo (opcional)"
