@@ -56,13 +56,14 @@ body {
 
 /* Obrázek */
 .produkt-card img {
-  width: 180px;
-  height: 180px;            /* pevná výška jako v e‑shopech */
-  object-fit: cover;        /* ořízne obrázek esteticky */
+  width: 100%;
+  max-width: 250px;     /* pevná šířka jako v e‑shopech */
+  height: 250px;        /* pevná výška */
+  object-fit: cover;    /* estetické oříznutí */
   border-radius: 10px;
-  margin-bottom: 12px;
+  margin: 0 auto 12px;  /* centrování obrázku */
+  display: block;
 }
-
 
 /* Název */
 .produkt-nazev {
