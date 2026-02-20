@@ -16,7 +16,12 @@ collections:
       - { label: "ID", name: "id", widget: "string" }
       - { label: "Nombre", name: "nombre", widget: "string" }
       - { label: "Precio", name: "precio", widget: "string" }
-      - { label: "Descripción", name: "descripcion", widget: "text" }
+
+      - label: "Descripción"
+        name: "descripcion"
+        widget: "markdown"
+        modes: [rich_text, raw]
+
       - { label: "Imagen principal", name: "imagen", widget: "image" }
 
       - label: "Categoría"
