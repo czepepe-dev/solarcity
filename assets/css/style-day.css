@@ -91,13 +91,26 @@ body {
 }
 
 .card {
-  background: #ffffff;
+  background: #6ccf55;       /* světle zelená podle loga */
   border-radius: 8px;
-  padding: 16px;
   text-decoration: none;
-  color: #222;
-  border: 1px solid #e0e0e0;
-  text-align: center;
+  color: #ffffff;
+  border: none;
+
+  width: 180px;              /* pevná šířka */
+  height: 70px;              /* pevná výška */
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.card:hover {
+  background: #58b844;       /* lehce tmavší při hover */
+  transform: translateY(-2px);
 }
 
 /* ------------------------------
@@ -168,7 +181,6 @@ footer {
     text-align: center;
   }
 
-  /* hlavní kontejner procentuálně */
   .hero {
     width: 80%;
     max-width: 500px;
