@@ -17,25 +17,24 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 12px 24px;
+  padding: 12px 16px;
   border-bottom: 1px solid #e0e0e0;
   background: #fafafa;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .topbar nav {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .topbar nav a {
-  margin-left: 16px;
   color: #222;
   text-decoration: none;
   font-weight: 500;
-}
-
-.topbar nav a:hover {
-  color: #007BFF;
 }
 
 /* ------------------------------
@@ -43,9 +42,10 @@ body {
 ------------------------------ */
 
 .hero {
-  padding: 32px 24px;
+  padding: 32px 16px;
   max-width: 900px;
   margin: 0 auto;
+  text-align: center;
 }
 
 /* ------------------------------
@@ -56,6 +56,8 @@ body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 16px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .card {
@@ -68,29 +70,24 @@ body {
   text-align: center;
 }
 
-.card:hover {
-  border-color: #007BFF;
-}
-
 /* ------------------------------
    PRODUKTOVÉ GRIDY
 ------------------------------ */
 
-.produkty-grid {
+.produkty-grid,
+.produkty-grid-3 {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 20px;
   padding: 20px;
   justify-items: center;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .produkty-grid-3 {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   max-width: 900px;
   margin: 0 auto;
-  gap: 20px;
-  justify-items: center;
 }
 
 /* ------------------------------
@@ -111,11 +108,6 @@ body {
   text-align: center;
 }
 
-.produkt-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
-}
-
 .produkt-card img {
   width: 100%;
   max-width: 250px;
@@ -123,24 +115,6 @@ body {
   object-fit: cover;
   border-radius: 10px;
   margin-bottom: 12px;
-}
-
-.produkt-nazev {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 6px;
-}
-
-.produkt-cena {
-  color: #008000;
-  font-weight: bold;
-  margin-bottom: 10px;
-}
-
-.produkt-popis {
-  color: #444;
-  font-size: 14px;
-  margin-bottom: 15px;
 }
 
 .produkt-btn,
@@ -154,49 +128,6 @@ body {
   margin-top: 8px;
   font-size: 15px;
   font-weight: bold;
-}
-
-.produkt-btn {
-  background: #007bff;
-  color: white;
-}
-
-.produkt-btn:hover {
-  background: #0056b3;
-}
-
-.produkt-info-btn {
-  background: #f0f0f0;
-  color: #333;
-}
-
-.produkt-info-btn:hover {
-  background: #e0e0e0;
-}
-
-/* ------------------------------
-   FORMULÁŘE / OBSAH
------------------------------- */
-
-.contenido {
-  padding: 24px;
-  max-width: 900px;
-  margin: 0 auto;
-}
-
-.form-contacto {
-  max-width: 400px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.form-contacto input,
-.form-contacto textarea {
-  width: 100%;
-  padding: 8px;
-  border-radius: 4px;
-  border: 1px solid #ccc;
 }
 
 /* ------------------------------
@@ -217,7 +148,19 @@ footer {
 
 @media (max-width: 600px) {
 
-  /* Centrovat všechny sekce */
+  /* TOPBAR – menu na střed */
+  .topbar {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+
+  .topbar nav {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  /* Sekce centrovat */
   section,
   .hero,
   .categorias {
@@ -226,20 +169,19 @@ footer {
     padding-left: 10px;
     padding-right: 10px;
     text-align: center;
+    box-sizing: border-box;
   }
 
   /* Nuevos productos – 1 v řadě */
   .produkty-grid-3 {
     grid-template-columns: 1fr;
     max-width: 100%;
-    justify-items: center;
   }
 
   /* Categorías – max 2 v řadě */
   .categorias .grid {
     grid-template-columns: repeat(2, 1fr);
     gap: 12px;
-    justify-items: center;
   }
 
   /* Produktová karta – větší a centrovaná */
@@ -269,6 +211,5 @@ footer {
     grid-template-columns: 1fr;
     justify-items: center;
     width: 100%;
-    margin: 0 auto;
   }
 }
