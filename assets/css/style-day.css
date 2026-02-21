@@ -83,11 +83,11 @@ body {
 
 .categorias .grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;                 /* větší mezera */
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 30px;   /* 🔹 zvětšená mezera mezi tlačítky */
   justify-items: center;
-  max-width: 320px;          /* kontrola šířky – neroztahuje layout */
-  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .card {
@@ -97,7 +97,9 @@ body {
   color: #ffffff;
   border: none;
 
-  width: 150px;
+  width: 100%;
+  max-width: 150px;
+
   padding: 10px;
   font-size: 15px;
   font-weight: bold;
@@ -195,9 +197,7 @@ footer {
 
   .categorias .grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    max-width: 320px;
-    margin: 0 auto;
+    gap: 30px;   /* 🔹 mezera i na mobilu */
   }
 
   .produkt-card {
