@@ -33,13 +33,19 @@ async function nactiProdukty(kategorie) {
 
     const detailUrl = `/producto.html?slug=${p.slug}`;
 
+    // 🔥 odstraníme HTML z JSON popisu
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = p.descripcion;
+    const plainText = tempDiv.textContent || tempDiv.innerText || "";
+    const shortText = plainText.substring(0, 160);
+
     cont.innerHTML += `
       <div class="produkt-card">
         <img src="${p.imagen}" alt="${p.nombre}" class="produkt-img" data-url="${detailUrl}">
 
         <h2 class="produkt-nazev">${p.nombre}</h2>
         <h1 class="produkt-cena">${p.precio}</h1>
-        <div class="produkt-popis">${p.descripcion}</div>
+        <div class="produkt-popis">${shortText}...</div>
 
         <button class="produkt-btn" onclick="window.location.href='contacto.html'">
           ORDENAR
@@ -52,7 +58,7 @@ async function nactiProdukty(kategorie) {
     `;
   });
 
-  // Klik na obrázek -> detail produktu
+  // Klik na obrázek → detail
   document.querySelectorAll(".produkt-img").forEach(img => {
     img.addEventListener("click", function() {
       window.location.href = this.dataset.url;
@@ -98,13 +104,18 @@ async function nactiNoveProdukty() {
 
     const detailUrl = `/producto.html?slug=${p.slug}`;
 
+    const tempDiv = document.createElement("div");
+    tempDiv.innerHTML = p.descripcion;
+    const plainText = tempDiv.textContent || tempDiv.innerText || "";
+    const shortText = plainText.substring(0, 160);
+
     cont.innerHTML += `
       <div class="produkt-card">
         <img src="${p.imagen}" alt="${p.nombre}" class="produkt-img" data-url="${detailUrl}">
 
         <h2 class="produkt-nazev">${p.nombre}</h2>
-        <div class="produkt-cena">${p.precio}</div>
-        <div class="produkt-popis">${p.descripcion}</div>
+        <h1 class="produkt-cena">${p.precio}</h1>
+        <div class="produkt-popis">${shortText}...</div>
 
         <button class="produkt-btn" onclick="window.location.href='contacto.html'">
           ORDENAR
@@ -117,7 +128,6 @@ async function nactiNoveProdukty() {
     `;
   });
 
-  // Klik na obrázek -> detail produktu
   document.querySelectorAll(".produkt-img").forEach(img => {
     img.addEventListener("click", function() {
       window.location.href = this.dataset.url;
