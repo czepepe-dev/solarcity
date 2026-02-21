@@ -170,10 +170,11 @@ body {
 /* 🔹 UPRAVENÝ POPIS - obyčejný text */
 
 .produkt-popis {
-  font-size: 14px;
-  font-weight: normal;
+  font-size: 14px !important;
+  font-weight: 400 !important;
   line-height: 1.4;
-  margin: 8px 0 12px 0;
+  margin: 6px 0 12px 0;
+  color: #333;
 
   display: -webkit-box;
   -webkit-line-clamp: 3;
