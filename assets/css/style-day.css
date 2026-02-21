@@ -152,6 +152,7 @@ body {
   object-fit: cover;
   border-radius: 10px;
   margin-bottom: 12px;
+  cursor: pointer;
 }
 
 /* 🔹 Název jako h2 */
