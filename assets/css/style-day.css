@@ -1,5 +1,9 @@
 
 body {
+  background: red !important;
+}
+
+body {
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   background: #ffffff;
