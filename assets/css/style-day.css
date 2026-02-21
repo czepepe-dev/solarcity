@@ -152,10 +152,9 @@ body {
   object-fit: cover;
   border-radius: 10px;
   margin-bottom: 12px;
-  cursor: pointer;
 }
 
-/* 🔹 Název jako h2 */
+/* Název - zůstává jak je */
 
 .produkt-nazev {
   font-size: 18px;
@@ -163,19 +162,18 @@ body {
   margin: 8px 0 4px 0;
 }
 
-/* 🔹 Cena */
-
 .produkt-cena {
   font-size: 16px;
   margin-bottom: 8px;
 }
 
-/* 🔹 Popis max 3 řádky */
+/* 🔹 UPRAVENÝ POPIS - obyčejný text */
 
 .produkt-popis {
   font-size: 14px;
+  font-weight: normal;
   line-height: 1.4;
-  margin-bottom: 12px;
+  margin: 8px 0 12px 0;
 
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -183,7 +181,7 @@ body {
   overflow: hidden;
 }
 
-/* 🔹 Tlačítka */
+/* Tlačítka */
 
 .produkt-btn,
 .produkt-info-btn {
@@ -198,8 +196,6 @@ body {
   font-weight: bold;
 }
 
-/* 🔹 ORDENAR zelené */
-
 .produkt-btn {
   background: #6ccf55;
   color: #fff;
@@ -208,8 +204,6 @@ body {
 .produkt-btn:hover {
   background: #58b844;
 }
-
-/* 🔹 Más información šedé */
 
 .produkt-info-btn {
   background: #e0e0e0;
