@@ -8,6 +8,31 @@ body {
   background: #ffffff;
   color: #222;
 }
+/* Cena jako výrazný prvek */
+
+.produkt-cena {
+  font-size: 22px;
+  font-weight: bold;
+  color: #d62828;
+  margin: 6px 0 10px 0;
+}
+
+/* Popis opravdu obyčejný */
+
+.produkt-popis {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #444;
+  margin: 6px 0 12px 0;
+
+  text-align: center;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
 
 /* ------------------------------
    TOP BAR / MENU
