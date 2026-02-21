@@ -98,8 +98,8 @@ body {
   border: none;
 
   width: 100%;
-  max-width: 150px;   /* menší a bezpečné */
-  height: 55px;       /* kompaktní výška */
+  max-width: 150px;
+  height: 55px;
 
   display: flex;
   align-items: center;
@@ -209,6 +209,11 @@ footer {
   }
 
 }
+
+/* ------------------------------
+   PRODUCT PAGE
+------------------------------ */
+
 .product-page {
   max-width: 1100px;
   margin: 40px auto;
@@ -277,7 +282,9 @@ footer {
   cursor: pointer;
   box-shadow: 0 0 6px #0002;
 }
+
 /* --- LIGHTBOX ANIMACE --- */
+
 #lightbox {
   opacity: 0;
   transition: opacity 0.25s ease;
@@ -295,4 +302,3 @@ footer {
 #lightbox.show #lightbox-img {
   transform: scale(1);
 }
-
