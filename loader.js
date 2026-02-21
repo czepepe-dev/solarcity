@@ -8,7 +8,7 @@ async function nactiProdukty(kategorie) {
   let jsonFiles = files
     .filter(f => f.name.endsWith(".json"))
     .map(f => f.name)
-    .reverse(); // nejnovější nahoře
+    .reverse();
 
   const produkty = [];
 
@@ -35,7 +35,7 @@ async function nactiProdukty(kategorie) {
 
     cont.innerHTML += `
       <div class="produkt-card">
-        <img src="${p.imagen}" alt="${p.nombre}" onclick="window.location.href='${detailUrl}'">
+        <img src="${p.imagen}" alt="${p.nombre}" class="produkt-img" data-url="${detailUrl}">
 
         <h2 class="produkt-nazev">${p.nombre}</h2>
         <div class="produkt-cena">${p.precio}</div>
@@ -50,6 +50,13 @@ async function nactiProdukty(kategorie) {
         </button>
       </div>
     `;
+  });
+
+  // Klik na obrázek -> detail produktu
+  document.querySelectorAll(".produkt-img").forEach(img => {
+    img.addEventListener("click", function() {
+      window.location.href = this.dataset.url;
+    });
   });
 }
 
@@ -93,7 +100,7 @@ async function nactiNoveProdukty() {
 
     cont.innerHTML += `
       <div class="produkt-card">
-        <img src="${p.imagen}" alt="${p.nombre}" onclick="window.location.href='${detailUrl}'">
+        <img src="${p.imagen}" alt="${p.nombre}" class="produkt-img" data-url="${detailUrl}">
 
         <h2 class="produkt-nazev">${p.nombre}</h2>
         <div class="produkt-cena">${p.precio}</div>
@@ -108,5 +115,12 @@ async function nactiNoveProdukty() {
         </button>
       </div>
     `;
+  });
+
+  // Klik na obrázek -> detail produktu
+  document.querySelectorAll(".produkt-img").forEach(img => {
+    img.addEventListener("click", function() {
+      window.location.href = this.dataset.url;
+    });
   });
 }
