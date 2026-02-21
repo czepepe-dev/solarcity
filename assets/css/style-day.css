@@ -1,18 +1,10 @@
 
-/* ------------------------------
-   ZÁKLADNÍ NASTAVENÍ
------------------------------- */
-
 body {
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   background: #ffffff;
   color: #222;
 }
-
-/* ------------------------------
-   TOP BAR / MENU
------------------------------- */
 
 .topbar {
   display: flex;
@@ -53,17 +45,7 @@ body {
   box-sizing: border-box;
 }
 
-.nuevos #nove-produkty {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  justify-items: center;
-  justify-content: center;
-  gap: 20px;
-  width: 100%;
-  margin: 0 auto;
-  box-sizing: border-box;
-}
-
+.nuevos #nove-produkty,
 .produkty-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -141,19 +123,22 @@ body {
   margin: 8px 0 4px 0;
 }
 
-.produkt-cena {
-  font-size: 24px;
+/* 🔴 Cena výraznější */
+.produkt-card .produkt-cena {
+  font-size: 28px;
   font-weight: bold;
   color: #d62828;
-  margin: 6px 0 10px 0;
+  letter-spacing: 0.5px;
+  margin: 8px 0 12px 0;
 }
 
-.produkt-popis {
-  font-size: 14px;
+/* 🔵 Popis menší a normální */
+.produkt-card .produkt-popis {
+  font-size: 13px;
   font-weight: 400;
   line-height: 1.5;
   color: #444;
-  margin: 6px 0 12px 0;
+  margin: 6px 0 14px 0;
   text-align: center;
   display: -webkit-box;
   -webkit-line-clamp: 3;
