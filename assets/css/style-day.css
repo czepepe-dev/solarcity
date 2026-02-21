@@ -98,7 +98,8 @@ body {
 .categorias .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 36px;
+  column-gap: 50px;   /* necháváme větší horizontální mezeru */
+  row-gap: 6px;       /* pouze zmenšená mezera mezi řádky */
   justify-items: center;
   width: 100%;
   box-sizing: border-box;
@@ -212,7 +213,8 @@ footer {
 
   .categorias .grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 36px;
+    column-gap: 50px;
+    row-gap: 6px;
   }
 
   .produkt-card {
