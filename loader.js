@@ -38,7 +38,7 @@ async function nactiProdukty(kategorie) {
         <img src="${p.imagen}" alt="${p.nombre}" class="produkt-img" data-url="${detailUrl}">
 
         <h2 class="produkt-nazev">${p.nombre}</h2>
-        <div class="produkt-cena">${p.precio}</div>
+        <h1 class="produkt-cena">${p.precio}</h1>
         <div class="produkt-popis">${p.descripcion}</div>
 
         <button class="produkt-btn" onclick="window.location.href='contacto.html'">
