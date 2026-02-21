@@ -364,3 +364,36 @@ footer {
   }
 
 }
+
+
+/* ===============================
+   PRODUCT DETAIL FIX (STRICT)
+=============================== */
+
+/* ONLY product detail page price */
+.product-page .product-price {
+  color: #d62828 !important;
+  font-size: 32px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.6px;
+}
+
+/* Green ORDER button on product page only */
+.product-page .product-order-btn {
+  background: #6ccf55 !important;
+  color: #ffffff !important;
+  font-weight: bold !important;
+}
+
+.product-page .product-order-btn:hover {
+  background: #58b844 !important;
+}
+
+/* Product description visible but smaller */
+.product-page .product-description {
+  font-size: 15px !important;
+  line-height: 1.5 !important;
+  max-height: none !important;
+  overflow: visible !important;
+}
+
