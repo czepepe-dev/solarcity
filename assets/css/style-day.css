@@ -83,10 +83,11 @@ body {
 
 .categorias .grid {
   display: grid;
-  grid-template-columns: repeat(2, 150px);
-  justify-content: center;
-  column-gap: 40px;   /* větší mezera mezi tlačítky */
-  row-gap: 16px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;                 /* větší mezera */
+  justify-items: center;
+  max-width: 320px;          /* kontrola šířky – neroztahuje layout */
+  margin: 0 auto;
 }
 
 .card {
@@ -193,10 +194,10 @@ footer {
   }
 
   .categorias .grid {
-    grid-template-columns: repeat(2, 150px);
-    justify-content: center;
-    column-gap: 30px;
-    row-gap: 14px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 320px;
+    margin: 0 auto;
   }
 
   .produkt-card {
