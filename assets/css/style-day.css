@@ -72,6 +72,20 @@ body {
 }
 
 /* ------------------------------
+   GRID PRO STRÁNKY PRODUKTŮ
+------------------------------ */
+
+.produkty-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  justify-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* ------------------------------
    KATEGORÍAS
 ------------------------------ */
 
@@ -84,7 +98,7 @@ body {
 .categorias .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 36px;   /* 🔹 ještě větší mezera */
+  gap: 36px;
   justify-items: center;
   width: 100%;
   box-sizing: border-box;
@@ -191,13 +205,14 @@ footer {
     padding: 20px 0;
   }
 
-  .nuevos #nove-produkty {
+  .nuevos #nove-produkty,
+  .produkty-grid {
     grid-template-columns: 1fr;
   }
 
   .categorias .grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 36px;   /* 🔹 mezera i na mobilu */
+    gap: 36px;
   }
 
   .produkt-card {
