@@ -15,7 +15,6 @@ async function nactiProdukty(kategorie) {
   for (const file of jsonFiles) {
     const data = await fetch(`/data/productos/${file}`).then(r => r.json());
 
-    // pokud produkt nemá slug → vytvoříme ho z názvu
     if (!data.slug) {
       data.slug = data.nombre
         .toLowerCase()
@@ -31,20 +30,16 @@ async function nactiProdukty(kategorie) {
   cont.innerHTML = "";
 
   produkty.forEach(p => {
-    const shortDesc = p.descripcion.length > 40
-      ? p.descripcion.substring(0, 40) + "... más info"
-      : p.descripcion;
 
-    // 🔥 DETAIL PŘES SLUG
     const detailUrl = `/producto.html?slug=${p.slug}`;
 
     cont.innerHTML += `
       <div class="produkt-card">
         <img src="${p.imagen}" alt="${p.nombre}" onclick="window.location.href='${detailUrl}'">
 
-        <div class="produkt-nazev">${p.nombre}</div>
+        <h2 class="produkt-nazev">${p.nombre}</h2>
         <div class="produkt-cena">${p.precio}</div>
-        <div class="produkt-popis">${shortDesc}</div>
+        <div class="produkt-popis">${p.descripcion}</div>
 
         <button class="produkt-btn" onclick="window.location.href='contacto.html'">
           ORDENAR
@@ -76,7 +71,6 @@ async function nactiNoveProdukty() {
   for (const file of jsonFiles) {
     const data = await fetch(`/data/productos/${file}`).then(r => r.json());
 
-    // pokud produkt nemá slug → vytvoříme ho z názvu
     if (!data.slug) {
       data.slug = data.nombre
         .toLowerCase()
@@ -94,20 +88,16 @@ async function nactiNoveProdukty() {
   cont.innerHTML = "";
 
   nove.forEach(p => {
-    const shortDesc = p.descripcion.length > 40
-      ? p.descripcion.substring(0, 40) + "... más info"
-      : p.descripcion;
 
-    // 🔥 DETAIL PŘES SLUG
     const detailUrl = `/producto.html?slug=${p.slug}`;
 
     cont.innerHTML += `
       <div class="produkt-card">
         <img src="${p.imagen}" alt="${p.nombre}" onclick="window.location.href='${detailUrl}'">
 
-        <div class="produkt-nazev">${p.nombre}</div>
+        <h2 class="produkt-nazev">${p.nombre}</h2>
         <div class="produkt-cena">${p.precio}</div>
-        <div class="produkt-popis">${shortDesc}</div>
+        <div class="produkt-popis">${p.descripcion}</div>
 
         <button class="produkt-btn" onclick="window.location.href='contacto.html'">
           ORDENAR
