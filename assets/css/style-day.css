@@ -367,43 +367,33 @@ footer {
 
 
 /* ===============================
-   PRODUCT DETAIL REFINEMENTS
+   PRODUCT DETAIL FIX (STRICT)
 =============================== */
 
-/* Cena - červená a větší */
-.product-price {
+/* ONLY product detail page price */
+.product-page .product-price {
   color: #d62828 !important;
-  font-size: 30px !important;
-  font-weight: 700;
-  letter-spacing: 0.5px;
+  font-size: 32px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.6px;
 }
 
-/* Tlačítko ORDENAR zelené */
-.product-order-btn {
+/* Green ORDER button on product page only */
+.product-page .product-order-btn {
   background: #6ccf55 !important;
-  font-weight: bold;
+  color: #ffffff !important;
+  font-weight: bold !important;
 }
 
-.product-order-btn:hover {
+.product-page .product-order-btn:hover {
   background: #58b844 !important;
 }
 
-/* Popis - menší text a max 4 řádky */
-.product-description {
-  font-size: 14px !important;
-  line-height: 1.4;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* Sjednocení základních velikostí textů */
-body {
-  font-size: 16px;
-}
-
-.product-info h1 {
-  font-size: 26px;
+/* Product description visible but smaller */
+.product-page .product-description {
+  font-size: 15px !important;
+  line-height: 1.5 !important;
+  max-height: none !important;
+  overflow: visible !important;
 }
 
