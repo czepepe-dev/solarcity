@@ -202,7 +202,7 @@
       let jsonFiles = files.filter(f => f.name.endsWith(".json")).map(f => f.name);
 
       for (const file of jsonFiles) {
-        const data = await fetch(/data/productos/${file}).then(r => r.json());
+        const data = await fetch(`/data/productos/${file}`).then(r => r.json());
 
         if (!data.slug) {
           data.slug = data.nombre
@@ -248,9 +248,9 @@
 
       if (Array.isArray(p.galeria) && p.galeria.length > 0) {
         p.galeria.forEach(item => {
-          gal.innerHTML += 
+          gal.innerHTML += `
             <img src="${item.imagen}" loading="lazy" onclick="openLightbox('${item.imagen}')">
-          ;
+          `;
         });
       }
     }
