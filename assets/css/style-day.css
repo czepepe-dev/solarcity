@@ -99,14 +99,15 @@ body {
 
   width: 100%;
   max-width: 150px;
-  height: 55px;
 
+  padding: 10px;          /* stejný jako produktová tlačítka */
+  font-size: 15px;        /* stejný font */
+  font-weight: bold;      /* sjednoceno */
+  
   display: flex;
   align-items: center;
   justify-content: center;
 
-  font-weight: 600;
-  font-size: 14px;
   transition: 0.2s ease;
 }
 
