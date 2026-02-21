@@ -1,59 +1,44 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Powerbanks Solares - Tecnología solar para Cuba</title>
-
-  <link rel="icon" href="favicon.png" type="image/png">
-  <link id="theme-style" rel="stylesheet" href="assets/css/style-day.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
 
-  <!-- TOP BAR / MENU -->
-  <header class="topbar">
-    <div class="logo">
-      <a href="index.html">
-        <img src="logo.png" alt="SolarCity logo" style="height:80px;">
-      </a>
-    </div>
-
-    <nav class="menu">
-      <a href="powerbanks.html">Powerbanks</a>
-      <a href="paneles.html">Paneles</a>
-      <a href="luces.html">Luces</a>
-      <a href="sistemas.html">Sistemas</a>
-      <a href="contacto.html">Contacto</a>
-    </nav>
+  <!-- HERO SECTION -->
+  <header class="hero">
+    <h1>Powerbanks Solares</h1>
   </header>
 
-  <main>
-    <h1>Powerbanks Solares</h1>
-    <div id="produkty" class="produkty-grid"></div>
+  <main class="container">
+
     <!-- CATEGORY GRID -->
     <section class="categorias">
       <h2>Categorías</h2>
-
-      <div class="grid">
-        <a class="card" href="paneles.html">Paneles</a>
-        <a class="card" href="powerbanks.html">Powerbanks</a>
-        <a class="card" href="luces.html">Luces</a>
-        <a class="card" href="sistemas.html">Sistemas</a>
+      <div class="category-grid">
+        <a href="powerbanks.html" class="category-card">Powerbanks</a>
+        <a href="paneles.html" class="category-card">Paneles</a>
+        <a href="luces.html" class="category-card">Luces</a>
+        <a href="sistemas.html" class="category-card">Sistemas</a>
       </div>
     </section>
+
+    <!-- PRODUCT GRID -->
+    <section>
+      <div id="produkty" class="produkty-grid"></div>
+    </section>
+
   </main>
 
-  <footer>
-    <p>
-      <a href="https://solarcitycuba.netlify.app/admin/">Admin </a>© 2026 Tecnología solar para Cuba
-    </p>
+  <!-- FOOTER -->
+  <footer class="footer">
+    <p>© 2024 SolarCity Cuba</p>
   </footer>
 
-  <script src="loader.js"></script>
-  <script>
-    nactiProdukty("powerbanks");
-  </script>
-
+  <script src="productos.js"></script>
 </body>
 </html>
