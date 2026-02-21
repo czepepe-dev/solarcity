@@ -84,7 +84,7 @@ body {
 .categorias .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 30px;   /* 🔹 zvětšená mezera mezi tlačítky */
+  gap: 36px;   /* 🔹 ještě větší mezera */
   justify-items: center;
   width: 100%;
   box-sizing: border-box;
@@ -197,7 +197,7 @@ footer {
 
   .categorias .grid {
     grid-template-columns: repeat(2, 1fr);
-    gap: 30px;   /* 🔹 mezera i na mobilu */
+    gap: 36px;   /* 🔹 mezera i na mobilu */
   }
 
   .produkt-card {
