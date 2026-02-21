@@ -1,3 +1,6 @@
+/* ------------------------------
+   ZÁKLADNÍ NASTAVENÍ
+------------------------------ */
 
 body {
   margin: 0;
@@ -5,6 +8,10 @@ body {
   background: #ffffff;
   color: #222;
 }
+
+/* ------------------------------
+   TOP BAR / MENU
+------------------------------ */
 
 .topbar {
   display: flex;
@@ -30,12 +37,20 @@ body {
   font-weight: 500;
 }
 
+/* ------------------------------
+   HERO
+------------------------------ */
+
 .hero {
   padding: 32px 16px;
   max-width: 900px;
   margin: 0 auto;
   text-align: center;
 }
+
+/* ------------------------------
+   SECCIÓN NUEVOS PRODUCTOS
+------------------------------ */
 
 .nuevos {
   width: 100%;
@@ -45,7 +60,21 @@ body {
   box-sizing: border-box;
 }
 
-.nuevos #nove-produkty,
+.nuevos #nove-produkty {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  justify-items: center;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+/* ------------------------------
+   GRID PRO STRÁNKY PRODUKTŮ
+------------------------------ */
+
 .produkty-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -56,6 +85,10 @@ body {
   margin: 0 auto;
 }
 
+/* ------------------------------
+   KATEGORÍAS
+------------------------------ */
+
 .categorias {
   width: 100%;
   margin: 0 auto;
@@ -65,8 +98,8 @@ body {
 .categorias .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  column-gap: 50px;
-  row-gap: 6px;
+  column-gap: 50px;   /* necháváme větší horizontální mezeru */
+  row-gap: 6px;       /* pouze zmenšená mezera mezi řádky */
   justify-items: center;
   width: 100%;
   box-sizing: border-box;
@@ -78,14 +111,18 @@ body {
   text-decoration: none;
   color: #ffffff;
   border: none;
+
   width: 100%;
   max-width: 150px;
+
   padding: 10px;
   font-size: 15px;
   font-weight: bold;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   transition: 0.2s ease;
 }
 
@@ -93,6 +130,10 @@ body {
   background: #58b844;
   transform: translateY(-2px);
 }
+
+/* ------------------------------
+   PRODUKTOVÁ KARTA
+------------------------------ */
 
 .produkt-card {
   width: 260px;
@@ -117,35 +158,6 @@ body {
   margin-bottom: 12px;
 }
 
-.produkt-nazev {
-  font-size: 18px;
-  font-weight: bold;
-  margin: 8px 0 4px 0;
-}
-
-/* 🔴 Cena výraznější */
-.produkt-card .produkt-cena {
-  font-size: 28px;
-  font-weight: bold;
-  color: #d62828;
-  letter-spacing: 0.5px;
-  margin: 8px 0 12px 0;
-}
-
-/* 🔵 Popis menší a normální */
-.produkt-card .produkt-popis {
-  font-size: 13px;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #444;
-  margin: 6px 0 14px 0;
-  text-align: center;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
 .produkt-btn,
 .produkt-info-btn {
   width: 100%;
@@ -159,23 +171,9 @@ body {
   font-weight: bold;
 }
 
-.produkt-btn {
-  background: #6ccf55;
-  color: #fff;
-}
-
-.produkt-btn:hover {
-  background: #58b844;
-}
-
-.produkt-info-btn {
-  background: #e0e0e0;
-  color: #222;
-}
-
-.produkt-info-btn:hover {
-  background: #d0d0d0;
-}
+/* ------------------------------
+   FOOTER
+------------------------------ */
 
 footer {
   text-align: center;
@@ -184,6 +182,10 @@ footer {
   color: #777;
   border-top: 1px solid #e0e0e0;
 }
+
+/* ------------------------------
+   MOBILNÍ OPTIMALIZACE
+------------------------------ */
 
 @media (max-width: 600px) {
 
@@ -223,4 +225,98 @@ footer {
     width: 100%;
     height: auto;
   }
+
+}
+
+/* ------------------------------
+   PRODUCT PAGE
+------------------------------ */
+
+.product-page {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 20px;
+}
+
+.product-container {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.product-image img {
+  width: 420px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #0002;
+}
+
+.product-info {
+  flex: 1;
+  min-width: 300px;
+}
+
+.product-info h1 {
+  font-size: 28px;
+  margin-bottom: 10px;
+}
+
+.product-price {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #2a7a2a;
+}
+
+.product-description {
+  font-size: 16px;
+  line-height: 1.5;
+  margin-bottom: 30px;
+}
+
+.product-order-btn {
+  background: #2a7a2a;
+  color: white;
+  padding: 14px 26px;
+  border: none;
+  border-radius: 6px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.product-order-btn:hover {
+  background: #1f5d1f;
+}
+
+.product-gallery {
+  margin-top: 40px;
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.product-gallery img {
+  width: 140px;
+  border-radius: 8px;
+  cursor: pointer;
+  box-shadow: 0 0 6px #0002;
+}
+
+/* --- LIGHTBOX ANIMACE --- */
+
+#lightbox {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+#lightbox.show {
+  opacity: 1;
+}
+
+#lightbox-img {
+  transform: scale(0.85);
+  transition: transform 0.25s ease;
+}
+
+#lightbox.show #lightbox-img {
+  transform: scale(1);
 }
