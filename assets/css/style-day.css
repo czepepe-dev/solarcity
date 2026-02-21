@@ -98,8 +98,8 @@ body {
 .categorias .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  column-gap: 50px;   /* necháváme větší horizontální mezeru */
-  row-gap: 6px;       /* pouze zmenšená mezera mezi řádky */
+  column-gap: 50px;
+  row-gap: 6px;
   justify-items: center;
   width: 100%;
   box-sizing: border-box;
@@ -111,18 +111,14 @@ body {
   text-decoration: none;
   color: #ffffff;
   border: none;
-
   width: 100%;
   max-width: 150px;
-
   padding: 10px;
   font-size: 15px;
   font-weight: bold;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   transition: 0.2s ease;
 }
 
@@ -158,6 +154,36 @@ body {
   margin-bottom: 12px;
 }
 
+/* 🔹 Název jako h2 */
+
+.produkt-nazev {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 8px 0 4px 0;
+}
+
+/* 🔹 Cena */
+
+.produkt-cena {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+/* 🔹 Popis max 3 řádky */
+
+.produkt-popis {
+  font-size: 14px;
+  line-height: 1.4;
+  margin-bottom: 12px;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* 🔹 Tlačítka */
+
 .produkt-btn,
 .produkt-info-btn {
   width: 100%;
@@ -169,6 +195,28 @@ body {
   margin-top: 8px;
   font-size: 15px;
   font-weight: bold;
+}
+
+/* 🔹 ORDENAR zelené */
+
+.produkt-btn {
+  background: #6ccf55;
+  color: #fff;
+}
+
+.produkt-btn:hover {
+  background: #58b844;
+}
+
+/* 🔹 Más información šedé */
+
+.produkt-info-btn {
+  background: #e0e0e0;
+  color: #222;
+}
+
+.produkt-info-btn:hover {
+  background: #d0d0d0;
 }
 
 /* ------------------------------
@@ -225,7 +273,6 @@ footer {
     width: 100%;
     height: auto;
   }
-
 }
 
 /* ------------------------------
