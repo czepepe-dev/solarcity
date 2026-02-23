@@ -1,11 +1,9 @@
-// --- 1. SEZNAM SOUBORŮ (Zde musí být přesný název tvého JSONu) ---
+// --- 1. SEZNAM SOUBORŮ ---
 const SEZNAM_SOUBORU = [
-  "power-bank-solar-portatil-20000-mah.json",
-  // "dalsi-produkt.json",
-  // "treti-produkt.json"
+  "power-bank-solar-portatil-20000-mah.json"
 ];
 
-// --- 2. NAČTENÍ PRODUKTŮ PRO KATEGORII (categoria.html) ---
+// --- 2. NAČTENÍ PRO KATEGORIE ---
 async function nactiProdukty(kategorie) {
   const produkty = [];
   for (const file of SEZNAM_SOUBORU) {
@@ -22,7 +20,7 @@ async function nactiProdukty(kategorie) {
   vykresliKarty(produkty, "produkty");
 }
 
-// --- 3. NAČTENÍ NEJNOVĚJŠÍCH PRODUKTŮ (index.html) ---
+// --- 3. NAČTENÍ PRO INDEX ---
 async function nactiNoveProdukty() {
   const produkty = [];
   const posledni = [...SEZNAM_SOUBORU].reverse().slice(0, 3);
@@ -40,14 +38,14 @@ async function nactiNoveProdukty() {
   vykresliKarty(produkty, "nove-produkty");
 }
 
-// --- 4. FUNKCE PRO VYKRESLENÍ KARET ---
+// --- 4. VYKRESLENÍ KARET ---
 function vykresliKarty(produkty, containerId) {
   const cont = document.getElementById(containerId);
   if (!cont) return;
   cont.innerHTML = "";
   produkty.forEach(p => {
-    // PŘIDÁNO .html PRO MAXIMÁLNÍ KOMPATIBILITU
-    const detailUrl = `/producto.html?slug=${p.slug}`;
+    // POUŽÍVÁME .html A PŘIDÁVÁME TIMESTAMP PROTI CACHE
+    const detailUrl = `producto.html?slug=${p.slug}&v=${Date.now()}`;
     
     const tempDiv = document.createElement("div");
     tempDiv.innerHTML = p.descripcion || "";
