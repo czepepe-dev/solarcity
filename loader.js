@@ -1,32 +1,54 @@
-// --- 1. SEZNAM SOUBORŮ ---
-const SEZNAM_SOUBORU = [
-  "power-bank-solar-portatil-20000-mah.json"
-];
+// --- KONFIGURACE ---
+const REPO_OWNER = "czepepe-dev";
+const REPO_NAME = "solarcity";
+const PRODUCT_PATH = "data/productos";
 
-// --- 2. NAČTENÍ PRO KATEGORIE ---
+// --- AUTOMATICKÉ ZÍSKÁNÍ SEZNAMU SOUBORŮ ---
+async function ziskejSeznamSouboru() {
+  try {
+    const url = `https://api.github.com/repos/${REPO_OWNER}/${REPO_NAME}/contents/${PRODUCT_PATH}`;
+    const resp = await fetch(url);
+    if (!resp.ok) return [];
+    const files = await resp.json();
+    // Vyfiltrujeme jen .json soubory
+    return files
+      .filter(f => f.name.endsWith('.json'))
+      .map(f => f.name);
+  } catch (e) {
+    console.error("Chyba při načítání seznamu:", e);
+    return [];
+  }
+}
+
+// --- NAČTENÍ PRODUKTŮ PRO KATEGORII ---
 async function nactiProdukty(kategorie) {
+  const seznam = await ziskejSeznamSouboru();
   const produkty = [];
-  for (const file of SEZNAM_SOUBORU) {
+  
+  for (const file of seznam) {
     try {
-      const resp = await fetch(`/data/productos/${file}`);
+      const resp = await fetch(`/${PRODUCT_PATH}/${file}`);
       if (!resp.ok) continue;
       const data = await resp.json();
       if (data && data.categoria === kategorie) {
         if (!data.slug) data.slug = file.replace(".json", "");
         produkty.push(data);
       }
-    } catch (e) { console.error("Chyba:", file, e); }
+    } catch (e) { }
   }
   vykresliKarty(produkty, "produkty");
 }
 
-// --- 3. NAČTENÍ PRO INDEX ---
+// --- NAČTENÍ NEJNOVĚJŠÍCH PRODUKTŮ ---
 async function nactiNoveProdukty() {
+  const seznam = await ziskejSeznamSouboru();
   const produkty = [];
-  const posledni = [...SEZNAM_SOUBORU].reverse().slice(0, 3);
+  // Vezmeme poslední 3 soubory ze seznamu (ty nejnovější)
+  const posledni = seznam.slice(-3).reverse();
+
   for (const file of posledni) {
     try {
-      const resp = await fetch(`/data/productos/${file}`);
+      const resp = await fetch(`/${PRODUCT_PATH}/${file}`);
       if (!resp.ok) continue;
       const data = await resp.json();
       if (data) {
@@ -38,15 +60,14 @@ async function nactiNoveProdukty() {
   vykresliKarty(produkty, "nove-produkty");
 }
 
-// --- 4. VYKRESLENÍ KARET ---
+// --- VYKRESLENÍ KARET ---
 function vykresliKarty(produkty, containerId) {
   const cont = document.getElementById(containerId);
   if (!cont) return;
-  cont.innerHTML = "";
+  cont.innerHTML = produkty.length === 0 ? "<p>No hay productos.</p>" : "";
+  
   produkty.forEach(p => {
-    // POUŽÍVÁME .html A PŘIDÁVÁME TIMESTAMP PROTI CACHE
-    const detailUrl = `producto.html?slug=${p.slug}&v=${Date.now()}`;
-    
+    const detailUrl = `/producto.html?slug=${p.slug}`;
     const tempDiv = document.createElement("div");
     tempDiv.innerHTML = p.descripcion || "";
     const shortText = (tempDiv.textContent || "").substring(0, 120);
