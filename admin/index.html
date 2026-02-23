@@ -4,8 +4,22 @@
     <meta charset="utf-8" />
     <title>Admin</title>
     <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script>
+  // Skript pro zobrazení varování po uložení produktu v Netlify CMS
+  window.addEventListener('message', (event) => {
+    // Netlify CMS posílá zprávu při úspěšném uložení
+    if (event.data && event.data.type === 'CMS_SAVE_SUCCESS') {
+      alert("⚠️ POZOR! PRODUKT BYL ULOŽEN DO DATABÁZE.\n\n" +
+            "Aby se ale zobrazil na webu, MUSÍŠ udělat tyto 2 kroky:\n\n" +
+            "1. Počkej cca 1 minutu a zkontroluj, zda je nový .json soubor ve složce /data/productos/.\n" +
+            "2. Otevři soubor loader.js a DOPIS název toho souboru do seznamu SEZNAM_SOUBORU.\n\n" +
+            "Bez dopsání do loader.js zůstane produkt skrytý!");
+    }
+  });
+</script>
   </head>
   <body>
     <script src="https://unpkg.com/netlify-cms@^2.0.0/dist/netlify-cms.js"></script>
   </body>
 </html>
+
