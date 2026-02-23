@@ -8,7 +8,7 @@
         return;
       }
 
-      // PRIAME NAČÍTANIE: Bez volania GitHub API
+      // Načítáme přímo soubor z tvého hostingu
       const url = `/data/productos/${slug}.json`;
 
       try {
@@ -27,13 +27,17 @@
       document.getElementById("p-img").src = p.imagen;
       document.getElementById("p-nazev").textContent = p.nombre;
       document.getElementById("p-cena").textContent = p.precio;
+      
+      // Vložíme popis (předpokládáme HTML formát z adminu)
       document.getElementById("p-popis").innerHTML = p.descripcion || "";
 
+      // Lightbox pro obrázky v popisu
       document.querySelectorAll("#p-popis img").forEach(img => {
         img.style.cursor = "pointer";
         img.onclick = () => openLightbox(img.src);
       });
 
+      // Galerie miniatur
       const gal = document.getElementById("galerie");
       gal.innerHTML = "";
       if (Array.isArray(p.galeria) && p.galeria.length > 0) {
@@ -48,12 +52,14 @@
     }
 
     function zobrazChybu(zprava) {
-      document.querySelector(".product-page").innerHTML = `<p style="text-align:center; padding:50px;">${zprava}</p>`;
+      const main = document.querySelector(".product-page");
+      if (main) main.innerHTML = `<p style="text-align:center; padding:50px;">${zprava}</p>`;
     }
 
     function openLightbox(src) {
       const lb = document.getElementById("lightbox");
       const img = document.getElementById("lightbox-img");
+      if (!lb || !img) return;
       img.src = src;
       lb.style.display = "flex";
       setTimeout(() => lb.classList.add("show"), 10);
@@ -61,6 +67,7 @@
 
     function closeLightbox() {
       const lb = document.getElementById("lightbox");
+      if (!lb) return;
       lb.classList.remove("show");
       setTimeout(() => { lb.style.display = "none"; }, 250);
     }
