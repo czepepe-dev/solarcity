@@ -1,8 +1,9 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: czepepe-dev/solarcity
   branch: main
 
-media_folder: "/img"
+media_folder: "img"
 public_folder: "/img"
 
 collections:
@@ -10,54 +11,29 @@ collections:
     label: "Productos"
     folder: "data/productos"
     create: true
-
-    identifier_field: "nombre"
     slug: "{{slug}}"
-
-    extension: "json"
-    format: "json"
-
     fields:
-      - { label: "Nombre", name: "nombre", widget: "string" }
-
-      - label: "Slug"
-        name: "slug"
-        widget: "hidden"
-
-      - { label: "ID", name: "id", widget: "string", required: false }
-
+      - { label: "Nombre del Producto", name: "nombre", widget: "string" }
       - { label: "Precio", name: "precio", widget: "string" }
-
-      - label: "Descripción"
-        name: "descripcion"
-        widget: "markdown"
-        modes: ["rich_text", "raw"]
-        hint: "Puedes usar Markdown y HTML."
-
-      - { label: "Imagen principal", name: "imagen", widget: "image" }
-
-      - label: "Categoría"
-        name: "categoria"
-        widget: "select"
-        options:
-          - { label: "Powerbanks", value: "powerbanks" }
-          - { label: "Paneles", value: "paneles" }
-          - { label: "Luces", value: "luces" }
-          - { label: "Sistemas", value: "sistemas" }
-
-      - label: "Galería"
-        name: "galeria"
-        widget: "list"
-        allow_add: true
-        summary: "{{fields.imagen}}"
-        fields:
-          - label: "Imagen"
-            name: "imagen"
-            widget: "image"
-            media_folder: "/img/galeria/{{slug}}"
-            public_folder: "/img/galeria/{{slug}}"
-
-          - label: "Alt"
-            name: "alt"
-            widget: "string"
-            required: false
+      - { label: "Imagen Principal", name: "imagen", widget: "image" }
+      - { 
+          label: "Categoría", 
+          name: "categoria", 
+          widget: "select", 
+          options: [
+            { label: "Powerbanks", value: "powerbanks" },
+            { label: "Paneles Solares", value: "paneles" },
+            { label: "Luces LED", value: "luces" },
+            { label: "Sistemas Completos", value: "sistemas" }
+          ] 
+        }
+      # ZMĚNA: Markdown widget zajistí hezké zobrazení v adminu i na webu
+      - { label: "Descripción", name: "descripcion", widget: "markdown" }
+      - { 
+          label: "Galería de imágenes", 
+          name: "galeria", 
+          widget: "list", 
+          fields: [
+            { label: "Imagen", name: "imagen", widget: "image" }
+          ] 
+        }
