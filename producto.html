@@ -1,190 +1,4 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Producto - Tecnología solar</title>
-
-  <link rel="icon" href="favicon.png" type="image/png">
-  <link id="theme-style" rel="stylesheet" href="assets/css/style-day.css">
-
-  <style>
-    .product-page {
-      max-width: 1100px;
-      margin: 40px auto;
-      padding: 20px;
-    }
-
-    .product-container {
-      display: flex;
-      gap: 40px;
-      flex-wrap: wrap;
-      align-items: flex-start;
-    }
-
-    .product-image {
-      width: 420px;
-      overflow: hidden;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #0002;
-    }
-
-    .product-image img {
-      width: 100%;
-      display: block;
-    }
-
-    .product-gallery {
-      margin-top: 15px;
-      width: 420px;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-    }
-
-    .product-gallery img {
-      width: 100%;
-      height: 95px;
-      object-fit: cover;
-      border-radius: 8px;
-      cursor: pointer;
-      box-shadow: 0 0 6px #0002;
-      transition: transform .25s ease;
-    }
-
-    .product-gallery img:hover {
-      transform: scale(1.15);
-    }
-
-    .product-info {
-      flex: 1;
-      min-width: 300px;
-    }
-
-    .product-info h1 {
-      font-size: 28px;
-      margin-bottom: 10px;
-    }
-
-    .product-price {
-      font-size: 32px;
-      font-weight: 700;
-      margin-bottom: 20px;
-      color: #d62828;
-      letter-spacing: 0.6px;
-    }
-
-    .product-description {
-      font-size: 14px;
-      line-height: 1.5;
-      margin-bottom: 30px;
-    }
-
-    .product-description img {
-      max-width: 100%;
-      border-radius: 8px;
-      cursor: pointer;
-      margin: 10px 0;
-      box-shadow: 0 0 6px #0002;
-    }
-
-    .product-order-btn {
-      background: #6ccf55;
-      color: white;
-      padding: 14px 26px;
-      border: none;
-      border-radius: 6px;
-      font-size: 18px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .product-order-btn:hover {
-      background: #1f5d1f;
-    }
-
-    #lightbox {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,.85);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      opacity: 0;
-      transition: opacity 0.25s ease;
-    }
-
-    #lightbox.show {
-      opacity: 1;
-    }
-
-    #lightbox-img {
-      max-width: 90%;
-      max-height: 90%;
-      border-radius: 10px;
-      transform: scale(0.85);
-      transition: transform 0.25s ease;
-    }
-
-    #lightbox.show #lightbox-img {
-      transform: scale(1);
-    }
-  </style>
-</head>
-
-<body>
-
-  <header class="topbar">
-    <div class="logo">
-      <a href="index.html">
-        <img src="logo.png" alt="SolarCity logo" style="height:80px;">
-      </a>
-    </div>
-
-    <nav>
-      <a href="categoria.html?cat=powerbanks">Powerbanks</a>
-      <a href="categoria.html?cat=paneles">Paneles</a>
-      <a href="categoria.html?cat=luces">Luces</a>
-      <a href="categoria.html?cat=sistemas">Sistemas</a>
-      <a href="contacto.html">Contacto</a>
-    </nav>
-  </header>
-
-  <main class="product-page">
-    <div class="product-container">
-      <div>
-        <div class="product-image">
-          <img id="p-img" src="" alt="" loading="lazy">
-        </div>
-        <div id="galerie" class="product-gallery"></div>
-      </div>
-
-      <div class="product-info">
-        <h1 id="p-nazev">Cargando...</h1>
-        <div class="product-price" id="p-cena"></div>
-        <div class="product-description" id="p-popis"></div>
-
-        <button class="product-order-btn" onclick="window.location.href='contacto.html'">
-          ORDENAR
-        </button>
-      </div>
-    </div>
-  </main>
-
-  <footer>
-    <p><a href="admin/login.html">Admin</a> © 2026 Tecnología Solar para el Caribe</p>
-  </footer>
-
-  <div id="lightbox" onclick="closeLightbox()">
-    <img id="lightbox-img" src="" alt="">
-  </div>
-
-  <script>
-    // Získání slugu z URL
+<script>
     const params = new URLSearchParams(window.location.search);
     const slug = params.get("slug");
 
@@ -194,7 +8,7 @@
         return;
       }
 
-      // Přímá cesta k JSONu (žádné GitHub API)
+      // PRIAME NAČÍTANIE: Bez volania GitHub API
       const url = `/data/productos/${slug}.json`;
 
       try {
@@ -210,26 +24,16 @@
     }
 
     function zobrazProdukt(p) {
-      // Základní data
       document.getElementById("p-img").src = p.imagen;
       document.getElementById("p-nazev").textContent = p.nombre;
       document.getElementById("p-cena").textContent = p.precio;
+      document.getElementById("p-popis").innerHTML = p.descripcion || "";
 
-      // Vyčištění popisu od Word značek a vložení jako čisté HTML
-      let popisHtml = p.descripcion
-        .replace(//g, "")
-        .replace(//g, "")
-        .trim();
-
-      document.getElementById("p-popis").innerHTML = popisHtml;
-
-      // Aktivace lightboxu pro obrázky v popisu
       document.querySelectorAll("#p-popis img").forEach(img => {
         img.style.cursor = "pointer";
         img.onclick = () => openLightbox(img.src);
       });
 
-      // Galerie miniatur
       const gal = document.getElementById("galerie");
       gal.innerHTML = "";
       if (Array.isArray(p.galeria) && p.galeria.length > 0) {
@@ -261,9 +65,7 @@
       setTimeout(() => { lb.style.display = "none"; }, 250);
     }
 
-    // Spuštění po načtení dokumentu
     document.addEventListener("DOMContentLoaded", nactiDetailProduktu);
   </script>
-
 </body>
 </html>
