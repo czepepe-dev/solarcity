@@ -18,22 +18,11 @@
     .product-price { font-size: 32px; font-weight: 700; margin-bottom: 20px; color: #d62828; }
     .product-description { font-size: 14px; line-height: 1.5; margin-bottom: 30px; }
     
-    /* Sjednocení tlačítek */
-    .btn-group { display: flex; gap: 15px; }
-    .product-order-btn, .product-back-btn { 
-      flex: 1; 
-      padding: 14px; 
-      border-radius: 6px; 
-      font-size: 18px; 
-      font-weight: bold; 
-      cursor: pointer; 
-      text-align: center;
-      border: none;
-    }
-    .product-order-btn { background: #6ccf55; color: white; }
-    .product-back-btn { background: #eee; color: #333; border: 1px solid #ccc; }
-
-    /* Stylování gridu kategorií */
+    /* Sjednocení s globálním stylem */
+    .btn-group { display: flex; gap: 10px; margin-top: 20px; }
+    .btn-group button { flex: 1; height: 50px; font-size: 16px; cursor: pointer; border-radius: 5px; border: none; font-weight: bold; }
+    
+    /* CATEGORIAS GRID */
     .categorias { margin-top: 60px; border-top: 1px solid #eee; padding-top: 30px; }
     .categorias h2 { margin-bottom: 20px; }
     .categorias .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
@@ -71,9 +60,10 @@
         <h1 id="p-nazev">Cargando...</h1>
         <div class="product-price" id="p-cena"></div>
         <div class="product-description" id="p-popis"></div>
+        
         <div class="btn-group">
-          <button class="product-order-btn" onclick="window.location.href='contacto.html'">ORDENAR</button>
-          <button class="product-back-btn" onclick="history.back()">VOLVER</button>
+          <button class="produkt-btn" onclick="window.location.href='contacto.html'">ORDENAR</button>
+          <button class="produkt-info-btn" onclick="history.back()">VOLVER</button>
         </div>
       </div>
     </div>
@@ -115,7 +105,10 @@
           data.galeria.forEach(item => {
             const img = document.createElement("img");
             img.src = item.imagen;
-            img.onclick = () => { document.getElementById("lightbox-img").src = item.imagen; document.getElementById("lightbox").style.display = "flex"; };
+            img.onclick = () => { 
+                document.getElementById("lightbox-img").src = item.imagen; 
+                document.getElementById("lightbox").style.display = "flex"; 
+            };
             gal.appendChild(img);
           });
         }
