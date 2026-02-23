@@ -1,77 +1,91 @@
 <script>
+    // 1. Diagnostika na startu
+    console.log("Stránka načtena, hledám slug...");
+
     const params = new URLSearchParams(window.location.search);
     const slug = params.get("slug");
 
     async function nactiDetailProduktu() {
+      const container = document.getElementById("p-nazev");
+      
       if (!slug) {
-        zobrazChybu("No se especificó ningún producto.");
+        zobrazChybu("Chyba: V URL chybí kód produktu (slug).");
         return;
       }
 
-      // Načítáme přímo soubor z tvého hostingu
+      // Cesta k JSONu
       const url = `/data/productos/${slug}.json`;
+      console.log("Pokouším se načíst data z:", url);
 
       try {
         const response = await fetch(url);
-        if (!response.ok) throw new Error("Producto no encontrado");
+        
+        if (!response.ok) {
+          throw new Error(`Soubor ${url} nebyl nalezen (Status: ${response.status})`);
+        }
         
         const data = await response.json();
+        console.log("Data úspěšně načtena:", data);
         zobrazProdukt(data);
+
       } catch (err) {
-        console.error("Chyba při načítání:", err);
-        zobrazChybu("Lo sentimos, no pudimos encontrar los detalles de este producto.");
+        console.error("Detailní chyba:", err);
+        zobrazChybu(`Nelze načíst data produktu. Ujistěte se, že soubor /data/productos/${slug}.json existuje.`);
       }
     }
 
     function zobrazProdukt(p) {
-      document.getElementById("p-img").src = p.imagen;
-      document.getElementById("p-nazev").textContent = p.nombre;
-      document.getElementById("p-cena").textContent = p.precio;
-      
-      // Vložíme popis (předpokládáme HTML formát z adminu)
-      document.getElementById("p-popis").innerHTML = p.descripcion || "";
+      try {
+        document.getElementById("p-img").src = p.imagen || "";
+        document.getElementById("p-nazev").textContent = p.nombre || "Bez názvu";
+        document.getElementById("p-cena").textContent = p.precio || "";
+        document.getElementById("p-popis").innerHTML = p.descripcion || "Bez popisu";
 
-      // Lightbox pro obrázky v popisu
-      document.querySelectorAll("#p-popis img").forEach(img => {
-        img.style.cursor = "pointer";
-        img.onclick = () => openLightbox(img.src);
-      });
-
-      // Galerie miniatur
-      const gal = document.getElementById("galerie");
-      gal.innerHTML = "";
-      if (Array.isArray(p.galeria) && p.galeria.length > 0) {
-        p.galeria.forEach(item => {
-          const img = document.createElement("img");
-          img.src = item.imagen;
-          img.loading = "lazy";
-          img.onclick = () => openLightbox(item.imagen);
-          gal.appendChild(img);
-        });
+        // Galerie
+        const gal = document.getElementById("galerie");
+        if (gal) {
+          gal.innerHTML = "";
+          if (Array.isArray(p.galeria)) {
+            p.galeria.forEach(item => {
+              const img = document.createElement("img");
+              img.src = item.imagen;
+              img.onclick = () => openLightbox(item.imagen);
+              gal.appendChild(img);
+            });
+          }
+        }
+      } catch (e) {
+        console.error("Chyba při vykreslování:", e);
       }
     }
 
     function zobrazChybu(zprava) {
       const main = document.querySelector(".product-page");
-      if (main) main.innerHTML = `<p style="text-align:center; padding:50px;">${zprava}</p>`;
+      if (main) {
+        main.innerHTML = `<div style="text-align:center; padding:50px; color: red;"><h2>⚠️ ${zprava}</h2></div>`;
+      }
     }
 
+    // Lightbox funkce
     function openLightbox(src) {
       const lb = document.getElementById("lightbox");
       const img = document.getElementById("lightbox-img");
-      if (!lb || !img) return;
-      img.src = src;
-      lb.style.display = "flex";
-      setTimeout(() => lb.classList.add("show"), 10);
+      if (lb && img) {
+        img.src = src;
+        lb.style.display = "flex";
+        setTimeout(() => lb.classList.add("show"), 10);
+      }
     }
 
     function closeLightbox() {
       const lb = document.getElementById("lightbox");
-      if (!lb) return;
-      lb.classList.remove("show");
-      setTimeout(() => { lb.style.display = "none"; }, 250);
+      if (lb) {
+        lb.classList.remove("show");
+        setTimeout(() => { lb.style.display = "none"; }, 250);
+      }
     }
 
+    // Spuštění
     document.addEventListener("DOMContentLoaded", nactiDetailProduktu);
   </script>
 </body>
