@@ -15,7 +15,6 @@ async function nactiProdukty(kategorie) {
       if (!resp.ok) continue;
       const data = await resp.json();
       
-      // Kontrola kategorie
       if (data && data.categoria === kategorie) {
         if (!data.slug) data.slug = file.replace(".json", "");
         produkty.push(data);
@@ -26,10 +25,8 @@ async function nactiProdukty(kategorie) {
 }
 
 // --- 3. NAČTENÍ NEJNOVĚJŠÍCH PRODUKTŮ (index.html) ---
-// Poznámka: v index.html prověř, zda voláš nactiNoveProdukty()
 async function nactiNoveProdukty() {
   const produkty = [];
-  // Vezmeme poslední přidané soubory
   const posledni = [...SEZNAM_SOUBORU].reverse().slice(0, 3);
 
   for (const file of posledni) {
@@ -47,7 +44,7 @@ async function nactiNoveProdukty() {
   vykresliKarty(produkty, "nove-produkty");
 }
 
-// --- 4. FUNKCE PRO VYKRESLENÍ KARET (Sjednocená pro celý web) ---
+// --- 4. FUNKCE PRO VYKRESLENÍ KARET ---
 function vykresliKarty(produkty, containerId) {
   const cont = document.getElementById(containerId);
   if (!cont) return;
@@ -59,13 +56,12 @@ function vykresliKarty(produkty, containerId) {
 
   cont.innerHTML = "";
   produkty.forEach(p => {
-    const detailUrl = `/producto.html?slug=${p.slug}`;
+    // OPRAVENÁ CESTA: Bez .html pre lepšiu kompatibilitu
+    const detailUrl = `/producto?slug=${p.slug}`;
     
-    // Vyčištění textu pro náhled
     const tempDiv = document.createElement("div");
     tempDiv.innerHTML = p.descripcion || "";
-    const plainText = tempDiv.textContent || tempDiv.innerText || "";
-    const shortText = plainText.substring(0, 120);
+    const shortText = (tempDiv.textContent || "").substring(0, 120);
 
     cont.innerHTML += `
       <div class="produkt-card">
@@ -82,7 +78,6 @@ function vykresliKarty(produkty, containerId) {
   });
 }
 
-// Pomocná funkce, kterou některé tvé stránky mohou vyžadovat
 function dejCistyText(html, delka) {
   const tempDiv = document.createElement("div");
   tempDiv.innerHTML = html;
