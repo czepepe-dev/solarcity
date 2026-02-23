@@ -7,9 +7,8 @@
   <link rel="icon" href="favicon.png" type="image/png">
   <link id="theme-style" rel="stylesheet" href="assets/css/style-day.css">
   <style>
-    /* Základní rozvržení zachováno */
     .product-page { max-width: 1100px; margin: 40px auto; padding: 20px; }
-    .product-container { display: flex; gap: 40px; flex-wrap: wrap; align-items: flex-start; }
+    .product-container { display: flex; gap: 40px; flex-wrap: wrap; }
     .product-image { width: 420px; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
     .product-image img { width: 100%; display: block; }
     .product-gallery { margin-top: 15px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
@@ -17,20 +16,17 @@
     .product-info { flex: 1; min-width: 300px; }
     .product-price { font-size: 32px; font-weight: bold; color: #d62828; margin: 10px 0 20px 0; }
     
-    /* CATEGORIAS GRID - Sjednocení s úvodní stránkou */
-    .categorias { margin-top: 60px; }
-    .categorias h2 { text-align: center; margin-bottom: 30px; }
-    .categorias .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 20px; }
+    .categorias { margin-top: 60px; border-top: 1px solid #eee; padding-top: 30px; }
+    .categorias h2 { margin-bottom: 20px; }
+    .categorias .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; }
     .categorias .card { 
-      background: white; padding: 25px 15px; text-align: center; border-radius: 10px; 
+      background: #f8f9fa; padding: 25px; text-align: center; border-radius: 10px; 
       text-decoration: none; color: #333; font-weight: bold; border: 1px solid #eee; transition: 0.3s;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
     }
-    .categorias .card:hover { background: #6ccf55; color: white; transform: translateY(-3px); }
+    .categorias .card:hover { background: #6ccf55; color: white; }
 
-    /* Lightbox */
     #lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 10000; }
-    #lightbox img { max-width: 90%; max-height: 90%; border-radius: 5px; }
+    #lightbox img { max-width: 90%; max-height: 90%; }
     
     footer { text-align: center; padding: 40px; margin-top: 60px; border-top: 1px solid #eee; }
     footer a { color: #666; text-decoration: none; }
@@ -54,13 +50,13 @@
         <div id="galerie" class="product-gallery"></div>
       </div>
       <div class="product-info">
-        <h1 id="p-nazev" class="produkt-nazev" style="font-size: 28px;">Cargando...</h1>
+        <h1 id="p-nazev" class="produkt-nazev" style="font-size: 28px; margin:0;">Cargando...</h1>
         <div class="product-price" id="p-cena"></div>
-        <div class="product-description" id="p-popis" style="margin-bottom: 30px;"></div>
+        <div id="p-popis" style="margin-bottom: 30px; line-height: 1.6;"></div>
         
-        <div class="produkt-buttons" style="display: flex; gap: 15px;">
-          <button class="produkt-btn" style="flex: 1; padding: 15px;" onclick="window.location.href='contacto.html'">ORDENAR</button>
-          <button class="produkt-info-btn" style="flex: 1; padding: 15px;" onclick="history.back()">DETALLES</button>
+        <div class="produkt-buttons" style="display: flex; gap: 10px;">
+          <button class="produkt-btn" style="flex: 1; height: 50px;" onclick="window.location.href='contacto.html'">ORDENAR</button>
+          <button class="produkt-info-btn" style="flex: 1; height: 50px;" onclick="history.back()">DETALLES</button>
         </div>
       </div>
     </div>
@@ -77,9 +73,7 @@
   </main>
 
   <footer>
-    <p>
-      <a href="https://solarcitycuba.netlify.app/admin/">Admin</a> © 2026 Tecnología solar
-    </p>
+    <p><a href="https://solarcitycuba.netlify.app/admin/">Admin</a> © 2026 Tecnología solar</p>
   </footer>
 
   <div id="lightbox" onclick="this.style.display='none'"><img id="lightbox-img" src=""></div>
@@ -87,18 +81,16 @@
   <script>
     const params = new URLSearchParams(window.location.search);
     const slug = params.get("slug");
-    async function nactiDetailProduktu() {
+    async function nactiDetail() {
       if (!slug) return;
       try {
-        const response = await fetch(`/data/productos/${slug}.json?t=${Date.now()}`);
-        if (!response.ok) throw new Error();
-        const data = await response.json();
+        const resp = await fetch(`/data/productos/${slug}.json?t=${Date.now()}`);
+        const data = await resp.json();
         document.getElementById("p-img").src = data.imagen;
         document.getElementById("p-nazev").textContent = data.nombre;
         document.getElementById("p-cena").textContent = data.precio;
         document.getElementById("p-popis").innerHTML = data.descripcion || "";
         const gal = document.getElementById("galerie");
-        gal.innerHTML = "";
         if (data.galeria) {
           data.galeria.forEach(item => {
             const img = document.createElement("img");
@@ -107,11 +99,9 @@
             gal.appendChild(img);
           });
         }
-      } catch (err) {
-        document.querySelector(".product-page").innerHTML = "<p style='text-align:center; padding:100px;'>Producto no encontrado.</p>";
-      }
+      } catch (e) {}
     }
-    document.addEventListener("DOMContentLoaded", nactiDetailProduktu);
+    document.addEventListener("DOMContentLoaded", nactiDetail);
   </script>
 </body>
 </html>
