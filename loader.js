@@ -8,18 +8,16 @@ const SEZNAM_SOUBORU = [
 // --- 2. NAČTENÍ PRODUKTŮ PRO KATEGORII (categoria.html) ---
 async function nactiProdukty(kategorie) {
   const produkty = [];
-  
   for (const file of SEZNAM_SOUBORU) {
     try {
       const resp = await fetch(`/data/productos/${file}`);
       if (!resp.ok) continue;
       const data = await resp.json();
-      
       if (data && data.categoria === kategorie) {
         if (!data.slug) data.slug = file.replace(".json", "");
         produkty.push(data);
       }
-    } catch (e) { console.error("Chyba u souboru:", file, e); }
+    } catch (e) { console.error("Chyba:", file, e); }
   }
   vykresliKarty(produkty, "produkty");
 }
@@ -28,18 +26,16 @@ async function nactiProdukty(kategorie) {
 async function nactiNoveProdukty() {
   const produkty = [];
   const posledni = [...SEZNAM_SOUBORU].reverse().slice(0, 3);
-
   for (const file of posledni) {
     try {
       const resp = await fetch(`/data/productos/${file}`);
       if (!resp.ok) continue;
       const data = await resp.json();
-      
       if (data) {
         if (!data.slug) data.slug = file.replace(".json", "");
         produkty.push(data);
       }
-    } catch (e) { console.error("Chyba u souboru:", file, e); }
+    } catch (e) { }
   }
   vykresliKarty(produkty, "nove-produkty");
 }
@@ -48,16 +44,10 @@ async function nactiNoveProdukty() {
 function vykresliKarty(produkty, containerId) {
   const cont = document.getElementById(containerId);
   if (!cont) return;
-  
-  if (produkty.length === 0) {
-    cont.innerHTML = "<p>No hay productos disponibles en esta categoría.</p>";
-    return;
-  }
-
   cont.innerHTML = "";
   produkty.forEach(p => {
-    // OPRAVENÁ CESTA: Bez .html pre lepšiu kompatibilitu
-    const detailUrl = `/producto?slug=${p.slug}`;
+    // PŘIDÁNO .html PRO MAXIMÁLNÍ KOMPATIBILITU
+    const detailUrl = `/producto.html?slug=${p.slug}`;
     
     const tempDiv = document.createElement("div");
     tempDiv.innerHTML = p.descripcion || "";
@@ -73,13 +63,6 @@ function vykresliKarty(produkty, containerId) {
           <button class="produkt-btn" onclick="window.location.href='contacto.html'">ORDENAR</button>
           <button class="produkt-info-btn" onclick="window.location.href='${detailUrl}'">DETALLES</button>
         </div>
-      </div>
-    `;
+      </div>`;
   });
-}
-
-function dejCistyText(html, delka) {
-  const tempDiv = document.createElement("div");
-  tempDiv.innerHTML = html;
-  return (tempDiv.textContent || tempDiv.innerText || "").substring(0, delka);
 }
