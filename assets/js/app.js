@@ -17,6 +17,7 @@ async function nactiNoveProdukty() {
           const res = await fetch(`/data/productos/${file.name}?t=${Date.now()}`);
           if (!res.ok) return null;
           const data = await res.json();
+          // Přidáme slug pro odkaz
           data.slug = file.name.replace('.json', '');
           return data;
         } catch (e) {
@@ -25,13 +26,13 @@ async function nactiNoveProdukty() {
       })
     );
 
-    // 3. SEŘAZENÍ: Přesně podle ID (od nejvyššího po nejnižší)
-    // Toto je standardní způsob, jakým tvůj web určuje, co je nejnovější
+    // 3. SEŘAZENÍ: Přesně podle ID sestupně (od nejvyššího k nejnižšímu)
+    // Takhle to dělají tvé kategorie, aby nejnovější byl první.
     const platneProdukty = nacteneProdukty
       .filter(p => p !== null)
       .sort((a, b) => {
-        const idA = a.id ? Number(a.id) : 0;
-        const idB = b.id ? Number(b.id) : 0;
+        const idA = a.id ? parseInt(a.id) : 0;
+        const idB = b.id ? parseInt(b.id) : 0;
         return idB - idA;
       });
 
