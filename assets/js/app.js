@@ -3,28 +3,29 @@ async function nactiNoveProdukty() {
   if (!container) return;
 
   try {
-    // 1. Získáme seznam souborů z tvého GitHubu
+    // 1. Získáme seznam souborů z GitHubu
     const response = await fetch('https://api.github.com/repos/czepepe-dev/solarcity/contents/data/productos');
-    
-    if (!response.ok) {
-      throw new Error('Nepodařilo se načíst seznam produktů');
-    }
-
+    if (!response.ok) throw new Error('Chyba při načítání seznamu');
     const files = await response.json();
 
-    // Filtrujeme jen .json soubory
-    const jsonSoubory = files.filter(file => file.name.endsWith('.json'));
+    // Filtrujeme jen JSON
+    const jsonFiles = files.filter(f => f.name.endsWith('.json'));
 
-    // 2. Načteme obsah všech nalezených souborů
+    // 2. Načteme obsah produktů
     const nacteneProdukty = await Promise.all(
-      jsonSoubory.map(async (file) => {
+      jsonFiles.map(async (file) => {
         try {
+          // Načteme obsah souboru
           const res = await fetch(`/data/productos/${file.name}?t=${Date.now()}`);
           if (!res.ok) return null;
           const data = await res.json();
+          
           data.slug = file.name.replace('.json', '');
-          // Uložíme si cestu k souboru pro případné další zpracování
-          data.filePath = file.path;
+          
+          // DŮLEŽITÉ: Pokusíme se získat ID z dat pro řazení, pokud tam je
+          // Pokud ne, použijeme název souboru
+          data.sortId = data.id ? Number(data.id) : file.name;
+          
           return data;
         } catch (e) {
           return null;
@@ -32,12 +33,18 @@ async function nactiNoveProdukty() {
       })
     );
 
-    // 3. SEŘAZENÍ: Přesně podle logiky v kategoriích
-    // Pokud tvá kategorie řadí podle toho, co bylo přidáno naposledy (v abecedním seznamu GitHubu jsou to ty dole),
-    // použijeme .reverse(), aby nejnovější byly nahoře.
-    const platneProdukty = nacteneProdukty.filter(p => p !== null).reverse();
+    // 3. SEŘAZENÍ: Pokud mají produkty ID, řadíme podle něj sestupně (od nejvyššího)
+    // Pokud ID nemají, použijeme obrácené abecední pořadí názvů souborů
+    const platneProdukty = nacteneProdukty.filter(p => p !== null);
+    
+    platneProdukty.sort((a, b) => {
+      if (typeof a.sortId === 'number' && typeof b.sortId === 'number') {
+        return b.sortId - a.sortId;
+      }
+      return String(b.slug).localeCompare(String(a.slug));
+    });
 
-    // 4. Vykreslení do HTML
+    // 4. Vykreslení
     container.innerHTML = platneProdukty.map(p => `
       <div class="produkt-card">
         <div class="produkt-image-container">
@@ -53,14 +60,12 @@ async function nactiNoveProdukty() {
     `).join('');
 
   } catch (err) {
-    console.error("Chyba při načítání produktů na indexu:", err);
+    console.error("Chyba:", err);
   }
 }
 
-// Spuštění funkce pro index
 nactiNoveProdukty();
 
-// Tlačítko pro změnu tématu (Zůstává původní)
 const btn = document.getElementById('theme-toggle');
 const themeLink = document.getElementById('theme-style');
 if (btn && themeLink) {
