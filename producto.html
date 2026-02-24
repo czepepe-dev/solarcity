@@ -10,18 +10,37 @@
 
   <style>
     .product-page { max-width: 1100px; margin: 40px auto; padding: 20px; }
-    .product-container { display: flex; gap: 40px; flex-wrap: wrap; }
-    .product-image { width: 420px; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-    .product-image img { width: 100%; display: block; cursor: zoom-in; }
+    /* Hlavní kontejner pro flexbox */
+    .product-container { display: flex; gap: 40px; flex-wrap: wrap; align-items: flex-start; }
+    
+    /* Levý sloupec s obrázky */
+    .left-col { flex: 0 0 420px; max-width: 100%; }
+    .product-image { width: 100%; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); background: #fff; }
+    .product-image img { width: 100%; display: block; cursor: zoom-in; object-fit: contain; max-height: 500px; }
+    
+    /* Galerie miniatur */
     .product-gallery { margin-top: 15px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-    .product-gallery img { width: 100%; height: 80px; object-fit: cover; border-radius: 5px; cursor: pointer; transition: 0.2s; }
+    .product-gallery img { width: 100%; height: 80px; object-fit: cover; border-radius: 5px; cursor: pointer; transition: 0.2s; border: 2px solid transparent; }
+    .product-gallery img:hover { border-color: #ff9800; opacity: 0.8; }
+    
+    /* Pravý sloupec s informacemi */
     .product-info { flex: 1; min-width: 300px; }
+    .product-price { font-size: 24px; font-weight: bold; color: #ff9800; margin: 15px 0; }
+    
     .categorias { margin-top: 60px; border-top: 1px solid #eee; padding-top: 30px; text-align: center; }
     .categorias .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; justify-content: center; }
+    
+    /* Lightbox */
     #lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); display: none; justify-content: center; align-items: center; z-index: 10000; cursor: zoom-out; opacity: 0; transition: opacity 0.25s; }
     #lightbox.show { display: flex; opacity: 1; }
     #lightbox img { max-width: 90%; max-height: 90%; border-radius: 5px; }
     .close-lightbox { position: absolute; top: 20px; right: 30px; color: white; font-size: 50px; cursor: pointer; user-select: none; }
+
+    /* Mobilní úprava */
+    @media (max-width: 768px) {
+      .left-col { flex: 1 1 100%; }
+      .product-container { gap: 20px; }
+    }
   </style>
 </head>
 
@@ -52,19 +71,19 @@
       </div>
 
       <div class="product-info">
-        <h1 id="p-nazev" class="produkt-nazev" style="font-size: 28px; margin:0;">
+        <h1 id="p-nazev" class="produkt-nazev" style="font-size: 32px; margin:0; line-height: 1.2;">
           Cargando...
         </h1>
 
         <div class="product-price" id="p-cena"></div>
 
-        <div id="p-popis" class="product-description" style="margin-bottom: 30px;"></div>
+        <div id="p-popis" class="product-description" style="margin-bottom: 30px; line-height: 1.6;"></div>
 
         <div class="produkt-buttons">
-          <button class="produkt-btn" style="height: 50px;" onclick="window.location.href='contacto.html'">
+          <button class="produkt-btn" style="height: 55px; width: 200px; font-weight: bold; cursor: pointer;" onclick="window.location.href='contacto.html'">
             ORDENAR
           </button>
-          <button class="produkt-info-btn" style="height: 50px;" onclick="history.back()">
+          <button class="produkt-info-btn" style="height: 55px; width: 120px; cursor: pointer;" onclick="history.back()">
             VOLVER
           </button>
         </div>
@@ -94,6 +113,7 @@
     const slug = params.get("slug");
 
     function openLightbox(src) {
+      if (!src || src.includes('undefined')) return;
       const lb = document.getElementById("lightbox");
       document.getElementById("lightbox-img").src = src;
       lb.style.display = "flex";
@@ -110,30 +130,42 @@
       if (!slug) return;
 
       try {
+        // Použití čistého slug z URL
         const resp = await fetch(`/data/productos/${slug}.json?t=${Date.now()}`);
+        if (!resp.ok) throw new Error("Producto no encontrado");
         const data = await resp.json();
 
-        document.getElementById("p-img").src = data.imagen;
+        // Základní data
+        const mainImg = document.getElementById("p-img");
+        mainImg.src = data.imagen;
         document.getElementById("p-nazev").textContent = data.nombre;
         document.getElementById("p-cena").textContent = data.precio;
-
-        // Markdown parser (původní funkční stav)
         document.getElementById("p-popis").innerHTML = marked.parse(data.descripcion || "");
 
+        // Galerie miniatur
         const gal = document.getElementById("galerie");
-        if (data.galeria) {
+        gal.innerHTML = ""; // Vyčistit staré
+
+        if (data.galeria && Array.isArray(data.galeria)) {
           data.galeria.forEach(item => {
-            const img = document.createElement("img");
-            img.src = item.imagen;
-            img.onclick = (e) => {
-              e.stopPropagation();
-              openLightbox(item.imagen);
-            };
-            gal.appendChild(img);
+            if (item.imagen) {
+              const img = document.createElement("img");
+              img.src = item.imagen;
+              // Po kliknutí na miniaturu se změní hlavní obrázek a připraví se pro Lightbox
+              img.onclick = (e) => {
+                mainImg.src = item.imagen;
+              };
+              // Dvojklik nebo tlačítko může otevřít lightbox, ale dáme to na klik taky pro pohodlí
+              img.addEventListener('dblclick', () => openLightbox(item.imagen));
+              gal.appendChild(img);
+            }
           });
         }
 
-      } catch (e) {}
+      } catch (e) {
+        document.getElementById("p-nazev").textContent = "Producto no encontrado";
+        console.error("Chyba detailu:", e);
+      }
     }
 
     document.addEventListener("DOMContentLoaded", nactiDetail);
