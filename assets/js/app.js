@@ -3,28 +3,28 @@ async function nactiNoveProdukty() {
   if (!container) return;
 
   try {
-    // 1. Získáme seznam souborů přímo z tvého GitHubu
+    // 1. Získáme seznam souborů z tvého GitHubu
     const response = await fetch('https://api.github.com/repos/czepepe-dev/solarcity/contents/data/productos');
     
     if (!response.ok) {
-      throw new Error('Nepodařilo se načíst seznam produktů z GitHubu');
+      throw new Error('Nepodařilo se načíst seznam produktů');
     }
 
     const files = await response.json();
 
     // Filtrujeme jen .json soubory
-    const jsonSoubory = files
-      .filter(file => file.name.endsWith('.json'))
-      .map(file => file.name);
+    const jsonSoubory = files.filter(file => file.name.endsWith('.json'));
 
     // 2. Načteme obsah všech nalezených souborů
     const nacteneProdukty = await Promise.all(
-      jsonSoubory.map(async (soubor) => {
+      jsonSoubory.map(async (file) => {
         try {
-          const res = await fetch(`/data/productos/${soubor}?t=${Date.now()}`);
+          const res = await fetch(`/data/productos/${file.name}?t=${Date.now()}`);
           if (!res.ok) return null;
           const data = await res.json();
-          data.slug = soubor.replace('.json', '');
+          data.slug = file.name.replace('.json', '');
+          // Použijeme název souboru jako nouzové řazení, pokud nemáme ID
+          data.fileName = file.name; 
           return data;
         } catch (e) {
           return null;
@@ -32,7 +32,9 @@ async function nactiNoveProdukty() {
       })
     );
 
-    // 3. Odstraníme chyby a seřadíme od nejnovějšího (reverse)
+    // 3. SEŘAZENÍ: Od nejnovějšího (stejně jako v kategoriích)
+    // Seřadíme je obráceně (reverse), protože GitHub vrací soubory podle abecedy (A-Z)
+    // a nové produkty v adminu mají většinou názvy, které patří na konec seznamu.
     const platneProdukty = nacteneProdukty.filter(p => p !== null).reverse();
 
     // 4. Vykreslení do HTML
@@ -51,8 +53,7 @@ async function nactiNoveProdukty() {
     `).join('');
 
   } catch (err) {
-    console.error("Chyba při automatickém načítání:", err);
-    container.innerHTML = `<p>Chyba při načítání produktů. Zkontroluj připojení.</p>`;
+    console.error("Chyba:", err);
   }
 }
 
