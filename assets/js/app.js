@@ -3,63 +3,54 @@ async function zobrazitVsechnyProdukty() {
   if (!cilovyDiv) return;
 
   try {
-    const apiAdresa = `https://api.github.com/repos/czepepe-dev/solarcity/contents/data/productos?nocache=${Date.now()}`;
+    // 1. Získáme seznam souborů (vždy čerstvý seznam z API)
+    const apiAdresa = `https://api.github.com/repos/czepepe-dev/solarcity/contents/data/productos?t=${Date.now()}`;
     const odpoved = await fetch(apiAdresa);
-    if (!odpoved.ok) throw new Error('API Error');
     const soubory = await odpoved.json();
 
     const jsonSoubory = soubory.filter(s => s.name.endsWith('.json'));
 
-    const dataProduktu = await Promise.all(
+    // 2. Načteme obsah všech produktů paralelně
+    const vsechnyProdukty = await Promise.all(
       jsonSoubory.map(async (soubor) => {
         try {
-          const res = await fetch(`/data/productos/${soubor.name}?v=${Date.now()}`);
+          const res = await fetch(`/data/productos/${soubor.name}?cache_bust=${Date.now()}`);
           if (!res.ok) return null;
-          const json = await res.json();
-          
-          // Čistý slug pro URL (odstraní diakritiku a mezery)
-          json.url_slug = soubor.name.replace('.json', '');
-          
-          return json;
-        } catch (e) {
-          return null;
-        }
+          const data = await res.json();
+          // Uložíme si název souboru pro URL slug
+          data.slug_name = soubor.name.replace('.json', '');
+          // Převedeme ID na číslo pro spolehlivé řazení
+          data.numeric_id = data.id ? parseInt(data.id) : 0;
+          return data;
+        } catch (e) { return null; }
       })
     );
 
-    // SEŘAZENÍ: Přesně podle ID (nejvyšší číslo ID = nejnovější produkt)
-    const hotoveProdukty = dataProduktu
+    // 3. SEŘAZENÍ (Tady se to děje): Seřadíme pole v paměti podle ID sestupně
+    const serazene = vsechnyProdukty
       .filter(p => p !== null)
-      .sort((a, b) => {
-        const idA = a.id ? parseInt(a.id) : 0;
-        const idB = b.id ? parseInt(b.id) : 0;
-        return idB - idA;
-      });
+      .sort((a, b) => b.numeric_id - a.numeric_id);
 
-    cilovyDiv.innerHTML = hotoveProdukty.map(p => `
+    // 4. Vykreslení
+    cilovyDiv.innerHTML = serazene.map(p => `
       <div class="produkt-card">
-        <img src="${p.imagen}" alt="${p.nombre}" onclick="window.location.href='producto.html?slug=${p.url_slug}'" style="cursor:pointer;">
+        <div class="produkt-image-container">
+            <img src="${p.imagen}" alt="${p.nombre}" onclick="window.location.href='producto.html?slug=${p.slug_name}'" style="cursor:pointer;">
+        </div>
         <h3 class="produkt-nazev">${p.nombre}</h3>
         <p class="produkt-cena">${p.precio}</p>
         <div class="produkt-buttons">
-          <a href="producto.html?slug=${p.url_slug}" class="produkt-info-btn">DETALLE</a>
+          <a href="producto.html?slug=${p.slug_name}" class="produkt-info-btn">DETALLE</a>
           <a href="contacto.html" class="produkt-btn">ORDENAR</a>
         </div>
       </div>
     `).join('');
 
-  } catch (chyba) {
-    console.error("Chyba:", chyba);
+    console.log("Produkty seřazeny podle ID:", serazene.map(p => p.id));
+
+  } catch (err) {
+    console.error("Chyba při vykreslování:", err);
   }
 }
 
 zobrazitVsechnyProdukty();
-
-const prepinac = document.getElementById('theme-toggle');
-const styl = document.getElementById('theme-style');
-if (prepinac && styl) {
-  prepinac.addEventListener('click', () => {
-    const jeDen = styl.getAttribute('href').includes('day');
-    styl.setAttribute('href', jeDen ? 'assets/css/style-night.css' : 'assets/css/style-day.css');
-  });
-}
