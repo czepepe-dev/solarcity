@@ -325,23 +325,32 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
     font-size: 14px;
     max-width: 120px;
   }
-    /* ============================================
+/* ============================================
+   SJEDNOCENÍ GRIDU NA INDEXU
+============================================ */
+.produkty-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 320px));
+  justify-content: center;
+  gap: 30px;
+  width: 100%;
+  margin: 30px auto;
+}
+
+/* ============================================
    MOBIL – PRODUKT NA INDEXU
-   karta ještě větší + stejná jako v kategorii
+   karta stejně velká jako v kategorii
 ============================================ */
 @media (max-width: 768px) {
 
-  /* karta na INDEXU – přesnější selektor */
-  .intro .produkt-card {
-    max-width: 480px !important;
-    width: 100% !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    text-align: center !important;
+  /* sjednocení gridu */
+  .produkty-grid-3 {
+    grid-template-columns: 1fr !important;
+    justify-items: center !important;
   }
 
-  /* karta v KATEGORII – sjednocení */
-  .produkty-grid .produkt-card {
+  /* karta na indexu – konečně správná velikost */
+  .produkty-grid-3 .produkt-card {
     max-width: 480px !important;
     width: 100% !important;
     margin-left: auto !important;
@@ -349,5 +358,6 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
     text-align: center !important;
   }
 }
+
 
 }
