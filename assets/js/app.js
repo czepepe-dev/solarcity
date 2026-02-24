@@ -3,28 +3,29 @@ async function nactiNoveProdukty() {
   if (!container) return;
 
   try {
-    // 1. Získáme seznam souborů z GitHubu
+    // 1. Získáme seznam souborů i s metadaty (SHA) z tvého GitHubu
     const response = await fetch('https://api.github.com/repos/czepepe-dev/solarcity/contents/data/productos');
     if (!response.ok) throw new Error('Chyba při načítání seznamu');
     const files = await response.json();
 
-    // Filtrujeme jen JSON
     const jsonFiles = files.filter(f => f.name.endsWith('.json'));
 
-    // 2. Načteme obsah produktů
+    // 2. Pro každý soubor zjistíme datum poslední změny přes GitHub Commits API
     const nacteneProdukty = await Promise.all(
       jsonFiles.map(async (file) => {
         try {
-          // Načteme obsah souboru
+          // Získáme datum poslední změny souboru
+          const commitRes = await fetch(`https://api.github.com/repos/czepepe-dev/solarcity/commits?path=data/productos/${file.name}&page=1&per_page=1`);
+          const commitData = await commitRes.json();
+          const date = commitData[0] ? new Date(commitData[0].commit.committer.date) : new Date(0);
+
+          // Načteme samotný obsah JSONu
           const res = await fetch(`/data/productos/${file.name}?t=${Date.now()}`);
           if (!res.ok) return null;
           const data = await res.json();
           
           data.slug = file.name.replace('.json', '');
-          
-          // DŮLEŽITÉ: Pokusíme se získat ID z dat pro řazení, pokud tam je
-          // Pokud ne, použijeme název souboru
-          data.sortId = data.id ? Number(data.id) : file.name;
+          data.updatedAt = date.getTime(); // Čas v milisekundách pro přesné řazení
           
           return data;
         } catch (e) {
@@ -33,16 +34,10 @@ async function nactiNoveProdukty() {
       })
     );
 
-    // 3. SEŘAZENÍ: Pokud mají produkty ID, řadíme podle něj sestupně (od nejvyššího)
-    // Pokud ID nemají, použijeme obrácené abecední pořadí názvů souborů
-    const platneProdukty = nacteneProdukty.filter(p => p !== null);
-    
-    platneProdukty.sort((a, b) => {
-      if (typeof a.sortId === 'number' && typeof b.sortId === 'number') {
-        return b.sortId - a.sortId;
-      }
-      return String(b.slug).localeCompare(String(a.slug));
-    });
+    // 3. SEŘAZENÍ: Od nejnovějšího podle času úpravy na GitHubu
+    const platneProdukty = nacteneProdukty
+      .filter(p => p !== null)
+      .sort((a, b) => b.updatedAt - a.updatedAt);
 
     // 4. Vykreslení
     container.innerHTML = platneProdukty.map(p => `
@@ -60,7 +55,7 @@ async function nactiNoveProdukty() {
     `).join('');
 
   } catch (err) {
-    console.error("Chyba:", err);
+    console.error("Chyba řazení:", err);
   }
 }
 
