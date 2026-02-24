@@ -27,7 +27,6 @@ collections:
             { label: "Sistemas Completos", value: "sistemas" }
           ] 
         }
-      # ZMĚNA: Markdown widget zajistí hezké zobrazení v adminu i na webu
       - { label: "Descripción", name: "descripcion", widget: "markdown" }
       - { 
           label: "Galería de imágenes", 
