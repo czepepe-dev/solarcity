@@ -4,8 +4,8 @@ async function nactiNoveProdukty() {
   if (!container) return;
 
   try {
-    // SEZNAM SOUBORŮ: Zde ručně určujeme pořadí. 
-    // První v seznamu = první zobrazený na webu (nejnovější).
+    // SEZNAM SOUBORŮ: První v tomto seznamu bude první na webu.
+    // Seřazeno od nejnovějšího (test poslední 333 / novy-ppp)
     const soubory = [
       'novy-ppp.json',
       'test2.json',
@@ -32,7 +32,7 @@ async function nactiNoveProdukty() {
     // Odfiltrujeme neúspěšné pokusy
     const platneProdukty = vsechnyProdukty.filter(p => p !== null);
 
-    // VÝPIS DO HTML
+    // VÝPIS DO HTML - bez reverze, bereme pořadí přímo ze seznamu 'soubory'
     container.innerHTML = platneProdukty.map(p => `
       <div class="produkt-card">
         <img src="${p.imagen}" alt="${p.nombre}" onclick="window.location.href='producto.html?slug=${p.slug}'">
