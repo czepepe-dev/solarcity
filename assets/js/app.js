@@ -1,9 +1,10 @@
 async function nactiNoveProdukty() {
-  const container = document.getElementById('nove-produkty');
+  // Používáme nové ID kontejneru
+  const container = document.getElementById('sekce-novinek');
   if (!container) return;
 
   try {
-    // 1. Získáme seznam souborů z tvého GitHubu
+    // 1. Získáme seznam souborů z GitHubu s časovou značkou proti cache
     const response = await fetch(`https://api.github.com/repos/czepepe-dev/solarcity/contents/data/productos?t=${Date.now()}`);
     if (!response.ok) throw new Error('Nelze načíst seznam');
     const files = await response.json();
@@ -25,7 +26,8 @@ async function nactiNoveProdukty() {
       })
     );
 
-    // 3. SEŘAZENÍ: Podle ID sestupně (od nejvyššího k nejnižšímu)
+    // 3. SEŘAZENÍ: Podle vnitřního ID sestupně (od nejvyššího k nejnižšímu)
+    // Přesně takto to dělají tvé kategorie
     const platneProdukty = nacteneProdukty
       .filter(p => p !== null)
       .sort((a, b) => {
@@ -34,7 +36,7 @@ async function nactiNoveProdukty() {
         return idB - idA;
       });
 
-    // 4. Vykreslení
+    // 4. Vykreslení do HTML
     container.innerHTML = platneProdukty.map(p => `
       <div class="produkt-card">
         <img src="${p.imagen}" alt="${p.nombre}" onclick="window.location.href='producto.html?slug=${p.slug}'" style="cursor:pointer;">
