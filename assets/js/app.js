@@ -15,10 +15,11 @@ const nombresCategorias = {
   sistemas: 'Sistemas Solares'
 };
 
-// 🔹 Funkce pro řazení od nejnovějšího (podle ID)
+// 🔹 univerzální řazení od nejnovějšího podle ID
 function ordenarPorNuevo(lista) {
-  return lista.sort((a, b) => Number(b.id) - Number(a.id));
+  return lista.slice().sort((a, b) => Number(b.id) - Number(a.id));
 }
+
 
 // ==========================
 // KATEGORIE
@@ -27,8 +28,8 @@ if (window.location.pathname.endsWith('categoria.html')) {
   (async () => {
     const cat = getParam('cat');
     const datos = await cargarDatos();
-    let lista = datos[cat] || [];
 
+    let lista = datos[cat] || [];
     lista = ordenarPorNuevo(lista);
 
     const titulo = document.getElementById('titulo-categoria');
@@ -45,6 +46,7 @@ if (window.location.pathname.endsWith('categoria.html')) {
   })();
 }
 
+
 // ==========================
 // PRODUKT
 // ==========================
@@ -53,6 +55,7 @@ if (window.location.pathname.endsWith('producto.html')) {
     const cat = getParam('cat');
     const id = getParam('id');
     const datos = await cargarDatos();
+
     const lista = datos[cat] || [];
     const prod = lista.find(p => String(p.id) === String(id));
     const cont = document.getElementById('detalle-producto');
@@ -74,6 +77,7 @@ if (window.location.pathname.endsWith('producto.html')) {
     `;
   })();
 }
+
 
 // ==========================
 // DEN / NOC
