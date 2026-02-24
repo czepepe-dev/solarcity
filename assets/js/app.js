@@ -4,13 +4,14 @@ async function nactiNoveProdukty() {
   if (!container) return;
 
   try {
-    // Seznam všech tvých produktů (přesně podle tvé struktury složek)
+    // SEZNAM SOUBORŮ: Zde ručně určujeme pořadí. 
+    // První v seznamu = první zobrazený na webu (nejnovější).
     const soubory = [
       'novy-ppp.json',
-      'power-bank-solar-20000.json',
-      'power-bank-solar-portatil-20000-mah.json',
+      'test2.json',
       'test.json',
-      'test2.json'
+      'power-bank-solar-portatil-20000-mah.json',
+      'power-bank-solar-20000.json'
     ];
 
     // Načteme obsah všech souborů paralelně
@@ -31,11 +32,8 @@ async function nactiNoveProdukty() {
     // Odfiltrujeme neúspěšné pokusy
     const platneProdukty = vsechnyProdukty.filter(p => p !== null);
 
-    // SEŘAZENÍ: Od nejnovějšího (v JavaScriptu otočíme pořadí pole, protože nové jsou na konci seznamu)
-    const serazene = platneProdukty.reverse();
-
     // VÝPIS DO HTML
-    container.innerHTML = serazene.map(p => `
+    container.innerHTML = platneProdukty.map(p => `
       <div class="produkt-card">
         <img src="${p.imagen}" alt="${p.nombre}" onclick="window.location.href='producto.html?slug=${p.slug}'">
         <h3 class="produkt-nazev">${p.nombre}</h3>
@@ -52,7 +50,7 @@ async function nactiNoveProdukty() {
   }
 }
 
-// Funkce pro přepínání témat (ponechána z původního kódu)
+// Funkce pro přepínání témat
 const btn = document.getElementById('theme-toggle');
 const themeLink = document.getElementById('theme-style');
 
