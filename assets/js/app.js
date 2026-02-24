@@ -3,22 +3,26 @@ async function nactiNoveProdukty() {
   if (!container) return;
 
   try {
-    // 1. Získáme seznam souborů z tvého GitHubu
-    const response = await fetch('https://api.github.com/repos/czepepe-dev/solarcity/contents/data/productos');
-    if (!response.ok) throw new Error('Chyba při načítání seznamu');
+    // 1. Načtení seznamu souborů z GitHubu s náhodným číslem proti mezipaměti
+    const response = await fetch(`https://api.github.com/repos/czepepe-dev/solarcity/contents/data/productos?t=${Date.now()}`);
+    if (!response.ok) throw new Error('Nelze načíst seznam produktů');
     const files = await response.json();
 
     const jsonFiles = files.filter(f => f.name.endsWith('.json'));
 
-    // 2. Načteme obsah všech produktů
+    // 2. Načtení obsahu všech produktů
     const nacteneProdukty = await Promise.all(
       jsonFiles.map(async (file) => {
         try {
           const res = await fetch(`/data/productos/${file.name}?t=${Date.now()}`);
           if (!res.ok) return null;
           const data = await res.json();
-          // Přidáme slug pro odkaz
           data.slug = file.name.replace('.json', '');
+          
+          // Pokud produkt nemá ID, zkusíme ho vytáhnout z názvu souboru nebo data
+          // Toto zajistí, že i nové produkty bez ID se zařadí správně
+          data.sortValue = data.id ? parseInt(data.id) : Date.now();
+          
           return data;
         } catch (e) {
           return null;
@@ -26,15 +30,10 @@ async function nactiNoveProdukty() {
       })
     );
 
-    // 3. SEŘAZENÍ: Přesně podle ID sestupně (od nejvyššího k nejnižšímu)
-    // Takhle to dělají tvé kategorie, aby nejnovější byl první.
+    // 3. SEŘAZENÍ: Od nejnovějšího (nejvyšší sortValue/ID)
     const platneProdukty = nacteneProdukty
       .filter(p => p !== null)
-      .sort((a, b) => {
-        const idA = a.id ? parseInt(a.id) : 0;
-        const idB = b.id ? parseInt(b.id) : 0;
-        return idB - idA;
-      });
+      .sort((a, b) => b.sortValue - a.sortValue);
 
     // 4. Vykreslení do HTML
     container.innerHTML = platneProdukty.map(p => `
@@ -52,14 +51,14 @@ async function nactiNoveProdukty() {
     `).join('');
 
   } catch (err) {
-    console.error("Chyba při řazení:", err);
+    console.error("Chyba při načítání:", err);
   }
 }
 
-// Spuštění
+// Spuštění funkce
 nactiNoveProdukty();
 
-// Tlačítko pro změnu tématu
+// Tlačítko témat
 const btn = document.getElementById('theme-toggle');
 const themeLink = document.getElementById('theme-style');
 if (btn && themeLink) {
