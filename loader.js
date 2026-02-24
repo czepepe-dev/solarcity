@@ -52,10 +52,7 @@ async function nactiProdukty(kategorie) {
 
 async function nactiNoveProdukty() {
   const vsechny = await nactiVsechnyProdukty();
-
-  // maximálně 9 nejnovějších
   const top9 = vsechny.slice(0, 9);
-
   vykresliKarty(top9, "nove-produkty");
 }
 
@@ -71,17 +68,15 @@ function vykresliKarty(produkty, containerId) {
     const detailUrl = `/producto.html?slug=${p.slug}`;
 
     const cistyText = (p.descripcion || "")
-      .replace(/[#*`_]/g, "")
-      .replace(/<[^>]*>/g, "");
-
-    const shortText = cistyText.substring(0, 120);
+      .replace(/<[^>]*>/g, "")
+      .substring(0, 120);
 
     cont.innerHTML += `
       <div class="produkt-card">
         <img src="${p.imagen}" alt="${p.nombre}" class="produkt-img" onclick="window.location.href='${detailUrl}'">
         <h2 class="produkt-nazev">${p.nombre}</h2>
         <h1 class="produkt-cena">${p.precio}</h1>
-        <div class="produkt-popis">${shortText}...</div>
+        <div class="produkt-popis">${cistyText}...</div>
         <div class="produkt-buttons">
           <button class="produkt-btn" onclick="window.location.href='contacto.html'">ORDENAR</button>
           <button class="produkt-info-btn" onclick="window.location.href='${detailUrl}'">DETALLES</button>
