@@ -7,51 +7,30 @@
   <link rel="icon" href="favicon.png" type="image/png">
   <link id="theme-style" rel="stylesheet" href="assets/css/style-day.css">
   <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-
   <style>
     .product-page { max-width: 1100px; margin: 40px auto; padding: 20px; }
-    /* Hlavní kontejner pro flexbox */
     .product-container { display: flex; gap: 40px; flex-wrap: wrap; align-items: flex-start; }
-    
-    /* Levý sloupec s obrázky */
     .left-col { flex: 0 0 420px; max-width: 100%; }
     .product-image { width: 100%; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); background: #fff; }
     .product-image img { width: 100%; display: block; cursor: zoom-in; object-fit: contain; max-height: 500px; }
-    
-    /* Galerie miniatur */
     .product-gallery { margin-top: 15px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-    .product-gallery img { width: 100%; height: 80px; object-fit: cover; border-radius: 5px; cursor: pointer; transition: 0.2s; border: 2px solid transparent; }
-    .product-gallery img:hover { border-color: #ff9800; opacity: 0.8; }
-    
-    /* Pravý sloupec s informacemi */
+    .product-gallery img { width: 100%; height: 80px; object-fit: cover; border-radius: 5px; cursor: pointer; border: 2px solid transparent; }
+    .product-gallery img:hover { border-color: #ff9800; }
     .product-info { flex: 1; min-width: 300px; }
     .product-price { font-size: 24px; font-weight: bold; color: #ff9800; margin: 15px 0; }
-    
-    .categorias { margin-top: 60px; border-top: 1px solid #eee; padding-top: 30px; text-align: center; }
-    .categorias .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; justify-content: center; }
-    
-    /* Lightbox */
     #lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); display: none; justify-content: center; align-items: center; z-index: 10000; cursor: zoom-out; opacity: 0; transition: opacity 0.25s; }
     #lightbox.show { display: flex; opacity: 1; }
     #lightbox img { max-width: 90%; max-height: 90%; border-radius: 5px; }
-    .close-lightbox { position: absolute; top: 20px; right: 30px; color: white; font-size: 50px; cursor: pointer; user-select: none; }
-
-    /* Mobilní úprava */
-    @media (max-width: 768px) {
-      .left-col { flex: 1 1 100%; }
-      .product-container { gap: 20px; }
-    }
+    .close-lightbox { position: absolute; top: 20px; right: 30px; color: white; font-size: 50px; cursor: pointer; }
+    .categorias-section { margin-top: 60px; border-top: 1px solid #eee; padding-top: 30px; text-align: center; }
+    .categorias-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 20px; }
+    .cat-card { padding: 15px; border: 1px solid #ddd; border-radius: 8px; text-decoration: none; color: inherit; font-weight: bold; }
+    @media (max-width: 768px) { .left-col { flex: 1 1 100%; } }
   </style>
 </head>
-
 <body>
-
   <header class="topbar">
-    <div class="logo">
-      <a href="index.html">
-        <img src="logo.png" alt="SolarCity" style="height:80px;">
-      </a>
-    </div>
+    <div class="logo"><a href="index.html"><img src="logo.png" alt="SolarCity" style="height:80px;"></a></div>
     <nav class="menu">
       <a href="powerbanks.html">Powerbanks</a>
       <a href="paneles.html">Paneles</a>
@@ -62,45 +41,30 @@
 
   <main class="product-page">
     <div class="product-container">
-
       <div class="left-col">
-        <div class="product-image">
-          <img id="p-img" src="" alt="" onclick="openLightbox(this.src)">
-        </div>
+        <div class="product-image"><img id="p-img" src="" alt="" onclick="openLightbox(this.src)"></div>
         <div id="galerie" class="product-gallery"></div>
       </div>
-
       <div class="product-info">
-        <h1 id="p-nazev" class="produkt-nazev" style="font-size: 32px; margin:0; line-height: 1.2;">
-          Cargando...
-        </h1>
-
+        <h1 id="p-nazev" class="produkt-nazev" style="font-size: 32px; margin:0;">Cargando...</h1>
         <div class="product-price" id="p-cena"></div>
-
-        <div id="p-popis" class="product-description" style="margin-bottom: 30px; line-height: 1.6;"></div>
-
+        <div id="p-popis" class="product-description" style="margin-bottom: 30px;"></div>
         <div class="produkt-buttons">
-          <button class="produkt-btn" style="height: 55px; width: 200px; font-weight: bold; cursor: pointer;" onclick="window.location.href='contacto.html'">
-            ORDENAR
-          </button>
-          <button class="produkt-info-btn" style="height: 55px; width: 120px; cursor: pointer;" onclick="history.back()">
-            VOLVER
-          </button>
+          <button class="produkt-btn" style="height: 55px; width: 180px;" onclick="window.location.href='contacto.html'">ORDENAR</button>
+          <button class="produkt-info-btn" style="height: 55px; width: 120px;" onclick="history.back()">VOLVER</button>
         </div>
       </div>
-
     </div>
 
-    <section class="categorias">
+    <section class="categorias-section">
       <h2>Categorías</h2>
-      <div class="grid">
-        <a class="card" href="powerbanks.html">Powerbanks</a>
-        <a class="card" href="paneles.html">Paneles</a>
-        <a class="card" href="luces.html">Luces</a>
-        <a class="card" href="contacto.html">Contacto</a>
+      <div class="categorias-grid">
+        <a class="cat-card" href="powerbanks.html">Powerbanks</a>
+        <a class="cat-card" href="paneles.html">Paneles</a>
+        <a class="cat-card" href="luces.html">Luces</a>
+        <a class="cat-card" href="contacto.html">Contacto</a>
       </div>
     </section>
-
   </main>
 
   <div id="lightbox" onclick="closeLightbox()">
@@ -113,7 +77,7 @@
     const slug = params.get("slug");
 
     function openLightbox(src) {
-      if (!src || src.includes('undefined')) return;
+      if (!src) return;
       const lb = document.getElementById("lightbox");
       document.getElementById("lightbox-img").src = src;
       lb.style.display = "flex";
@@ -128,48 +92,27 @@
 
     async function nactiDetail() {
       if (!slug) return;
-
       try {
-        // Použití čistého slug z URL
         const resp = await fetch(`/data/productos/${slug}.json?t=${Date.now()}`);
-        if (!resp.ok) throw new Error("Producto no encontrado");
+        if (!resp.ok) throw new Error("Not found");
         const data = await resp.json();
-
-        // Základní data
-        const mainImg = document.getElementById("p-img");
-        mainImg.src = data.imagen;
+        document.getElementById("p-img").src = data.imagen;
         document.getElementById("p-nazev").textContent = data.nombre;
         document.getElementById("p-cena").textContent = data.precio;
         document.getElementById("p-popis").innerHTML = marked.parse(data.descripcion || "");
-
-        // Galerie miniatur
         const gal = document.getElementById("galerie");
-        gal.innerHTML = ""; // Vyčistit staré
-
-        if (data.galeria && Array.isArray(data.galeria)) {
+        gal.innerHTML = "";
+        if (data.galeria) {
           data.galeria.forEach(item => {
-            if (item.imagen) {
-              const img = document.createElement("img");
-              img.src = item.imagen;
-              // Po kliknutí na miniaturu se změní hlavní obrázek a připraví se pro Lightbox
-              img.onclick = (e) => {
-                mainImg.src = item.imagen;
-              };
-              // Dvojklik nebo tlačítko může otevřít lightbox, ale dáme to na klik taky pro pohodlí
-              img.addEventListener('dblclick', () => openLightbox(item.imagen));
-              gal.appendChild(img);
-            }
+            const img = document.createElement("img");
+            img.src = item.imagen;
+            img.onclick = (e) => { e.stopPropagation(); openLightbox(item.imagen); };
+            gal.appendChild(img);
           });
         }
-
-      } catch (e) {
-        document.getElementById("p-nazev").textContent = "Producto no encontrado";
-        console.error("Chyba detailu:", e);
-      }
+      } catch (e) { console.error(e); }
     }
-
     document.addEventListener("DOMContentLoaded", nactiDetail);
   </script>
-
 </body>
 </html>
