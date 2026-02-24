@@ -9,39 +9,16 @@ async function ziskejSeznamSouboru() {
     if (!resp.ok) return [];
     const files = await resp.json();
     return files.filter(f => f.name.endsWith('.json')).map(f => f.name);
-  } catch (e) { return []; }
+  } catch (e) {
+    return [];
+  }
 }
 
-async function nactiProdukty(kategorie) {
+async function nactiVsechnyProdukty() {
   const seznam = await ziskejSeznamSouboru();
   const produkty = [];
-  const container = document.getElementById("produkty");
-  if (container) container.innerHTML = "<p>Cargando productos...</p>";
 
   for (const file of seznam) {
-    try {
-      const resp = await fetch(`/${PRODUCT_PATH}/${file}?t=${Date.now()}`);
-      const data = await resp.json();
-      
-      const katVJsonu = String(data.categoria || "").toLowerCase().trim();
-      const katHledana = String(kategorie || "").toLowerCase().trim();
-
-      if (katVJsonu === katHledana) {
-        data.slug = file.replace(".json", "");
-        produkty.push(data);
-      }
-    } catch (e) {}
-  }
-  vykresliKarty(produkty, "produkty");
-}
-
-async function nactiNoveProdukty() {
-  const seznam = await ziskejSeznamSouboru();
-  const produkty = [];
-  // Zobrazíme až 9 posledních produktů (3 řady po 3)
-  const posledni = seznam.slice(-9).reverse(); 
-
-  for (const file of posledni) {
     try {
       const resp = await fetch(`/${PRODUCT_PATH}/${file}?t=${Date.now()}`);
       const data = await resp.json();
@@ -49,20 +26,55 @@ async function nactiNoveProdukty() {
       produkty.push(data);
     } catch (e) {}
   }
-  vykresliKarty(produkty, "nove-produkty");
+
+  // Řazení podle created (nejnovější nahoře)
+  produkty.sort((a, b) => {
+    return new Date(b.created || 0) - new Date(a.created || 0);
+  });
+
+  return produkty;
+}
+
+async function nactiProdukty(kategorie) {
+  const container = document.getElementById("produkty");
+  if (container) container.innerHTML = "<p>Cargando productos...</p>";
+
+  const vsechny = await nactiVsechnyProdukty();
+
+  const filtrovane = vsechny.filter(p => {
+    const katVJsonu = String(p.categoria || "").toLowerCase().trim();
+    const katHledana = String(kategorie || "").toLowerCase().trim();
+    return katVJsonu === katHledana;
+  });
+
+  vykresliKarty(filtrovane, "produkty");
+}
+
+async function nactiNoveProdukty() {
+  const vsechny = await nactiVsechnyProdukty();
+
+  // maximálně 9 nejnovějších
+  const top9 = vsechny.slice(0, 9);
+
+  vykresliKarty(top9, "nove-produkty");
 }
 
 function vykresliKarty(produkty, containerId) {
   const cont = document.getElementById(containerId);
   if (!cont) return;
-  cont.innerHTML = produkty.length === 0 ? "<p>No hay productos disponibles.</p>" : "";
-  
+
+  cont.innerHTML = produkty.length === 0
+    ? "<p>No hay productos disponibles.</p>"
+    : "";
+
   produkty.forEach(p => {
     const detailUrl = `/producto.html?slug=${p.slug}`;
-    
-    // Čištění textu pro náhled (odstraní markdown značky jako # nebo *)
-    const cistyText = (p.descripcion || "").replace(/[#*`_]/g, "");
-    const shortText = cistyText.substring(0, 100);
+
+    const cistyText = (p.descripcion || "")
+      .replace(/[#*`_]/g, "")
+      .replace(/<[^>]*>/g, "");
+
+    const shortText = cistyText.substring(0, 120);
 
     cont.innerHTML += `
       <div class="produkt-card">
