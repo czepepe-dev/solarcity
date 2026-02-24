@@ -63,39 +63,26 @@ function vykresliKarty(produkty, containerId) {
   });
 }
 
-// ==========================
-// INDEX
-// ==========================
-async function nactiNoveProdukty() {
-  const vse = await nactiVsechnyProdukty();
-  vykresliKarty(vse.slice(0, 9), "nove-produkty");
-}
+document.addEventListener("DOMContentLoaded", async () => {
 
-// ==========================
-// KATEGORIE
-// ==========================
-async function nactiProduktyKategorie() {
-  const params = new URLSearchParams(window.location.search);
-  const cat = params.get("cat");
-
-  if (!cat) return;
-
-  const vse = await nactiVsechnyProdukty();
-
-  const filtrovane = vse.filter(p =>
-    String(p.categoria || "").toLowerCase().trim() === cat.toLowerCase().trim()
-  );
-
-  vykresliKarty(filtrovane, "lista-productos");
-}
-
-// Auto-detekce stránky
-document.addEventListener("DOMContentLoaded", () => {
-  if (window.location.pathname.endsWith("index.html") || window.location.pathname === "/") {
-    nactiNoveProdukty();
+  // INDEX
+  if (document.getElementById("nove-produkty")) {
+    const vse = await nactiVsechnyProdukty();
+    vykresliKarty(vse.slice(0, 9), "nove-produkty");
   }
 
-  if (window.location.pathname.endsWith("categoria.html")) {
-    nactiProduktyKategorie();
+  // KATEGORIE
+  if (document.getElementById("lista-productos")) {
+    const params = new URLSearchParams(window.location.search);
+    const cat = params.get("cat");
+
+    const vse = await nactiVsechnyProdukty();
+
+    const filtrovane = vse.filter(p =>
+      String(p.categoria || "").toLowerCase().trim() === cat?.toLowerCase().trim()
+    );
+
+    vykresliKarty(filtrovane, "lista-productos");
   }
+
 });
