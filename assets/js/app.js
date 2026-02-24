@@ -1,60 +1,70 @@
 async function nactiProdukty() {
-  // Najde kontejner na indexu i v kategoriích
-  const container = document.getElementById('nove-produkty') || 
-                    document.getElementById('vypis-nejnovejsich-veci') || 
-                    document.getElementById('productos-grid') ||
-                    document.querySelector('.produkty-grid');
-                    
-  if (!container) return;
+    // Najdeme jakýkoliv kontejner, který na webu používáš
+    const container = document.getElementById('nove-produkty') || 
+                      document.getElementById('productos-grid') || 
+                      document.querySelector('.produkty-grid');
 
-  try {
-    // Načtení seznamu ze složky přes GitHub API
-    const response = await fetch(`https://api.github.com/repos/czepepe-dev/solarcity/contents/data/productos?t=${Date.now()}`);
-    if (!response.ok) throw new Error('GitHub API nedostupné');
-    const files = await response.json();
-    const jsonFiles = files.filter(f => f.name.endsWith('.json'));
+    if (!container) return;
 
-    const nactene = await Promise.all(jsonFiles.map(async (f) => {
-      try {
-        const res = await fetch(`/data/productos/${f.name}?t=${Date.now()}`);
-        if (!res.ok) return null;
-        const data = await res.json();
-        data.url_slug = f.name.replace('.json', '');
-        data.sort_id = data.id ? parseInt(data.id) : 0;
-        return data;
-      } catch (e) { return null; }
-    }));
+    try {
+        // 1. Získání seznamu souborů
+        const response = await fetch(`https://api.github.com/repos/czepepe-dev/solarcity/contents/data/productos?t=${Date.now()}`);
+        const files = await response.json();
+        
+        // 2. Načtení dat všech JSONů
+        const produktyData = await Promise.all(
+            files.filter(f => f.name.endsWith('.json')).map(async (f) => {
+                try {
+                    const res = await fetch(`/data/productos/${f.name}?t=${Date.now()}`);
+                    const json = await res.json();
+                    return { ...json, slug: f.name.replace('.json', ''), sortId: parseInt(json.id) || 0 };
+                } catch (e) { return null; }
+            })
+        );
 
-    let produkty = nactene.filter(p => p !== null);
+        let produkty = produktyData.filter(p => p !== null);
 
-    // Automatické filtrování podle kategorie (pokud jsme v souboru kategorie)
-    const pagename = window.location.pathname.toLowerCase();
-    if (pagename.includes('powerbanks')) produkty = produkty.filter(p => p.categoria === 'Powerbanks');
-    else if (pagename.includes('paneles')) produkty = produkty.filter(p => p.categoria === 'Paneles');
-    else if (pagename.includes('luces')) produkty = produkty.filter(p => p.categoria === 'Luces');
+        // 3. Automatický filtr pro kategorie (podle názvu stránky)
+        const path = window.location.pathname.toLowerCase();
+        if (path.includes('powerbanks')) produkty = produkty.filter(p => p.categoria === 'Powerbanks');
+        if (path.includes('paneles')) produkty = produkty.filter(p => p.categoria === 'Paneles');
+        if (path.includes('luces')) produkty = produkty.filter(p => p.categoria === 'Luces');
 
-    // SEŘAZENÍ: Nejnovější (nejvyšší ID) jako první
-    produkty.sort((a, b) => b.sort_id - a.sort_id);
+        // 4. SEŘAZENÍ: Nejnovější (nejvyšší ID) první
+        produkty.sort((a, b) => b.sortId - a.sortId);
 
-    // Vykreslení
-    container.innerHTML = produkty.map(p => `
-      <div class="produkt-card">
-        <div class="produkt-image-container">
-          <img src="${p.imagen}" alt="${p.nombre}" onclick="window.location.href='producto.html?slug=${p.url_slug}'" style="cursor:pointer;">
-        </div>
-        <h3 class="produkt-nazev">${p.nombre}</h3>
-        <p class="produkt-cena">${p.precio}</p>
-        <div class="produkt-buttons">
-          <a href="producto.html?slug=${p.url_slug}" class="produkt-info-btn">DETALLE</a>
-          <a href="contacto.html" class="produkt-btn">ORDENAR</a>
-        </div>
-      </div>
-    `).join('');
+        // 5. Vykreslení - používám TVOJI původní HTML strukturu
+        container.innerHTML = produkty.map(p => `
+            <div class="produkt-card">
+                <div class="produkt-image-container">
+                    <img src="${p.imagen}" alt="${p.nombre}" onclick="window.location.href='producto.html?slug=${p.slug}'" style="cursor:pointer;">
+                </div>
+                <h3 class="produkt-nazev">${p.nombre}</h3>
+                <p class="produkt-cena">${p.precio}</p>
+                <div class="produkt-buttons">
+                    <a href="producto.html?slug=${p.slug}" class="produkt-info-btn">DETALLE</a>
+                    <a href="contacto.html" class="produkt-btn">ORDENAR</a>
+                </div>
+            </div>
+        `).join('');
 
-  } catch (err) {
-    console.error("Chyba při načítání produktů:", err);
-  }
+    } catch (err) {
+        console.error("Chyba při načítání:", err);
+    }
 }
 
-// Spuštění po načtení stránky
+// Spustit hned po načtení
 document.addEventListener('DOMContentLoaded', nactiProdukty);
+
+// Funkce pro přepínání témat
+document.addEventListener('DOMContentLoaded', () => {
+    const themeBtn = document.getElementById('theme-toggle');
+    const themeStyle = document.getElementById('theme-style');
+    if (themeBtn && themeStyle) {
+        themeBtn.addEventListener('click', () => {
+            const isDay = themeStyle.getAttribute('href').includes('day');
+            themeStyle.setAttribute('href', isDay ? 'assets/css/style-night.css' : 'assets/css/style-day.css');
+            themeBtn.textContent = isDay ? 'Día' : 'Noche';
+        });
+    }
+});
