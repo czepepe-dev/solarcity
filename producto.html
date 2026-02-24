@@ -12,20 +12,18 @@
     .product-container { display: flex; gap: 40px; flex-wrap: wrap; align-items: flex-start; }
     .left-col { flex: 0 0 420px; max-width: 100%; }
     .product-image { width: 100%; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); background: #fff; }
-    .product-image img { width: 100%; display: block; cursor: zoom-in; object-fit: contain; max-height: 500px; }
+    .product-image img { width: 100%; display: block; cursor: zoom-in; object-fit: contain; max-height: 550px; }
     .product-gallery { margin-top: 15px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-    .product-gallery img { width: 100%; height: 80px; object-fit: cover; border-radius: 5px; cursor: pointer; border: 2px solid transparent; }
-    .product-gallery img:hover { border-color: #ff9800; }
+    .product-gallery img { width: 100%; height: 80px; object-fit: cover; border-radius: 5px; cursor: pointer; border: 1px solid #ddd; }
     .product-info { flex: 1; min-width: 300px; }
-    .product-price { font-size: 24px; font-weight: bold; color: #ff9800; margin: 15px 0; }
-    #lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.92); display: none; justify-content: center; align-items: center; z-index: 10000; cursor: zoom-out; opacity: 0; transition: opacity 0.25s; }
-    #lightbox.show { display: flex; opacity: 1; }
-    #lightbox img { max-width: 90%; max-height: 90%; border-radius: 5px; }
-    .close-lightbox { position: absolute; top: 20px; right: 30px; color: white; font-size: 50px; cursor: pointer; }
-    .categorias-section { margin-top: 60px; border-top: 1px solid #eee; padding-top: 30px; text-align: center; }
-    .categorias-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin-top: 20px; }
-    .cat-card { padding: 15px; border: 1px solid #ddd; border-radius: 8px; text-decoration: none; color: inherit; font-weight: bold; }
-    @media (max-width: 768px) { .left-col { flex: 1 1 100%; } }
+    .product-price { font-size: 26px; font-weight: bold; color: #ff9800; margin: 15px 0; }
+    .product-description { line-height: 1.6; font-size: 16px; }
+    #lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); display: none; justify-content: center; align-items: center; z-index: 9999; cursor: zoom-out; }
+    #lightbox img { max-width: 90%; max-height: 90%; }
+    .categorias-bottom { margin-top: 60px; border-top: 1px solid #eee; padding-top: 30px; text-align: center; }
+    .categorias-grid { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 20px; }
+    .cat-link { padding: 12px 25px; border: 1px solid #ddd; border-radius: 8px; text-decoration: none; color: inherit; font-weight: bold; }
+    @media (max-width: 768px) { .left-col { flex: 1 1 100%; } .product-container { gap: 20px; } }
   </style>
 </head>
 <body>
@@ -46,30 +44,29 @@
         <div id="galerie" class="product-gallery"></div>
       </div>
       <div class="product-info">
-        <h1 id="p-nazev" class="produkt-nazev" style="font-size: 32px; margin:0;">Cargando...</h1>
+        <h1 id="p-nazev" class="produkt-nazev" style="margin:0; font-size: 32px;">Cargando...</h1>
         <div class="product-price" id="p-cena"></div>
-        <div id="p-popis" class="product-description" style="margin-bottom: 30px;"></div>
-        <div class="produkt-buttons">
-          <button class="produkt-btn" style="height: 55px; width: 180px;" onclick="window.location.href='contacto.html'">ORDENAR</button>
-          <button class="produkt-info-btn" style="height: 55px; width: 120px;" onclick="history.back()">VOLVER</button>
+        <div id="p-popis" class="product-description"></div>
+        <div class="produkt-buttons" style="margin-top: 30px; display: flex; gap: 10px;">
+          <button class="produkt-btn" style="height: 55px; padding: 0 30px;" onclick="window.location.href='contacto.html'">ORDENAR</button>
+          <button class="produkt-info-btn" style="height: 55px; padding: 0 20px;" onclick="history.back()">VOLVER</button>
         </div>
       </div>
     </div>
 
-    <section class="categorias-section">
+    <section class="categorias-bottom">
       <h2>Categorías</h2>
       <div class="categorias-grid">
-        <a class="cat-card" href="powerbanks.html">Powerbanks</a>
-        <a class="cat-card" href="paneles.html">Paneles</a>
-        <a class="cat-card" href="luces.html">Luces</a>
-        <a class="cat-card" href="contacto.html">Contacto</a>
+        <a class="cat-link" href="powerbanks.html">Powerbanks</a>
+        <a class="cat-link" href="paneles.html">Paneles</a>
+        <a class="cat-link" href="luces.html">Luces</a>
+        <a class="cat-link" href="contacto.html">Contacto</a>
       </div>
     </section>
   </main>
 
-  <div id="lightbox" onclick="closeLightbox()">
-    <span class="close-lightbox" onclick="closeLightbox()">&times;</span>
-    <img id="lightbox-img" src="" alt="">
+  <div id="lightbox" onclick="this.style.display='none'">
+    <img id="lb-img" src="">
   </div>
 
   <script>
@@ -78,35 +75,29 @@
 
     function openLightbox(src) {
       if (!src) return;
-      const lb = document.getElementById("lightbox");
-      document.getElementById("lightbox-img").src = src;
-      lb.style.display = "flex";
-      setTimeout(() => lb.classList.add("show"), 10);
-    }
-
-    function closeLightbox() {
-      const lb = document.getElementById("lightbox");
-      lb.classList.remove("show");
-      setTimeout(() => lb.style.display = "none", 250);
+      document.getElementById("lb-img").src = src;
+      document.getElementById("lightbox").style.display = "flex";
     }
 
     async function nactiDetail() {
       if (!slug) return;
       try {
         const resp = await fetch(`/data/productos/${slug}.json?t=${Date.now()}`);
-        if (!resp.ok) throw new Error("Not found");
+        if (!resp.ok) throw new Error("Producto no encontrado");
         const data = await resp.json();
+
         document.getElementById("p-img").src = data.imagen;
         document.getElementById("p-nazev").textContent = data.nombre;
         document.getElementById("p-cena").textContent = data.precio;
         document.getElementById("p-popis").innerHTML = marked.parse(data.descripcion || "");
+
         const gal = document.getElementById("galerie");
         gal.innerHTML = "";
-        if (data.galeria) {
+        if (data.galeria && Array.isArray(data.galeria)) {
           data.galeria.forEach(item => {
             const img = document.createElement("img");
             img.src = item.imagen;
-            img.onclick = (e) => { e.stopPropagation(); openLightbox(item.imagen); };
+            img.onclick = () => openLightbox(item.imagen);
             gal.appendChild(img);
           });
         }
