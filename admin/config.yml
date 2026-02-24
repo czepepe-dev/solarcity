@@ -10,7 +10,7 @@ collections:
     label: "Productos"
     folder: "data/productos"
     create: true
-    slug: "{{slug}}"
+    slug: "{{nombre | slugify}}"
     format: "json"
     extension: "json"
     fields:
