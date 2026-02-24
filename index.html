@@ -50,7 +50,7 @@
     <section class="intro">
       <h1>Energía solar confiable para tu hogar</h1>
       <p>
-        Confía en la seguridad que el sol te da gratis cada día y que nadie te puede apagar ni quitar. La energía solar es luz para tu familia, la nevera funcionando, el móvil cargado, la posibilidad de trabajar y seguir conectado.
+        Confía en la seguridad que el sol te da gratis cada día y que nadie te puede apagar ni quitar. La energía solar es luz para tu familia, la nevera funcionando, el móvil cargado, la possibility de trabajar y seguir conectado.
         <br><br>
         No se trata solo de equipos. Se trata de tranquilidad, comodidad y seguridad para ti y los tuyos.
       </p>
@@ -58,7 +58,7 @@
 
     <section class="nuevos">
       <h2>Nuevos productos</h2>
-      <div id="nove-produkty" class="produkty-grid-3"></div>
+      <div id="nove-produkty" class="produkty-grid"></div>
     </section>
 
     <section class="categorias">
@@ -79,12 +79,10 @@
     </p>
   </footer>
 
-  <script src="loader.js"></script>
-  <script>
-    nactiNoveProdukty();
-  </script>
   <script src="assets/js/app.js"></script>
+  <script>
+    // Spustíme načítání produktů až po načtení skriptu app.js
+    document.addEventListener("DOMContentLoaded", nactiNoveProdukty);
+  </script>
 </body>
 </html>
-
-
