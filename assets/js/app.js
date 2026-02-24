@@ -15,11 +15,9 @@ const nombresCategorias = {
   sistemas: 'Sistemas Solares'
 };
 
-// 🔹 univerzální řazení od nejnovějšího podle ID
 function ordenarPorNuevo(lista) {
   return lista.slice().sort((a, b) => Number(b.id) - Number(a.id));
 }
-
 
 // ==========================
 // INDEX – NOVÉ PRODUKTY
@@ -43,13 +41,12 @@ async function nactiNoveProdukty() {
   const tri = vsechny.slice(0, 3);
 
   cont.innerHTML = tri.map(p => `
-    <a class="card" href="producto.html?id=${p.id}&cat=${p.cat}">
+    <a class="card" href="producto.html?slug=${p.slug}">
       <h3>${p.nombre}</h3>
       <p>${p.precio}</p>
     </a>
   `).join('');
 }
-
 
 // ==========================
 // KATEGORIE
@@ -68,7 +65,7 @@ if (window.location.pathname.endsWith('categoria.html')) {
     titulo.textContent = nombresCategorias[cat] || 'Productos';
 
     cont.innerHTML = lista.map(p => `
-      <a class="card" href="producto.html?id=${p.id}&cat=${cat}">
+      <a class="card" href="producto.html?slug=${p.slug}">
         <h3>${p.nombre}</h3>
         <p>${p.precio}</p>
       </a>
@@ -76,38 +73,38 @@ if (window.location.pathname.endsWith('categoria.html')) {
   })();
 }
 
-
 // ==========================
 // PRODUKT
 // ==========================
 if (window.location.pathname.endsWith('producto.html')) {
   (async () => {
-    const cat = getParam('cat');
-    const id = getParam('id');
-    const datos = await cargarDatos();
+    const slug = getParam('slug');
+    if (!slug) return;
 
-    const lista = datos[cat] || [];
-    const prod = lista.find(p => String(p.id) === String(id));
+    const resp = await fetch(`/data/productos/${slug}.json?t=${Date.now()}`);
+    const prod = await resp.json();
+
     const cont = document.getElementById('detalle-producto');
 
-    if (!prod) {
-      cont.innerHTML = '<p>Producto no encontrado.</p>';
-      return;
-    }
+    document.getElementById("p-img").src = prod.imagen;
+    document.getElementById("p-nazev").textContent = prod.nombre;
+    document.getElementById("p-cena").textContent = prod.precio;
+    document.getElementById("p-popis").innerHTML = marked.parse(prod.descripcion || "");
 
-    cont.innerHTML = `
-      <h1>${prod.nombre}</h1>
-      <p class="precio">${prod.precio}</p>
-      <img src="${prod.imagen}" alt="${prod.nombre}" class="img-principal">
-      <p>${prod.descripcion}</p>
-      <div class="galeria">
-        ${(prod.galeria || []).map(src => `<img src="${src}" alt="${prod.nombre}">`).join('')}
-      </div>
-      <a href="categoria.html?cat=${cat}" class="btn-volver">Volver a la categoría</a>
-    `;
+    const gal = document.getElementById("galerie");
+    if (prod.galeria) {
+      prod.galeria.forEach(item => {
+        const img = document.createElement("img");
+        img.src = item.imagen;
+        img.onclick = (e) => {
+          e.stopPropagation();
+          openLightbox(item.imagen);
+        };
+        gal.appendChild(img);
+      });
+    }
   })();
 }
-
 
 // ==========================
 // DEN / NOC
