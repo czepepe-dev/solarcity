@@ -1,5 +1,5 @@
 async function cargarDatos() {
-  const res = await fetch('data/productos.json');
+  const res = await fetch('data/productos.json?t=' + Date.now());
   return await res.json();
 }
 
@@ -15,12 +15,22 @@ const nombresCategorias = {
   sistemas: 'Sistemas Solares'
 };
 
-// Kategorie
+// 🔹 Funkce pro řazení od nejnovějšího (podle ID)
+function ordenarPorNuevo(lista) {
+  return lista.sort((a, b) => Number(b.id) - Number(a.id));
+}
+
+// ==========================
+// KATEGORIE
+// ==========================
 if (window.location.pathname.endsWith('categoria.html')) {
   (async () => {
     const cat = getParam('cat');
     const datos = await cargarDatos();
-    const lista = datos[cat] || [];
+    let lista = datos[cat] || [];
+
+    lista = ordenarPorNuevo(lista);
+
     const titulo = document.getElementById('titulo-categoria');
     const cont = document.getElementById('lista-productos');
 
@@ -35,14 +45,16 @@ if (window.location.pathname.endsWith('categoria.html')) {
   })();
 }
 
-// Produkt
+// ==========================
+// PRODUKT
+// ==========================
 if (window.location.pathname.endsWith('producto.html')) {
   (async () => {
     const cat = getParam('cat');
     const id = getParam('id');
     const datos = await cargarDatos();
     const lista = datos[cat] || [];
-    const prod = lista.find(p => p.id === id);
+    const prod = lista.find(p => String(p.id) === String(id));
     const cont = document.getElementById('detalle-producto');
 
     if (!prod) {
@@ -56,13 +68,16 @@ if (window.location.pathname.endsWith('producto.html')) {
       <img src="${prod.imagen}" alt="${prod.nombre}" class="img-principal">
       <p>${prod.descripcion}</p>
       <div class="galeria">
-        ${prod.galeria.map(src => `<img src="${src}" alt="${prod.nombre}">`).join('')}
+        ${(prod.galeria || []).map(src => `<img src="${src}" alt="${prod.nombre}">`).join('')}
       </div>
       <a href="categoria.html?cat=${cat}" class="btn-volver">Volver a la categoría</a>
     `;
   })();
 }
-// Přepínání DEN / NOC (Día / Noche)
+
+// ==========================
+// DEN / NOC
+// ==========================
 const btn = document.getElementById('theme-toggle');
 const themeLink = document.getElementById('theme-style');
 
@@ -77,4 +92,3 @@ if (btn) {
     }
   });
 }
-
