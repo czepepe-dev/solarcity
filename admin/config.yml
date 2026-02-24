@@ -1,6 +1,5 @@
 backend:
-  name: github
-  repo: czepepe-dev/solarcity
+  name: git-gateway
   branch: main
 
 media_folder: "img"
