@@ -333,7 +333,7 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
 
   /* karta na INDEXU – přesnější selektor */
   .intro .produkt-card {
-    max-width: 480px !important;
+    max-width: 500px !important;
     width: 100% !important;
     margin-left: auto !important;
     margin-right: auto !important;
