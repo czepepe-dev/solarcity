@@ -9,12 +9,38 @@ async function ziskejSeznamSouboru() {
     if (!resp.ok) return [];
     const files = await resp.json();
 
+    // Seřadíme podle názvu a otočíme (nejnovější nahoře)
     return files
       .filter(f => f.name.endsWith('.json'))
-      .sort((a, b) => new Date(b.commit?.committer?.date || 0) - new Date(a.commit?.committer?.date || 0))
-      .map(f => f.name);
+      .map(f => f.name)
+      .sort()
+      .reverse();
 
   } catch (e) { return []; }
+}
+
+async function nactiProdukty(kategorie) {
+  const seznam = await ziskejSeznamSouboru();
+  const produkty = [];
+  const container = document.getElementById("produkty");
+  if (container) container.innerHTML = "<p>Cargando productos...</p>";
+
+  for (const file of seznam) {
+    try {
+      const resp = await fetch(`/${PRODUCT_PATH}/${file}?t=${Date.now()}`);
+      const data = await resp.json();
+
+      const katVJsonu = String(data.categoria || "").toLowerCase().trim();
+      const katHledana = String(kategorie || "").toLowerCase().trim();
+
+      if (katVJsonu === katHledana) {
+        data.slug = file.replace(".json", "");
+        produkty.push(data);
+      }
+    } catch (e) {}
+  }
+
+  vykresliKarty(produkty, "produkty");
 }
 
 async function nactiNoveProdukty() {
