@@ -3,46 +3,41 @@ async function zobrazitVsechnyProdukty() {
   if (!cilovyDiv) return;
 
   try {
-    // 1. Získáme seznam souborů z GitHubu s časovou značkou, aby se obešla cache
+    // 1. Načtení seznamu souborů z GitHubu (vždy čerstvé díky timestampu)
     const apiAdresa = `https://api.github.com/repos/czepepe-dev/solarcity/contents/data/productos?t=${Date.now()}`;
     const odpoved = await fetch(apiAdresa);
-    
-    if (!odpoved.ok) throw new Error('API nedostupné');
-    
+    if (!odpoved.ok) throw new Error('API Error');
     const soubory = await odpoved.json();
+
     const jsonSoubory = soubory.filter(s => s.name.endsWith('.json'));
 
-    // 2. Načteme obsah všech nalezených souborů paralelně
-    const nactenaData = await Promise.all(
+    // 2. Paralelní načtení obsahu všech JSON souborů
+    const dataProduktu = await Promise.all(
       jsonSoubory.map(async (soubor) => {
         try {
-          // Použijeme download_url z GitHubu pro maximální čerstvost
-          const res = await fetch(`${soubor.download_url}?t=${Date.now()}`);
+          const res = await fetch(`/data/productos/${soubor.name}?v=${Date.now()}`);
           if (!res.ok) return null;
+          const json = await res.json();
           
-          const pData = await res.json();
+          // Uložíme čistý slug (název souboru) pro URL bez diakritiky
+          json.url_slug = soubor.name.replace('.json', '');
+          // Převedeme ID na číslo pro přesné řazení
+          json.numeric_id = json.id ? parseInt(json.id) : 0;
           
-          // Přidáme slug (název souboru bez .json) pro URL
-          pData.url_slug = soubor.name.replace('.json', '');
-          
-          // Určíme klíč pro řazení (priorita je pole "id" v JSONu)
-          pData.sortKey = pData.id ? parseInt(pData.id) : 0;
-          
-          return pData;
+          return json;
         } catch (e) {
-          console.error(`Chyba načítání souboru ${soubor.name}:`, e);
           return null;
         }
       })
     );
 
-    // 3. SEŘAZENÍ: Od nejvyššího ID po nejnižší
-    const serazeneProdukty = nactenaData
+    // 3. SEŘAZENÍ: Nejvyšší ID (nejnovější) bude první
+    const hotoveProdukty = dataProduktu
       .filter(p => p !== null)
-      .sort((a, b) => b.sortKey - a.sortKey);
+      .sort((a, b) => b.numeric_id - a.numeric_id);
 
-    // 4. VYKRESLENÍ DO HTML
-    cilovyDiv.innerHTML = serazeneProdukty.map(p => `
+    // 4. Vykreslení do gridu
+    cilovyDiv.innerHTML = hotoveProdukty.map(p => `
       <div class="produkt-card">
         <div class="produkt-image-container">
             <img src="${p.imagen}" alt="${p.nombre}" onclick="window.location.href='producto.html?slug=${p.url_slug}'" style="cursor:pointer;">
@@ -57,29 +52,22 @@ async function zobrazitVsechnyProdukty() {
     `).join('');
 
   } catch (chyba) {
-    console.error("Chyba při vykreslování produktů:", chyba);
-    cilovyDiv.innerHTML = "<p>Error al cargar productos.</p>";
+    console.error("Chyba:", chyba);
   }
 }
 
-// Spuštění hlavní funkce
+// Spuštění po načtení
 zobrazitVsechnyProdukty();
 
-// Funkce pro přepínání témat (Day/Night)
+// Téma přepínač
 document.addEventListener('DOMContentLoaded', () => {
-    const themeBtn = document.getElementById('theme-toggle');
-    const themeStyle = document.getElementById('theme-style');
-
-    if (themeBtn && themeStyle) {
-        themeBtn.addEventListener('click', () => {
-            const currentTheme = themeStyle.getAttribute('href');
-            if (currentTheme.includes('day')) {
-                themeStyle.setAttribute('href', 'assets/css/style-night.css');
-                themeBtn.textContent = 'Día';
-            } else {
-                themeStyle.setAttribute('href', 'assets/css/style-day.css');
-                themeBtn.textContent = 'Noche';
-            }
+    const btn = document.getElementById('theme-toggle');
+    const style = document.getElementById('theme-style');
+    if (btn && style) {
+        btn.addEventListener('click', () => {
+            const isDay = style.getAttribute('href').includes('day');
+            style.setAttribute('href', isDay ? 'assets/css/style-night.css' : 'assets/css/style-day.css');
+            btn.textContent = isDay ? 'Día' : 'Noche';
         });
     }
 });
