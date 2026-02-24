@@ -350,7 +350,10 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   line-height: 1.2 !important;
   height: auto !important;
   text-transform: uppercase !important;
+  font-family: inherit !important; /* stejné písmo jako ORDENAR */
+  letter-spacing: 0 !important; /* sjednocení */
 }
+
 
 
   .intro p {
