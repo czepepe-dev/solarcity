@@ -3,30 +3,28 @@ async function nactiNoveProdukty() {
   if (!container) return;
 
   try {
-    // 1. Získáme seznam všech souborů ze složky data/productos přes GitHub API
-    // Používáme tvoji adresu z konfigurace
-    const repoOwner = "solar-city-cuba"; // Uprav podle svého jména na GitHubu, pokud je jiné
-    const repoName = "solarcity";      // Uprav podle názvu tvého repozitáře
+    // 1. Získáme seznam souborů přímo z tvého GitHubu
+    const response = await fetch('https://api.github.com/repos/czepepe-dev/solarcity/contents/data/productos');
     
-    // Prozatím použijeme metodu prohledávání známých cest, dokud nepotvrdíš propojení s API
-    // Pokud API není nastaveno, použijeme tuto automatickou metodu načítání:
-    const resList = await fetch('https://api.github.com/repos/lucianoneder/solarcity/contents/data/productos');
-    const files = await resList.json();
+    if (!response.ok) {
+      throw new Error('Nepodařilo se načíst seznam produktů z GitHubu');
+    }
 
-    // Filtrujeme jen JSON soubory a ignorujeme složky
-    const soubory = files
+    const files = await response.json();
+
+    // Filtrujeme jen .json soubory
+    const jsonSoubory = files
       .filter(file => file.name.endsWith('.json'))
       .map(file => file.name);
 
     // 2. Načteme obsah všech nalezených souborů
-    const vsechnyProdukty = await Promise.all(
-      soubory.map(async (soubor) => {
+    const nacteneProdukty = await Promise.all(
+      jsonSoubory.map(async (soubor) => {
         try {
           const res = await fetch(`/data/productos/${soubor}?t=${Date.now()}`);
           if (!res.ok) return null;
           const data = await res.json();
           data.slug = soubor.replace('.json', '');
-          // Uložíme si čas poslední změny ze souboru pro řazení (pokud existuje)
           return data;
         } catch (e) {
           return null;
@@ -34,10 +32,10 @@ async function nactiNoveProdukty() {
       })
     );
 
-    // 3. Odstraníme prázdné a SEŘADÍME (nejnovější nahoru - předpokládáme, že nové jsou na konci seznamu z API)
-    const platneProdukty = vsechnyProdukty.filter(p => p !== null).reverse();
+    // 3. Odstraníme chyby a seřadíme od nejnovějšího (reverse)
+    const platneProdukty = nacteneProdukty.filter(p => p !== null).reverse();
 
-    // 4. VÝPIS DO HTML
+    // 4. Vykreslení do HTML
     container.innerHTML = platneProdukty.map(p => `
       <div class="produkt-card">
         <div class="produkt-image-container">
@@ -53,15 +51,15 @@ async function nactiNoveProdukty() {
     `).join('');
 
   } catch (err) {
-    console.error("Automatické načítání selhalo, zkouším záložní seznam:", err);
-    // Záložní metoda, pokud API limituje požadavky
+    console.error("Chyba při automatickém načítání:", err);
+    container.innerHTML = `<p>Chyba při načítání produktů. Zkontroluj připojení.</p>`;
   }
 }
 
-// Spustit hned
+// Spuštění funkce
 nactiNoveProdukty();
 
-// Tlačítko témat
+// Tlačítko pro změnu tématu (Day/Night)
 const btn = document.getElementById('theme-toggle');
 const themeLink = document.getElementById('theme-style');
 if (btn && themeLink) {
