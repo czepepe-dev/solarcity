@@ -108,7 +108,7 @@ body {
 }
 
 /* ------------------------------
-    PRODUKTOVÁ KARTA – PC ZMENŠENÍ TLAČÍTEK
+    PRODUKTOVÁ KARTA – PC
 ------------------------------ */
 .produkt-card {
   width: 100%;
@@ -144,7 +144,7 @@ body {
 .produkt-popis { font-size: 0.85rem; color: #666; margin-bottom: 15px; line-height: 1.4; text-align: center; }
 
 /* ------------------------------
-    TLAČÍTKA – PC ZMENŠENÁ
+    TLAČÍTKA – PC
 ------------------------------ */
 .produkt-buttons {
   display: flex;
@@ -176,8 +176,9 @@ body {
   box-shadow: 0 6px 14px rgba(0, 128, 0, 0.45);
 }
 
-/* DETALLES – nyní stejný styl jako VOLVER */
-.produkt-info-btn {
+/* DETALLES + VOLVER – sjednocené */
+.produkt-info-btn,
+.volver-btn {
   flex: 1;
   padding: 10px 14px;
   border-radius: 8px;
@@ -189,15 +190,17 @@ body {
   background: white;
   color: #0A7A1C;
   border: none;
-  transition: 0.25s ease;
   text-transform: uppercase;
-  box-shadow: none;
+  box-shadow: 0 4px 10px rgba(0, 128, 0, 0.35);
+  transition: 0.25s ease;
 }
 
-.produkt-info-btn:hover {
+.produkt-info-btn:hover,
+.volver-btn:hover {
   transform: translateY(-3px);
   background: white;
   color: #0A7A1C;
+  box-shadow: 0 6px 14px rgba(0, 128, 0, 0.45);
 }
 
 /* ------------------------------
@@ -244,10 +247,6 @@ body {
   color: #444;
   text-align: justify;
 }
-.product-description ul, .product-description ol { padding-left: 20px; margin-bottom: 20px; }
-.product-description li { margin-bottom: 8px; }
-.product-description strong { font-weight: bold; color: #000; }
-.product-description h1, .product-description h2, .product-description h3 { margin-top: 25px; margin-bottom: 10px; }
 
 /* ------------------------------
     GALERIE
@@ -270,45 +269,6 @@ body {
 .product-gallery img:hover { transform: scale(1.05); }
 
 /* ------------------------------
-    LIGHTBOX
------------------------------- */
-#lightbox {
-  position: fixed;
-  top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(0,0,0,0.92);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 10000;
-  opacity: 0;
-  transition: opacity 0.25s ease;
-  cursor: zoom-out;
-}
-
-#lightbox.show { opacity: 1; display: flex; }
-
-#lightbox-img {
-  max-width: 90%;
-  max-height: 90%;
-  transform: scale(0.85);
-  transition: transform 0.25s ease;
-  border-radius: 4px;
-}
-
-#lightbox.show #lightbox-img { transform: scale(1); }
-
-.close-lightbox {
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  color: white;
-  font-size: 50px;
-  font-weight: bold;
-  cursor: pointer;
-  z-index: 10001;
-}
-
-/* ------------------------------
     FOOTER
 ------------------------------ */
 footer {
@@ -329,17 +289,12 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   .topbar nav { display: none; }
   .topbar { flex-direction: column; text-align: center; gap: 10px; }
 
-  .product-container { flex-direction: column; align-items: center; }
-  .product-image img { max-width: 100%; }
-
-  .hero { width: 95%; padding: 20px 10px; }
-
-  /* Produkt na indexu – větší karta + zarovnání */
+  /* Produkt na indexu – ještě větší karta */
   .produkt-card {
-    max-width: 360px !important;
-    margin-left: auto;
-    margin-right: auto;
-    text-align: center;
+    max-width: 420px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center !important;
   }
 
   .intro p {
@@ -348,9 +303,9 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
 
   /* Produkt v kategorii – zarovnání na střed */
   .produkty-grid .produkt-card {
-    max-width: 360px !important;
-    margin-left: auto;
-    margin-right: auto;
+    max-width: 420px !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
 
   /* Tlačítka v detailu produktu vedle sebe */
@@ -361,7 +316,7 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   /* Categorías – 2 sloupce */
   .categorias .grid {
     grid-template-columns: repeat(2, 1fr) !important;
-    column-gap: 20px;
+    column-gap: 20px !important;
   }
 
   .card {
