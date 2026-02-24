@@ -23,7 +23,6 @@ async function nactiProdukty(kategorie) {
       const resp = await fetch(`/${PRODUCT_PATH}/${file}?t=${Date.now()}`);
       const data = await resp.json();
       
-      // EXTRÉMNĚ TOLERANTNÍ POROVNÁNÍ
       const katVJsonu = String(data.categoria || "").toLowerCase().trim();
       const katHledana = String(kategorie || "").toLowerCase().trim();
 
@@ -31,7 +30,7 @@ async function nactiProdukty(kategorie) {
         data.slug = file.replace(".json", "");
         produkty.push(data);
       }
-    } catch (e) { console.error("Chyba u souboru:", file); }
+    } catch (e) {}
   }
   vykresliKarty(produkty, "produkty");
 }
@@ -39,10 +38,10 @@ async function nactiProdukty(kategorie) {
 async function nactiNoveProdukty() {
   const seznam = await ziskejSeznamSouboru();
   const produkty = [];
-  const posledni = seznam.slice(-6).reverse(); // Vezmeme víc souborů pro jistotu
+  // Zobrazíme až 9 posledních produktů (3 řady po 3)
+  const posledni = seznam.slice(-9).reverse(); 
 
   for (const file of posledni) {
-    if (produkty.length >= 3) break;
     try {
       const resp = await fetch(`/${PRODUCT_PATH}/${file}?t=${Date.now()}`);
       const data = await resp.json();
@@ -56,13 +55,14 @@ async function nactiNoveProdukty() {
 function vykresliKarty(produkty, containerId) {
   const cont = document.getElementById(containerId);
   if (!cont) return;
-  cont.innerHTML = produkty.length === 0 ? "<p>No hay productos disponibles en esta categoría.</p>" : "";
+  cont.innerHTML = produkty.length === 0 ? "<p>No hay productos disponibles.</p>" : "";
   
   produkty.forEach(p => {
     const detailUrl = `/producto.html?slug=${p.slug}`;
-    const tempDiv = document.createElement("div");
-    tempDiv.innerHTML = p.descripcion || "";
-    const shortText = (tempDiv.textContent || "").substring(0, 120);
+    
+    // Čištění textu pro náhled (odstraní markdown značky jako # nebo *)
+    const cistyText = (p.descripcion || "").replace(/[#*`_]/g, "");
+    const shortText = cistyText.substring(0, 100);
 
     cont.innerHTML += `
       <div class="produkt-card">
@@ -70,7 +70,7 @@ function vykresliKarty(produkty, containerId) {
         <h2 class="produkt-nazev">${p.nombre}</h2>
         <h1 class="produkt-cena">${p.precio}</h1>
         <div class="produkt-popis">${shortText}...</div>
-        <div class="produkt-buttons" style="display: flex; gap: 10px; margin-top: 15px;">
+        <div class="produkt-buttons">
           <button class="produkt-btn" onclick="window.location.href='contacto.html'">ORDENAR</button>
           <button class="produkt-info-btn" onclick="window.location.href='${detailUrl}'">DETALLES</button>
         </div>
