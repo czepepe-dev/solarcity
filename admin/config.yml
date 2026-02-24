@@ -11,6 +11,8 @@ collections:
     folder: "data/productos"
     create: true
     slug: "{{slug}}"
+    format: "json"
+    extension: "json"
     fields:
       - { label: "Nombre del Producto", name: "nombre", widget: "string" }
       - { label: "Precio", name: "precio", widget: "string" }
