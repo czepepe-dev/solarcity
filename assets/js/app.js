@@ -22,6 +22,36 @@ function ordenarPorNuevo(lista) {
 
 
 // ==========================
+// INDEX – NOVÉ PRODUKTY
+// ==========================
+async function nactiNoveProdukty() {
+  const cont = document.getElementById('nove-produkty');
+  if (!cont) return;
+
+  const datos = await cargarDatos();
+
+  let vsechny = [];
+
+  Object.keys(datos).forEach(cat => {
+    vsechny = vsechny.concat(
+      (datos[cat] || []).map(p => ({ ...p, cat }))
+    );
+  });
+
+  vsechny = ordenarPorNuevo(vsechny);
+
+  const tri = vsechny.slice(0, 3);
+
+  cont.innerHTML = tri.map(p => `
+    <a class="card" href="producto.html?id=${p.id}&cat=${p.cat}">
+      <h3>${p.nombre}</h3>
+      <p>${p.precio}</p>
+    </a>
+  `).join('');
+}
+
+
+// ==========================
 // KATEGORIE
 // ==========================
 if (window.location.pathname.endsWith('categoria.html')) {
