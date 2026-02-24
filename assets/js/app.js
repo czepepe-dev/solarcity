@@ -23,8 +23,8 @@ async function nactiNoveProdukty() {
           if (!res.ok) return null;
           const data = await res.json();
           data.slug = file.name.replace('.json', '');
-          // Použijeme název souboru jako nouzové řazení, pokud nemáme ID
-          data.fileName = file.name; 
+          // Uložíme si cestu k souboru pro případné další zpracování
+          data.filePath = file.path;
           return data;
         } catch (e) {
           return null;
@@ -32,9 +32,9 @@ async function nactiNoveProdukty() {
       })
     );
 
-    // 3. SEŘAZENÍ: Od nejnovějšího (stejně jako v kategoriích)
-    // Seřadíme je obráceně (reverse), protože GitHub vrací soubory podle abecedy (A-Z)
-    // a nové produkty v adminu mají většinou názvy, které patří na konec seznamu.
+    // 3. SEŘAZENÍ: Přesně podle logiky v kategoriích
+    // Pokud tvá kategorie řadí podle toho, co bylo přidáno naposledy (v abecedním seznamu GitHubu jsou to ty dole),
+    // použijeme .reverse(), aby nejnovější byly nahoře.
     const platneProdukty = nacteneProdukty.filter(p => p !== null).reverse();
 
     // 4. Vykreslení do HTML
@@ -53,14 +53,14 @@ async function nactiNoveProdukty() {
     `).join('');
 
   } catch (err) {
-    console.error("Chyba:", err);
+    console.error("Chyba při načítání produktů na indexu:", err);
   }
 }
 
-// Spuštění funkce
+// Spuštění funkce pro index
 nactiNoveProdukty();
 
-// Tlačítko pro změnu tématu (Day/Night)
+// Tlačítko pro změnu tématu (Zůstává původní)
 const btn = document.getElementById('theme-toggle');
 const themeLink = document.getElementById('theme-style');
 if (btn && themeLink) {
