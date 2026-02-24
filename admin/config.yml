@@ -32,7 +32,6 @@ collections:
             - { label: "Sistemas Completos", value: "sistemas" }
         }
 
-      # AUTOMATICKÉ DATUM VYTVOŘENÍ
       - {
           label: "Fecha de creación",
           name: "created",
@@ -43,7 +42,11 @@ collections:
           required: true
         }
 
-      - { label: "Descripción", name: "descripcion", widget: "markdown" }
+      - {
+          label: "Descripción",
+          name: "descripcion",
+          widget: "text"
+        }
 
       - {
           label: "Galería de imágenes",
