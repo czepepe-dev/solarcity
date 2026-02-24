@@ -10,39 +10,13 @@ async function ziskejSeznamSouboru() {
     const files = await resp.json();
 
     return files
-      .filter(f => f.name.endsWith(".json"))
+      .filter(f => f.name.endsWith('.json'))
       .map(f => f.name)
-      .sort()
-      .reverse(); // nejnovější nahoře
+      .sort((a, b) => b.localeCompare(a)); // nejnovější nahoře
 
   } catch (e) { 
     return []; 
   }
-}
-
-async function nactiProdukty(kategorie) {
-  const seznam = await ziskejSeznamSouboru();
-  const produkty = [];
-
-  const container = document.getElementById("lista-productos");
-  if (container) container.innerHTML = "<p>Cargando productos...</p>";
-
-  for (const file of seznam) {
-    try {
-      const resp = await fetch(`/${PRODUCT_PATH}/${file}?t=${Date.now()}`);
-      const data = await resp.json();
-
-      const katVJsonu = String(data.categoria || "").toLowerCase().trim();
-      const katHledana = String(kategorie || "").toLowerCase().trim();
-
-      if (katVJsonu === katHledana) {
-        data.slug = file.replace(".json", "");
-        produkty.push(data);
-      }
-    } catch (e) {}
-  }
-
-  vykresliKarty(produkty, "lista-productos");
 }
 
 async function nactiNoveProdukty() {
@@ -61,4 +35,30 @@ async function nactiNoveProdukty() {
   }
 
   vykresliKarty(produkty, "nove-produkty");
+}
+
+function vykresliKarty(produkty, containerId) {
+  const cont = document.getElementById(containerId);
+  if (!cont) return;
+
+  cont.innerHTML = produkty.length === 0 
+    ? "<p>No hay productos disponibles.</p>" 
+    : "";
+
+  produkty.forEach(p => {
+    const detailUrl = `/producto.html?slug=${p.slug}`;
+    const shortText = (p.descripcion || "").replace(/[#*`_]/g, "").substring(0, 100);
+
+    cont.innerHTML += `
+      <div class="produkt-card">
+        <img src="${p.imagen}" alt="${p.nombre}" class="produkt-img" onclick="window.location.href='${detailUrl}'">
+        <h2 class="produkt-nazev">${p.nombre}</h2>
+        <h1 class="produkt-cena">${p.precio}</h1>
+        <div class="produkt-popis">${shortText}...</div>
+        <div class="produkt-buttons">
+          <button class="produkt-btn" onclick="window.location.href='contacto.html'">ORDENAR</button>
+          <button class="produkt-info-btn" onclick="window.location.href='${detailUrl}'">DETALLES</button>
+        </div>
+      </div>`;
+  });
 }
