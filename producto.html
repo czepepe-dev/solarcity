@@ -3,40 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Producto - Tecnología solar</title>
+  <title>Producto - SolarCity</title>
   <link rel="icon" href="favicon.png" type="image/png">
   <link id="theme-style" rel="stylesheet" href="assets/css/style-day.css">
   <style>
     .product-page { max-width: 1100px; margin: 40px auto; padding: 20px; }
-    .product-container { display: flex; gap: 40px; flex-wrap: wrap; align-items: flex-start; }
-    .product-image { width: 420px; overflow: hidden; border-radius: 10px; box-shadow: 0 0 10px #0002; }
+    .product-container { display: flex; gap: 40px; flex-wrap: wrap; }
+    .product-image { width: 420px; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
     .product-image img { width: 100%; display: block; }
-    .product-gallery { margin-top: 15px; width: 420px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-    .product-gallery img { width: 100%; height: 95px; object-fit: cover; border-radius: 8px; cursor: pointer; transition: transform .25s ease; }
-    .product-gallery img:hover { transform: scale(1.1); }
+    .product-gallery { margin-top: 15px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+    .product-gallery img { width: 100%; height: 80px; object-fit: cover; border-radius: 5px; cursor: pointer; }
     .product-info { flex: 1; min-width: 300px; }
-    .product-price { font-size: 32px; font-weight: 700; margin-bottom: 20px; color: #d62828; }
-    .product-description { font-size: 14px; line-height: 1.5; margin-bottom: 30px; }
+    .product-price { font-size: 32px; font-weight: bold; color: #d62828; margin: 10px 0 20px 0; }
     
-    /* Sjednocení s globálním stylem */
-    .btn-group { display: flex; gap: 10px; margin-top: 20px; }
-    .btn-group button { flex: 1; height: 50px; font-size: 16px; cursor: pointer; border-radius: 5px; border: none; font-weight: bold; }
-    
-    /* CATEGORIAS GRID */
     .categorias { margin-top: 60px; border-top: 1px solid #eee; padding-top: 30px; }
-    .categorias h2 { margin-bottom: 20px; }
-    .categorias .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 15px; }
+    .categorias h2 { text-align: center; margin-bottom: 25px; }
+    .categorias .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; }
     .categorias .card { 
-      background: #f4f4f4; padding: 20px; text-align: center; border-radius: 8px; 
-      text-decoration: none; color: #333; font-weight: bold; transition: 0.3s;
+      background: #f8f9fa; padding: 25px; text-align: center; border-radius: 10px; 
+      text-decoration: none; color: #333; font-weight: bold; border: 1px solid #eee; transition: 0.3s;
     }
     .categorias .card:hover { background: #6ccf55; color: white; }
 
-    #lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,.85); display: none; justify-content: center; align-items: center; z-index: 9999; }
-    #lightbox-img { max-width: 90%; max-height: 90%; border-radius: 10px; }
+    #lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 10000; }
+    #lightbox img { max-width: 90%; max-height: 90%; }
     
-    footer { text-align: center; padding: 40px 20px; margin-top: 40px; border-top: 1px solid #eee; }
-    footer a { color: inherit; text-decoration: none; }
+    footer { text-align: center; padding: 40px; margin-top: 60px; border-top: 1px solid #eee; }
+    footer a { color: #666; text-decoration: none; }
   </style>
 </head>
 <body>
@@ -52,18 +45,18 @@
 
   <main class="product-page">
     <div class="product-container">
-      <div>
+      <div class="left-col">
         <div class="product-image"><img id="p-img" src="" alt=""></div>
         <div id="galerie" class="product-gallery"></div>
       </div>
       <div class="product-info">
-        <h1 id="p-nazev">Cargando...</h1>
+        <h1 id="p-nazev" class="produkt-nazev" style="font-size: 28px; margin:0;">Cargando...</h1>
         <div class="product-price" id="p-cena"></div>
-        <div class="product-description" id="p-popis"></div>
+        <div id="p-popis" style="margin-bottom: 30px; line-height: 1.6;"></div>
         
-        <div class="btn-group">
-          <button class="produkt-btn" onclick="window.location.href='contacto.html'">ORDENAR</button>
-          <button class="produkt-info-btn" onclick="history.back()">VOLVER</button>
+        <div class="produkt-buttons" style="display: flex; gap: 10px;">
+          <button class="produkt-btn" style="flex: 1; height: 50px;" onclick="window.location.href='contacto.html'">ORDENAR</button>
+          <button class="produkt-info-btn" style="flex: 1; height: 50px;" onclick="history.back()">DETALLES</button>
         </div>
       </div>
     </div>
@@ -74,15 +67,13 @@
         <a class="card" href="powerbanks.html">Powerbanks</a>
         <a class="card" href="paneles.html">Paneles</a>
         <a class="card" href="luces.html">Luces</a>
-        <a href="contacto.html" class="card">Contacto</a>
+        <a class="card" href="contacto.html">Contacto</a>
       </div>
     </section>
   </main>
 
   <footer>
-    <p>
-      <a href="https://solarcitycuba.netlify.app/admin/">Admin</a> © 2026 Tecnología solar
-    </p>
+    <p><a href="https://solarcitycuba.netlify.app/admin/">Admin</a> © 2026 Tecnología solar</p>
   </footer>
 
   <div id="lightbox" onclick="this.style.display='none'"><img id="lightbox-img" src=""></div>
@@ -90,31 +81,27 @@
   <script>
     const params = new URLSearchParams(window.location.search);
     const slug = params.get("slug");
-    async function nactiDetailProduktu() {
+    async function nactiDetail() {
       if (!slug) return;
       try {
-        const response = await fetch(`/data/productos/${slug}.json?t=${Date.now()}`);
-        const data = await response.json();
+        const resp = await fetch(`/data/productos/${slug}.json?t=${Date.now()}`);
+        const data = await resp.json();
         document.getElementById("p-img").src = data.imagen;
         document.getElementById("p-nazev").textContent = data.nombre;
         document.getElementById("p-cena").textContent = data.precio;
         document.getElementById("p-popis").innerHTML = data.descripcion || "";
         const gal = document.getElementById("galerie");
-        gal.innerHTML = "";
         if (data.galeria) {
           data.galeria.forEach(item => {
             const img = document.createElement("img");
             img.src = item.imagen;
-            img.onclick = () => { 
-                document.getElementById("lightbox-img").src = item.imagen; 
-                document.getElementById("lightbox").style.display = "flex"; 
-            };
+            img.onclick = () => { document.getElementById("lightbox-img").src = item.imagen; document.getElementById("lightbox").style.display = "flex"; };
             gal.appendChild(img);
           });
         }
-      } catch (err) {}
+      } catch (e) {}
     }
-    document.addEventListener("DOMContentLoaded", nactiDetailProduktu);
+    document.addEventListener("DOMContentLoaded", nactiDetail);
   </script>
 </body>
 </html>
