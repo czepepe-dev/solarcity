@@ -9,20 +9,22 @@ async function ziskejSeznamSouboru() {
     if (!resp.ok) return [];
     const files = await resp.json();
 
-    // Seřadíme podle názvu a otočíme (nejnovější nahoře)
     return files
-      .filter(f => f.name.endsWith('.json'))
+      .filter(f => f.name.endsWith(".json"))
       .map(f => f.name)
       .sort()
-      .reverse();
+      .reverse(); // nejnovější nahoře
 
-  } catch (e) { return []; }
+  } catch (e) { 
+    return []; 
+  }
 }
 
 async function nactiProdukty(kategorie) {
   const seznam = await ziskejSeznamSouboru();
   const produkty = [];
-  const container = document.getElementById("produkty");
+
+  const container = document.getElementById("lista-productos");
   if (container) container.innerHTML = "<p>Cargando productos...</p>";
 
   for (const file of seznam) {
@@ -40,7 +42,7 @@ async function nactiProdukty(kategorie) {
     } catch (e) {}
   }
 
-  vykresliKarty(produkty, "produkty");
+  vykresliKarty(produkty, "lista-productos");
 }
 
 async function nactiNoveProdukty() {
