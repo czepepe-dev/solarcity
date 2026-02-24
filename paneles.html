@@ -4,14 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Paneles Solares - Tecnología solar</title>
-
   <link rel="icon" href="favicon.png" type="image/png">
   <link id="theme-style" rel="stylesheet" href="assets/css/style-day.css">
 </head>
 
 <body>
 
-  <!-- TOP BAR / MENU -->
   <header class="topbar">
     <div class="logo">
       <a href="index.html">
@@ -27,21 +25,16 @@
     </nav>
   </header>
 
-  <!-- HERO SECTION -->
   <main class="hero">
-
     <section class="intro">
       <h1>Paneles Solares</h1>
     </section>
 
-    <!-- PREPARANDO -->
-    <section>
-      <p style="margin-top:30px; font-size:18px;">
-        Estamos preparando los productos
-      </p>
+    <section class="produkty-section" style="max-width:1200px; margin:auto; padding:20px;">
+      <div id="produkty" class="produkty-grid">
+        </div>
     </section>
 
-    <!-- CATEGORY GRID -->
     <section class="categorias">
       <h2>Categorías</h2>
       <div class="grid">
@@ -51,16 +44,19 @@
         <a class="card" href="contacto.html">Contacto</a>
       </div>
     </section>
-
   </main>
 
-  <!-- FOOTER -->
   <footer>
     <p>
       <a href="https://solarcitycuba.netlify.app/admin/">Admin</a> © 2026 Tecnología solar
     </p>
   </footer>
 
-  <script src="assets/js/app.js"></script>
+  <script src="loader.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      nactiProdukty("paneles"); 
+    });
+  </script>
 </body>
 </html>
