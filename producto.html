@@ -7,32 +7,30 @@
   <link rel="icon" href="favicon.png" type="image/png">
   <link id="theme-style" rel="stylesheet" href="assets/css/style-day.css">
   <style>
+    /* Specifické úpravy pro detail produktu, které nejsou v hlavním CSS */
     .product-page { max-width: 1100px; margin: 40px auto; padding: 20px; }
     .product-container { display: flex; gap: 40px; flex-wrap: wrap; }
+    
     .product-image { width: 420px; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-    .product-image img { width: 100%; display: block; }
+    .product-image img { width: 100%; display: block; cursor: zoom-in; }
+    
     .product-gallery { margin-top: 15px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
-    .product-gallery img { width: 100%; height: 80px; object-fit: cover; border-radius: 5px; cursor: pointer; }
-    .product-info { flex: 1; min-width: 300px; }
-    .product-price { font-size: 32px; font-weight: bold; color: #d62828; margin: 10px 0 20px 0; }
-    
-    .categorias { margin-top: 60px; border-top: 1px solid #eee; padding-top: 30px; }
-    .categorias h2 { text-align: center; margin-bottom: 25px; }
-    .categorias .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; }
-    .categorias .card { 
-      background: #f8f9fa; padding: 25px; text-align: center; border-radius: 10px; 
-      text-decoration: none; color: #333; font-weight: bold; border: 1px solid #eee; transition: 0.3s;
-    }
-    .categorias .card:hover { background: #6ccf55; color: white; }
+    .product-gallery img { width: 100%; height: 80px; object-fit: cover; border-radius: 5px; cursor: pointer; transition: 0.2s; }
+    .product-gallery img:hover { opacity: 0.8; transform: scale(1.05); }
 
-    #lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: none; justify-content: center; align-items: center; z-index: 10000; }
-    #lightbox img { max-width: 90%; max-height: 90%; }
+    .product-info { flex: 1; min-width: 300px; }
     
-    footer { text-align: center; padding: 40px; margin-top: 60px; border-top: 1px solid #eee; }
-    footer a { color: #666; text-decoration: none; }
+    /* Lightbox s podporou animace ze style-day.css */
+    #lightbox { 
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+      background: rgba(0,0,0,0.9); display: none; justify-content: center; 
+      align-items: center; z-index: 10000; cursor: zoom-out;
+    }
+    #lightbox img { max-width: 90%; max-height: 90%; border-radius: 5px; }
   </style>
 </head>
 <body>
+
   <header class="topbar">
     <div class="logo"><a href="index.html"><img src="logo.png" alt="SolarCity" style="height:80px;"></a></div>
     <nav class="menu">
@@ -46,17 +44,20 @@
   <main class="product-page">
     <div class="product-container">
       <div class="left-col">
-        <div class="product-image"><img id="p-img" src="" alt=""></div>
+        <div class="product-image">
+          <img id="p-img" src="" alt="" onclick="openLightbox(this.src)">
+        </div>
         <div id="galerie" class="product-gallery"></div>
       </div>
+      
       <div class="product-info">
         <h1 id="p-nazev" class="produkt-nazev" style="font-size: 28px; margin:0;">Cargando...</h1>
         <div class="product-price" id="p-cena"></div>
-        <div id="p-popis" style="margin-bottom: 30px; line-height: 1.6;"></div>
+        <div id="p-popis" class="product-description" style="margin-bottom: 30px; line-height: 1.6;"></div>
         
-        <div class="produkt-buttons" style="display: flex; gap: 10px;">
-          <button class="produkt-btn" style="flex: 1; height: 50px;" onclick="window.location.href='contacto.html'">ORDENAR</button>
-          <button class="produkt-info-btn" style="flex: 1; height: 50px;" onclick="history.back()">DETALLES</button>
+        <div class="produkt-buttons">
+          <button class="produkt-btn" style="height: 50px;" onclick="window.location.href='contacto.html'">ORDENAR</button>
+          <button class="produkt-info-btn" style="height: 50px;" onclick="history.back()">DETALLES</button>
         </div>
       </div>
     </div>
@@ -76,31 +77,58 @@
     <p><a href="https://solarcitycuba.netlify.app/admin/">Admin</a> © 2026 Tecnología solar</p>
   </footer>
 
-  <div id="lightbox" onclick="this.style.display='none'"><img id="lightbox-img" src=""></div>
+  <div id="lightbox">
+    <img id="lightbox-img" src="" alt="">
+  </div>
 
   <script>
     const params = new URLSearchParams(window.location.search);
     const slug = params.get("slug");
+
+    // Funkce pro otevření lightboxu s animací
+    function openLightbox(src) {
+      const lb = document.getElementById("lightbox");
+      const lbImg = document.getElementById("lightbox-img");
+      lbImg.src = src;
+      lb.style.display = "flex";
+      // Timeout zajistí, že se animace opacity spustí až po display: flex
+      setTimeout(() => lb.classList.add("show"), 10);
+    }
+
+    // Funkce pro zavření lightboxu
+    document.getElementById("lightbox").onclick = function() {
+      this.classList.remove("show");
+      setTimeout(() => { this.style.display = "none"; }, 250);
+    };
+
     async function nactiDetail() {
       if (!slug) return;
       try {
         const resp = await fetch(`/data/productos/${slug}.json?t=${Date.now()}`);
         const data = await resp.json();
+        
         document.getElementById("p-img").src = data.imagen;
         document.getElementById("p-nazev").textContent = data.nombre;
         document.getElementById("p-cena").textContent = data.precio;
         document.getElementById("p-popis").innerHTML = data.descripcion || "";
+        
         const gal = document.getElementById("galerie");
-        if (data.galeria) {
+        gal.innerHTML = ""; // Vyčistit galerii
+
+        if (data.galeria && data.galeria.length > 0) {
           data.galeria.forEach(item => {
             const img = document.createElement("img");
             img.src = item.imagen;
-            img.onclick = () => { document.getElementById("lightbox-img").src = item.imagen; document.getElementById("lightbox").style.display = "flex"; };
+            img.alt = "Galería";
+            img.onclick = () => openLightbox(item.imagen);
             gal.appendChild(img);
           });
         }
-      } catch (e) {}
+      } catch (e) {
+        console.error("Error al cargar el producto:", e);
+      }
     }
+
     document.addEventListener("DOMContentLoaded", nactiDetail);
   </script>
 </body>
