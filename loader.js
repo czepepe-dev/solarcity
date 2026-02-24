@@ -14,18 +14,16 @@ async function ziskejSeznamSouboru() {
       .map(f => f.name)
       .sort((a, b) => b.localeCompare(a)); // nejnovější nahoře
 
-  } catch (e) { 
-    return []; 
+  } catch (e) {
+    return [];
   }
 }
 
-async function nactiNoveProdukty() {
+async function nactiVsechnyProdukty() {
   const seznam = await ziskejSeznamSouboru();
   const produkty = [];
 
-  const posledni = seznam.slice(0, 9);
-
-  for (const file of posledni) {
+  for (const file of seznam) {
     try {
       const resp = await fetch(`/${PRODUCT_PATH}/${file}?t=${Date.now()}`);
       const data = await resp.json();
@@ -34,24 +32,26 @@ async function nactiNoveProdukty() {
     } catch (e) {}
   }
 
-  vykresliKarty(produkty, "nove-produkty");
+  return produkty;
 }
 
 function vykresliKarty(produkty, containerId) {
   const cont = document.getElementById(containerId);
   if (!cont) return;
 
-  cont.innerHTML = produkty.length === 0 
-    ? "<p>No hay productos disponibles.</p>" 
+  cont.innerHTML = produkty.length === 0
+    ? "<p>No hay productos disponibles.</p>"
     : "";
 
   produkty.forEach(p => {
     const detailUrl = `/producto.html?slug=${p.slug}`;
-    const shortText = (p.descripcion || "").replace(/[#*`_]/g, "").substring(0, 100);
+    const shortText = (p.descripcion || "")
+      .replace(/[#*`_]/g, "")
+      .substring(0, 100);
 
     cont.innerHTML += `
       <div class="produkt-card">
-        <img src="${p.imagen}" alt="${p.nombre}" class="produkt-img" onclick="window.location.href='${detailUrl}'">
+        <img src="${p.imagen}" alt="${p.nombre}" onclick="window.location.href='${detailUrl}'">
         <h2 class="produkt-nazev">${p.nombre}</h2>
         <h1 class="produkt-cena">${p.precio}</h1>
         <div class="produkt-popis">${shortText}...</div>
@@ -62,3 +62,40 @@ function vykresliKarty(produkty, containerId) {
       </div>`;
   });
 }
+
+// ==========================
+// INDEX
+// ==========================
+async function nactiNoveProdukty() {
+  const vse = await nactiVsechnyProdukty();
+  vykresliKarty(vse.slice(0, 9), "nove-produkty");
+}
+
+// ==========================
+// KATEGORIE
+// ==========================
+async function nactiProduktyKategorie() {
+  const params = new URLSearchParams(window.location.search);
+  const cat = params.get("cat");
+
+  if (!cat) return;
+
+  const vse = await nactiVsechnyProdukty();
+
+  const filtrovane = vse.filter(p =>
+    String(p.categoria || "").toLowerCase().trim() === cat.toLowerCase().trim()
+  );
+
+  vykresliKarty(filtrovane, "lista-productos");
+}
+
+// Auto-detekce stránky
+document.addEventListener("DOMContentLoaded", () => {
+  if (window.location.pathname.endsWith("index.html") || window.location.pathname === "/") {
+    nactiNoveProdukty();
+  }
+
+  if (window.location.pathname.endsWith("categoria.html")) {
+    nactiProduktyKategorie();
+  }
+});
