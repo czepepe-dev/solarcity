@@ -16,17 +16,22 @@ async function nactiProdukty(kategorie) {
   const seznam = await ziskejSeznamSouboru();
   const produkty = [];
   const container = document.getElementById("produkty");
-  if (container) container.innerHTML = "";
+  if (container) container.innerHTML = "<p>Cargando productos...</p>";
 
   for (const file of seznam) {
     try {
-      const resp = await fetch(`/${PRODUCT_PATH}/${file}`);
+      const resp = await fetch(`/${PRODUCT_PATH}/${file}?t=${Date.now()}`);
       const data = await resp.json();
-      if (data.categoria && data.categoria.toLowerCase().trim() === kategorie.toLowerCase().trim()) {
+      
+      // EXTRÉMNĚ TOLERANTNÍ POROVNÁNÍ
+      const katVJsonu = String(data.categoria || "").toLowerCase().trim();
+      const katHledana = String(kategorie || "").toLowerCase().trim();
+
+      if (katVJsonu === katHledana) {
         data.slug = file.replace(".json", "");
         produkty.push(data);
       }
-    } catch (e) {}
+    } catch (e) { console.error("Chyba u souboru:", file); }
   }
   vykresliKarty(produkty, "produkty");
 }
@@ -34,11 +39,12 @@ async function nactiProdukty(kategorie) {
 async function nactiNoveProdukty() {
   const seznam = await ziskejSeznamSouboru();
   const produkty = [];
-  const posledni = seznam.slice(-3).reverse();
+  const posledni = seznam.slice(-6).reverse(); // Vezmeme víc souborů pro jistotu
 
   for (const file of posledni) {
+    if (produkty.length >= 3) break;
     try {
-      const resp = await fetch(`/${PRODUCT_PATH}/${file}`);
+      const resp = await fetch(`/${PRODUCT_PATH}/${file}?t=${Date.now()}`);
       const data = await resp.json();
       data.slug = file.replace(".json", "");
       produkty.push(data);
@@ -50,7 +56,7 @@ async function nactiNoveProdukty() {
 function vykresliKarty(produkty, containerId) {
   const cont = document.getElementById(containerId);
   if (!cont) return;
-  cont.innerHTML = produkty.length === 0 ? "<p>No hay productos disponibles.</p>" : "";
+  cont.innerHTML = produkty.length === 0 ? "<p>No hay productos disponibles en esta categoría.</p>" : "";
   
   produkty.forEach(p => {
     const detailUrl = `/producto.html?slug=${p.slug}`;
@@ -64,7 +70,7 @@ function vykresliKarty(produkty, containerId) {
         <h2 class="produkt-nazev">${p.nombre}</h2>
         <h1 class="produkt-cena">${p.precio}</h1>
         <div class="produkt-popis">${shortText}...</div>
-        <div class="produkt-buttons">
+        <div class="produkt-buttons" style="display: flex; gap: 10px; margin-top: 15px;">
           <button class="produkt-btn" onclick="window.location.href='contacto.html'">ORDENAR</button>
           <button class="produkt-info-btn" onclick="window.location.href='${detailUrl}'">DETALLES</button>
         </div>
