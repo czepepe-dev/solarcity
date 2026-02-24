@@ -188,7 +188,7 @@ body {
   text-decoration: none;
   background: white;
   color: #0A7A1C;
-  border: 3px solid #1FAF3A;
+  border: none;
   transition: 0.25s ease;
   text-transform: uppercase;
   box-shadow: 0 4px 10px rgba(0, 128, 0, 0.25);
