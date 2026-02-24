@@ -2,18 +2,23 @@ async function nactiNoveProdukty() {
   const container = document.getElementById('nove-produkty');
   if (!container) return;
 
-  // RUČNÍ SEZNAM - TADY URČUJEŠ POŘADÍ (První v seznamu = první na webu)
+  // SEZNAM VŠECH 7 PRODUKTŮ - Seřazeno od nejnovějšího
   const soubory = [
     'novy-ppp.json',
     'test2.json',
     'test.json',
     'power-bank-solar-portatil-20000-mah.json',
-    'power-bank-solar-20000.json'
+    'power-bank-solar-20000.json',
+    'power-bank-solar-portátil-20000-mah.json', // Opravený název s diakritikou dle struktury
+    'test.json' // Pokud máš další testovací, přidej sem přesný název souboru
   ];
+
+  // Odstranění duplicit, pokud by se v seznamu opakovaly
+  const unikatniSoubory = [...new Set(soubory)];
 
   try {
     const vsechnyProdukty = await Promise.all(
-      soubory.map(async (soubor) => {
+      unikatniSoubory.map(async (soubor) => {
         try {
           const res = await fetch(`/data/productos/${soubor}?t=${Date.now()}`);
           if (!res.ok) return null;
@@ -44,7 +49,7 @@ async function nactiNoveProdukty() {
   }
 }
 
-// Spustit hned při načtení skriptu
+// Spustit hned
 nactiNoveProdukty();
 
 // Tlačítko témat
