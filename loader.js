@@ -16,7 +16,7 @@ async function nactiProdukty(kategorie) {
   const seznam = await ziskejSeznamSouboru();
   const produkty = [];
   const container = document.getElementById("produkty");
-  if (container) container.innerHTML = "<p>Cargando productos...</p>";
+  if (container) container.innerHTML = "";
 
   for (const file of seznam) {
     try {
@@ -64,7 +64,7 @@ function vykresliKarty(produkty, containerId) {
         <h2 class="produkt-nazev">${p.nombre}</h2>
         <h1 class="produkt-cena">${p.precio}</h1>
         <div class="produkt-popis">${shortText}...</div>
-        <div style="display: flex; gap: 10px; margin-top: 15px;">
+        <div class="produkt-buttons">
           <button class="produkt-btn" onclick="window.location.href='contacto.html'">ORDENAR</button>
           <button class="produkt-info-btn" onclick="window.location.href='${detailUrl}'">DETALLES</button>
         </div>
