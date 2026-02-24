@@ -1,18 +1,17 @@
 /* ------------------------------
    ZÁKLADNÍ NASTAVENÍ
 ------------------------------ */
-
 body {
   margin: 0;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
   background: #ffffff;
   color: #222;
+  overflow-x: hidden;
 }
 
 /* ------------------------------
    TOP BAR / MENU
 ------------------------------ */
-
 .topbar {
   display: flex;
   justify-content: space-between;
@@ -35,74 +34,47 @@ body {
   color: #222;
   text-decoration: none;
   font-weight: 500;
+  transition: color 0.2s;
+}
+
+.topbar nav a:hover {
+  color: #6ccf55;
 }
 
 /* ------------------------------
-   HERO
+   HERO A SEKCE
 ------------------------------ */
-
-.hero {
+.hero, .nuevos, .produkty-section {
   padding: 32px 16px;
-  max-width: 900px;
+  max-width: 1200px;
   margin: 0 auto;
   text-align: center;
-}
-
-/* ------------------------------
-   SECCIÓN NUEVOS PRODUCTOS
------------------------------- */
-
-.nuevos {
-  width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  padding: 20px 0;
-  box-sizing: border-box;
-}
-
-.nuevos #nove-produkty {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  justify-items: center;
-  justify-content: center;
-  gap: 20px;
-  width: 100%;
-  margin: 0 auto;
   box-sizing: border-box;
 }
 
 /* ------------------------------
-   GRID PRO STRÁNKY PRODUKTŮ
+   MŘÍŽKY (GRIDY)
 ------------------------------ */
-
-.produkty-grid {
+#nove-produkty, .produkty-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   justify-items: center;
   justify-content: center;
-  gap: 20px;
+  gap: 25px;
   width: 100%;
-  margin: 0 auto;
+  margin: 20px auto;
 }
 
 /* ------------------------------
-   KATEGORÍAS
+   KATEGORÍAS (TLAČÍTKA POD PRODUKTY)
 ------------------------------ */
-
-.categorias {
-  width: 100%;
-  margin: 0 auto;
-  text-align: center;
-}
-
 .categorias .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  column-gap: 50px;   /* necháváme větší horizontální mezeru */
-  row-gap: 6px;       /* pouze zmenšená mezera mezi řádky */
+  column-gap: 50px;
+  row-gap: 12px;
   justify-items: center;
-  width: 100%;
-  box-sizing: border-box;
+  padding: 20px 0;
 }
 
 .card {
@@ -110,20 +82,16 @@ body {
   border-radius: 8px;
   text-decoration: none;
   color: #ffffff;
-  border: none;
-
   width: 100%;
   max-width: 150px;
-
-  padding: 10px;
+  padding: 12px;
   font-size: 15px;
   font-weight: bold;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   transition: 0.2s ease;
+  border: none;
 }
 
 .card:hover {
@@ -132,106 +100,84 @@ body {
 }
 
 /* ------------------------------
-   PRODUKTOVÁ KARTA
+   PRODUKTOVÁ KARTA (VÝPIS)
 ------------------------------ */
-
 .produkt-card {
   width: 260px;
-  border: 1px solid #ddd;
+  border: 1px solid #eee;
   border-radius: 12px;
   padding: 15px;
   background: #fff;
   transition: 0.25s ease;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
+}
+
+.produkt-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
 }
 
 .produkt-card img {
   width: 100%;
-  max-width: 250px;
   height: 250px;
   object-fit: cover;
   border-radius: 10px;
   margin-bottom: 12px;
-}
-
-.produkt-btn,
-.produkt-info-btn {
-  width: 100%;
-  max-width: 200px;
-  padding: 10px;
-  border-radius: 8px;
-  border: none;
   cursor: pointer;
-  margin-top: 8px;
-  font-size: 15px;
+}
+
+.produkt-nazev { font-size: 1.1rem; margin: 10px 0; font-weight: 600; }
+.produkt-cena { color: #d62828; font-size: 1.4rem; font-weight: 700; margin-bottom: 10px; }
+.produkt-popis { font-size: 0.9rem; color: #666; margin-bottom: 15px; line-height: 1.4; }
+
+/* KONTEJNER PRO TLAČÍTKA */
+.produkt-buttons {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+/* Zelené tlačítko (ORDENAR) */
+.produkt-btn {
+  flex: 1;
+  background: #6ccf55;
+  color: white;
+  border: none;
+  padding: 10px 5px;
+  border-radius: 8px;
   font-weight: bold;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.produkt-btn:hover { background: #58b844; }
+
+/* Průhledné tlačítko (DETALLES) */
+.produkt-info-btn {
+  flex: 1;
+  background: transparent;
+  color: #333;
+  border: 2px solid #6ccf55;
+  padding: 8px 5px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.produkt-info-btn:hover {
+  background: #6ccf55;
+  color: white;
 }
 
 /* ------------------------------
-   FOOTER
+   DETAIL PRODUKTU (PRODUCT PAGE)
 ------------------------------ */
-
-footer {
-  text-align: center;
-  padding: 16px;
-  font-size: 0.9rem;
-  color: #777;
-  border-top: 1px solid #e0e0e0;
-}
-
-/* ------------------------------
-   MOBILNÍ OPTIMALIZACE
------------------------------- */
-
-@media (max-width: 600px) {
-
-  .topbar nav {
-    display: none;
-  }
-
-  .topbar {
-    flex-direction: column;
-    gap: 10px;
-    text-align: center;
-  }
-
-  .hero {
-    width: 80%;
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 20px 0;
-  }
-
-  .nuevos #nove-produkty,
-  .produkty-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .categorias .grid {
-    grid-template-columns: repeat(2, 1fr);
-    column-gap: 50px;
-    row-gap: 6px;
-  }
-
-  .produkt-card {
-    width: 100%;
-  }
-
-  .produkt-card img {
-    width: 100%;
-    height: auto;
-  }
-
-}
-
-/* ------------------------------
-   PRODUCT PAGE
------------------------------- */
-
 .product-page {
   max-width: 1100px;
   margin: 40px auto;
@@ -245,9 +191,10 @@ footer {
 }
 
 .product-image img {
-  width: 420px;
+  width: 100%;
+  max-width: 420px;
   border-radius: 10px;
-  box-shadow: 0 0 10px #0002;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
 .product-info {
@@ -255,145 +202,97 @@ footer {
   min-width: 300px;
 }
 
-.product-info h1 {
-  font-size: 28px;
-  margin-bottom: 10px;
-}
-
-.product-price {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 20px;
-  color: #2a7a2a;
-}
-
-.product-description {
-  font-size: 16px;
-  line-height: 1.5;
-  margin-bottom: 30px;
-}
-
-.product-order-btn {
-  background: #2a7a2a;
-  color: white;
-  padding: 14px 26px;
-  border: none;
-  border-radius: 6px;
-  font-size: 18px;
-  cursor: pointer;
-}
-
-.product-order-btn:hover {
-  background: #1f5d1f;
-}
-
-.product-gallery {
-  margin-top: 40px;
-  display: flex;
-  gap: 15px;
-  flex-wrap: wrap;
-}
-
-.product-gallery img {
-  width: 140px;
-  border-radius: 8px;
-  cursor: pointer;
-  box-shadow: 0 0 6px #0002;
-}
-
-/* --- LIGHTBOX ANIMACE --- */
-
-#lightbox {
-  opacity: 0;
-  transition: opacity 0.25s ease;
-}
-
-#lightbox.show {
-  opacity: 1;
-}
-
-#lightbox-img {
-  transform: scale(0.85);
-  transition: transform 0.25s ease;
-}
-
-#lightbox.show #lightbox-img {
-  transform: scale(1);
-}
-
-
-/* ===============================
-   MOBILE PRODUCT FIX (STABLE)
-=============================== */
-
-@media (max-width: 768px) {
-
-  html, body {
-    overflow-x: hidden;
-  }
-
-  .product-container {
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-  }
-
-  .product-image {
-    width: 100% !important;
-    max-width: 360px !important;
-    margin: 0 auto;
-  }
-
-  .product-image img {
-    width: 100% !important;
-    height: auto;
-  }
-
-  .product-gallery {
-    width: 100% !important;
-    max-width: 360px !important;
-    margin: 15px auto 0 auto;
-    display: grid !important;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 6px;
-  }
-
-  .product-gallery img {
-    width: 100%;
-    height: auto;
-  }
-
-}
-
-
-/* ===============================
-   PRODUCT DETAIL FIX (STRICT)
-=============================== */
-
-/* ONLY product detail page price */
 .product-page .product-price {
   color: #d62828 !important;
   font-size: 32px !important;
   font-weight: 700 !important;
-  letter-spacing: 0.6px;
+  margin-bottom: 20px;
 }
 
-/* Green ORDER button on product page only */
-.product-page .product-order-btn {
-  background: #6ccf55 !important;
-  color: #ffffff !important;
-  font-weight: bold !important;
+.product-description {
+  font-size: 15px;
+  line-height: 1.6;
+  margin-bottom: 30px;
+  color: #444;
 }
 
-.product-page .product-order-btn:hover {
-  background: #58b844 !important;
+.product-gallery {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
 }
 
-/* Product description visible but smaller */
-.product-page .product-description {
-  font-size: 15px !important;
-  line-height: 1.5 !important;
-  max-height: none !important;
-  overflow: visible !important;
+.product-gallery img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s;
 }
 
+.product-gallery img:hover { transform: scale(1.05); }
+
+/* ------------------------------
+   LIGHTBOX
+------------------------------ */
+#lightbox {
+  position: fixed;
+  top: 0; left: 0; width: 100%; height: 100%;
+  background: rgba(0,0,0,0.9);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+#lightbox.show { opacity: 1; display: flex; }
+
+#lightbox-img {
+  max-width: 90%;
+  max-height: 90%;
+  transform: scale(0.85);
+  transition: transform 0.25s ease;
+}
+
+#lightbox.show #lightbox-img { transform: scale(1); }
+
+/* ------------------------------
+   FOOTER
+------------------------------ */
+footer {
+  text-align: center;
+  padding: 30px;
+  font-size: 0.9rem;
+  color: #777;
+  border-top: 1px solid #e0e0e0;
+  margin-top: 40px;
+}
+
+footer a { color: #6ccf55; text-decoration: none; font-weight: 600; }
+
+/* ------------------------------
+   MOBILNÍ OPTIMALIZACE
+------------------------------ */
+@media (max-width: 768px) {
+  .topbar nav { display: none; }
+  .topbar { flex-direction: column; text-align: center; gap: 10px; }
+  
+  .product-container { flex-direction: column; align-items: center; }
+  .product-image img { max-width: 100%; }
+
+  .hero { width: 95%; padding: 20px 10px; }
+
+  #nove-produkty, .produkty-grid {
+    grid-template-columns: 1fr;
+    padding: 10px;
+  }
+
+  .categorias .grid {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 20px;
+  }
+}
