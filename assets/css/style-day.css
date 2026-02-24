@@ -1,3 +1,21 @@
+/* ============================================
+   FIXNÍ HLAVIČKA – PC + MOBIL
+============================================ */
+.topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 9999;
+  background: #fafafa;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* aby se obsah neposouval pod hlavičku */
+body {
+  padding-top: 120px; /* výška hlavičky */
+}
+
 /* ------------------------------
     ZÁKLADNÍ NASTAVENÍ
 ------------------------------ */
@@ -7,34 +25,22 @@ body {
   background: #ffffff;
   color: #222;
   overflow-x: hidden;
-  padding-top: 120px !important; /* prostor pro fixní hlavičku */
 }
 
 /* ------------------------------
-    FIXNÍ HLAVIČKA – PC + MOBIL
+    TOP BAR / MENU
 ------------------------------ */
 .topbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 9999;
-  background: #fafafa;
-  border-bottom: 1px solid #e0e0e0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 12px 16px;
+  border-bottom: 1px solid #e0e0e0;
+  background: #fafafa;
+  width: 100%;
   box-sizing: border-box;
-
-  /* jemný stín pod hlavičku */
-  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
 }
 
-.topbar .logo img {
-  height: 90px !important;
-}
-
-/* ------------------------------
-    TOP BAR MENU
------------------------------- */
 .topbar nav {
   display: flex;
   align-items: center;
@@ -85,7 +91,44 @@ body {
 }
 
 /* ------------------------------
-    PRODUKTOVÁ KARTA
+    KATEGORÍAS – PC VERZE
+------------------------------ */
+.categorias .grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  column-gap: 40px;
+  row-gap: 12px;
+  justify-items: center;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.card {
+  background: linear-gradient(to top, #0A7A1C, #1FAF3A, #6CFF7A);
+  border-radius: 8px;
+  text-decoration: none;
+  color: #ffffff;
+  width: 100%;
+  max-width: 130px;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 800;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.25s ease;
+  border: none;
+  box-shadow: 0 4px 10px rgba(0, 128, 0, 0.35);
+}
+
+.card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 14px rgba(0, 128, 0, 0.45);
+}
+
+/* ------------------------------
+    PRODUKTOVÁ KARTA – PC
 ------------------------------ */
 .produkt-card {
   width: 100%;
@@ -181,18 +224,82 @@ body {
 }
 
 /* ------------------------------
-    DETAIL PRODUKTU – SJEDNOCENÍ TLAČÍTEK
+    DETAIL PRODUKTU
 ------------------------------ */
-.product-page .produkt-btn,
-.product-page .volver-btn {
-  padding: 10px 14px !important;
-  font-size: 14px !important;
-  font-weight: 800 !important;
-  border-radius: 8px !important;
-  line-height: 1.2 !important;
-  height: auto !important;
-  text-transform: uppercase !important;
+.product-page {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 20px;
 }
+
+.product-container {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.product-image img {
+  width: 100%;
+  max-width: 420px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+.product-info {
+  flex: 1;
+  min-width: 300px;
+}
+
+.product-page .product-price {
+  color: #d62828 !important;
+  font-size: 32px !important;
+  font-weight: 700 !important;
+  margin-bottom: 20px;
+}
+
+/* ------------------------------
+    POPIS PRODUKTU
+------------------------------ */
+.product-description {
+  font-size: 17px;
+  line-height: 1.7;
+  margin-bottom: 30px;
+  color: #444;
+  text-align: justify;
+}
+
+/* ------------------------------
+    GALERIE
+------------------------------ */
+.product-gallery {
+  margin-top: 20px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.product-gallery img {
+  width: 100%;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.product-gallery img:hover { transform: scale(1.05); }
+
+/* ------------------------------
+    FOOTER
+------------------------------ */
+footer {
+  text-align: center;
+  padding: 30px;
+  font-size: 0.9rem;
+  color: #777;
+  border-top: 1px solid #e0e0e0;
+  margin-top: 40px;
+}
+footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
 
 /* ------------------------------
     MOBILNÍ OPTIMALIZACE
@@ -222,6 +329,16 @@ body {
     width: 100% !important;
     margin-left: auto !important;
     margin-right: auto !important;
+  }
+
+  /* SJEDNOCENÍ TLAČÍTEK V DETAILU PRODUKTU */
+  .product-page .produkt-btn,
+  .product-page .volver-btn {
+    padding: 10px 14px !important;
+    font-size: 14px !important;
+    border-radius: 8px !important;
+    height: auto !important;
+    line-height: 1.2 !important;
   }
 
   .intro p {
