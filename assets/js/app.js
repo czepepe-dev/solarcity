@@ -1,70 +1,98 @@
-async function nactiProdukty() {
-    // Najdeme jakýkoliv kontejner, který na webu používáš
-    const container = document.getElementById('nove-produkty') || 
-                      document.getElementById('productos-grid') || 
-                      document.querySelector('.produkty-grid');
-
-    if (!container) return;
-
-    try {
-        // 1. Získání seznamu souborů
-        const response = await fetch(`https://api.github.com/repos/czepepe-dev/solarcity/contents/data/productos?t=${Date.now()}`);
-        const files = await response.json();
-        
-        // 2. Načtení dat všech JSONů
-        const produktyData = await Promise.all(
-            files.filter(f => f.name.endsWith('.json')).map(async (f) => {
-                try {
-                    const res = await fetch(`/data/productos/${f.name}?t=${Date.now()}`);
-                    const json = await res.json();
-                    return { ...json, slug: f.name.replace('.json', ''), sortId: parseInt(json.id) || 0 };
-                } catch (e) { return null; }
-            })
-        );
-
-        let produkty = produktyData.filter(p => p !== null);
-
-        // 3. Automatický filtr pro kategorie (podle názvu stránky)
-        const path = window.location.pathname.toLowerCase();
-        if (path.includes('powerbanks')) produkty = produkty.filter(p => p.categoria === 'Powerbanks');
-        if (path.includes('paneles')) produkty = produkty.filter(p => p.categoria === 'Paneles');
-        if (path.includes('luces')) produkty = produkty.filter(p => p.categoria === 'Luces');
-
-        // 4. SEŘAZENÍ: Nejnovější (nejvyšší ID) první
-        produkty.sort((a, b) => b.sortId - a.sortId);
-
-        // 5. Vykreslení - používám TVOJI původní HTML strukturu
-        container.innerHTML = produkty.map(p => `
-            <div class="produkt-card">
-                <div class="produkt-image-container">
-                    <img src="${p.imagen}" alt="${p.nombre}" onclick="window.location.href='producto.html?slug=${p.slug}'" style="cursor:pointer;">
-                </div>
-                <h3 class="produkt-nazev">${p.nombre}</h3>
-                <p class="produkt-cena">${p.precio}</p>
-                <div class="produkt-buttons">
-                    <a href="producto.html?slug=${p.slug}" class="produkt-info-btn">DETALLE</a>
-                    <a href="contacto.html" class="produkt-btn">ORDENAR</a>
-                </div>
-            </div>
-        `).join('');
-
-    } catch (err) {
-        console.error("Chyba při načítání:", err);
-    }
+async function cargarDatos() {
+  const res = await fetch('data/productos.json?t=' + Date.now());
+  return await res.json();
 }
 
-// Spustit hned po načtení
-document.addEventListener('DOMContentLoaded', nactiProdukty);
+function getParam(name) {
+  const params = new URLSearchParams(window.location.search);
+  return params.get(name);
+}
 
-// Funkce pro přepínání témat
-document.addEventListener('DOMContentLoaded', () => {
-    const themeBtn = document.getElementById('theme-toggle');
-    const themeStyle = document.getElementById('theme-style');
-    if (themeBtn && themeStyle) {
-        themeBtn.addEventListener('click', () => {
-            const isDay = themeStyle.getAttribute('href').includes('day');
-            themeStyle.setAttribute('href', isDay ? 'assets/css/style-night.css' : 'assets/css/style-day.css');
-            themeBtn.textContent = isDay ? 'Día' : 'Noche';
-        });
+const nombresCategorias = {
+  paneles: 'Paneles Solares',
+  powerbanks: 'Powerbanks Solares',
+  luces: 'Luces Solares',
+  sistemas: 'Sistemas Solares'
+};
+
+// 🔹 univerzální řazení od nejnovějšího podle ID
+function ordenarPorNuevo(lista) {
+  return lista.slice().sort((a, b) => Number(b.id) - Number(a.id));
+}
+
+
+// ==========================
+// KATEGORIE
+// ==========================
+if (window.location.pathname.endsWith('categoria.html')) {
+  (async () => {
+    const cat = getParam('cat');
+    const datos = await cargarDatos();
+
+    let lista = datos[cat] || [];
+    lista = ordenarPorNuevo(lista);
+
+    const titulo = document.getElementById('titulo-categoria');
+    const cont = document.getElementById('lista-productos');
+
+    titulo.textContent = nombresCategorias[cat] || 'Productos';
+
+    cont.innerHTML = lista.map(p => `
+      <a class="card" href="producto.html?id=${p.id}&cat=${cat}">
+        <h3>${p.nombre}</h3>
+        <p>${p.precio}</p>
+      </a>
+    `).join('');
+  })();
+}
+
+
+// ==========================
+// PRODUKT
+// ==========================
+if (window.location.pathname.endsWith('producto.html')) {
+  (async () => {
+    const cat = getParam('cat');
+    const id = getParam('id');
+    const datos = await cargarDatos();
+
+    const lista = datos[cat] || [];
+    const prod = lista.find(p => String(p.id) === String(id));
+    const cont = document.getElementById('detalle-producto');
+
+    if (!prod) {
+      cont.innerHTML = '<p>Producto no encontrado.</p>';
+      return;
     }
-});
+
+    cont.innerHTML = `
+      <h1>${prod.nombre}</h1>
+      <p class="precio">${prod.precio}</p>
+      <img src="${prod.imagen}" alt="${prod.nombre}" class="img-principal">
+      <p>${prod.descripcion}</p>
+      <div class="galeria">
+        ${(prod.galeria || []).map(src => `<img src="${src}" alt="${prod.nombre}">`).join('')}
+      </div>
+      <a href="categoria.html?cat=${cat}" class="btn-volver">Volver a la categoría</a>
+    `;
+  })();
+}
+
+
+// ==========================
+// DEN / NOC
+// ==========================
+const btn = document.getElementById('theme-toggle');
+const themeLink = document.getElementById('theme-style');
+
+if (btn) {
+  btn.addEventListener('click', () => {
+    if (themeLink.getAttribute('href').includes('day')) {
+      themeLink.setAttribute('href', 'assets/css/style-night.css');
+      btn.textContent = 'Día';
+    } else {
+      themeLink.setAttribute('href', 'assets/css/style-day.css');
+      btn.textContent = 'Noche';
+    }
+  });
+}
