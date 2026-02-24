@@ -291,13 +291,18 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   .topbar nav { display: none; }
   .topbar { flex-direction: column; text-align: center; gap: 10px; }
 
-  /* PRODUKT NA INDEXU – FINÁLNĚ OPRAVENO */
+  /* PRODUKT NA INDEXU – FINÁLNÍ OPRAVA */
   #nove-produkty .produkt-card {
     max-width: 480px !important;
     width: 100% !important;
-    margin-left: auto !important;
-    margin-right: auto !important;
+    margin: 0 auto !important;
     text-align: center !important;
+    display: block !important;
+  }
+
+  #nove-produkty .produkt-card img {
+    width: 100% !important;
+    height: auto !important;
   }
 
   /* PRODUKT V KATEGORII – STEJNÁ VELIKOST */
@@ -308,16 +313,24 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
     margin-right: auto !important;
   }
 
+  /* SJEDNOCENÍ TLAČÍTEK V DETAILU PRODUKTU */
+  .product-page .produkt-btn,
+  .product-page .volver-btn {
+    padding: 10px 14px !important;
+    font-size: 14px !important;
+    border-radius: 8px !important;
+    height: auto !important;
+    line-height: 1.2 !important;
+  }
+
   .intro p {
     text-align: justify;
   }
 
-  /* Tlačítka v detailu produktu vedle sebe */
   .produkt-buttons {
     flex-direction: row !important;
   }
 
-  /* Categorías – 2 sloupce */
   .categorias .grid {
     grid-template-columns: repeat(2, 1fr) !important;
     column-gap: 20px !important;
