@@ -325,4 +325,29 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
     font-size: 14px;
     max-width: 120px;
   }
+    /* ============================================
+   MOBIL – PRODUKT NA INDEXU
+   karta ještě větší + stejná jako v kategorii
+============================================ */
+@media (max-width: 768px) {
+
+  /* karta na INDEXU – přesnější selektor */
+  .intro .produkt-card {
+    max-width: 480px !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center !important;
+  }
+
+  /* karta v KATEGORII – sjednocení */
+  .produkty-grid .produkt-card {
+    max-width: 480px !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    text-align: center !important;
+  }
+}
+
 }
