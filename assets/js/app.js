@@ -1,87 +1,58 @@
-async function cargarDatos() {
-  const res = await fetch('data/productos.json?t=' + Date.now());
-  return await res.json();
-}
+// Funkce pro načtení seznamu všech JSON souborů produktů
+async function nactiNoveProdukty() {
+  const container = document.getElementById('nove-produkty');
+  if (!container) return;
 
-function getParam(name) {
-  const params = new URLSearchParams(window.location.search);
-  return params.get(name);
-}
+  try {
+    // Seznam všech tvých produktů (přesně podle tvé struktury složek)
+    const soubory = [
+      'novy-ppp.json',
+      'power-bank-solar-20000.json',
+      'power-bank-solar-portatil-20000-mah.json',
+      'test.json',
+      'test2.json'
+    ];
 
-const nombresCategorias = {
-  paneles: 'Paneles Solares',
-  powerbanks: 'Powerbanks Solares',
-  luces: 'Luces Solares',
-  sistemas: 'Sistemas Solares'
-};
+    // Načteme obsah všech souborů paralelně
+    const vsechnyProdukty = await Promise.all(
+      soubory.map(async (soubor) => {
+        try {
+          const res = await fetch(`/data/productos/${soubor}?t=${Date.now()}`);
+          const data = await res.json();
+          // Přidáme slug (název souboru bez .json) pro odkaz na detail
+          data.slug = soubor.replace('.json', '');
+          return data;
+        } catch (e) {
+          return null;
+        }
+      })
+    );
 
-// 🔹 univerzální řazení od nejnovějšího podle ID
-function ordenarPorNuevo(lista) {
-  return lista.slice().sort((a, b) => Number(b.id) - Number(a.id));
-}
+    // Odfiltrujeme neúspěšné pokusy
+    const platneProdukty = vsechnyProdukty.filter(p => p !== null);
 
+    // SEŘAZENÍ: Od nejnovějšího (v JavaScriptu otočíme pořadí pole, protože nové jsou na konci seznamu)
+    const serazene = platneProdukty.reverse();
 
-// ==========================
-// KATEGORIE
-// ==========================
-if (window.location.pathname.endsWith('categoria.html')) {
-  (async () => {
-    const cat = getParam('cat');
-    const datos = await cargarDatos();
-
-    let lista = datos[cat] || [];
-    lista = ordenarPorNuevo(lista);
-
-    const titulo = document.getElementById('titulo-categoria');
-    const cont = document.getElementById('lista-productos');
-
-    titulo.textContent = nombresCategorias[cat] || 'Productos';
-
-    cont.innerHTML = lista.map(p => `
-      <a class="card" href="producto.html?id=${p.id}&cat=${cat}">
-        <h3>${p.nombre}</h3>
-        <p>${p.precio}</p>
-      </a>
-    `).join('');
-  })();
-}
-
-
-// ==========================
-// PRODUKT
-// ==========================
-if (window.location.pathname.endsWith('producto.html')) {
-  (async () => {
-    const cat = getParam('cat');
-    const id = getParam('id');
-    const datos = await cargarDatos();
-
-    const lista = datos[cat] || [];
-    const prod = lista.find(p => String(p.id) === String(id));
-    const cont = document.getElementById('detalle-producto');
-
-    if (!prod) {
-      cont.innerHTML = '<p>Producto no encontrado.</p>';
-      return;
-    }
-
-    cont.innerHTML = `
-      <h1>${prod.nombre}</h1>
-      <p class="precio">${prod.precio}</p>
-      <img src="${prod.imagen}" alt="${prod.nombre}" class="img-principal">
-      <p>${prod.descripcion}</p>
-      <div class="galeria">
-        ${(prod.galeria || []).map(src => `<img src="${src}" alt="${prod.nombre}">`).join('')}
+    // VÝPIS DO HTML
+    container.innerHTML = serazene.map(p => `
+      <div class="produkt-card">
+        <img src="${p.imagen}" alt="${p.nombre}" onclick="window.location.href='producto.html?slug=${p.slug}'">
+        <h3 class="produkt-nazev">${p.nombre}</h3>
+        <p class="produkt-cena">${p.precio}</p>
+        <div class="produkt-buttons">
+          <a href="producto.html?slug=${p.slug}" class="produkt-info-btn">DETALLE</a>
+          <a href="contacto.html" class="produkt-btn">ORDENAR</a>
+        </div>
       </div>
-      <a href="categoria.html?cat=${cat}" class="btn-volver">Volver a la categoría</a>
-    `;
-  })();
+    `).join('');
+
+  } catch (error) {
+    console.error("Chyba při načítání produktů:", error);
+  }
 }
 
-
-// ==========================
-// DEN / NOC
-// ==========================
+// Funkce pro přepínání témat (ponechána z původního kódu)
 const btn = document.getElementById('theme-toggle');
 const themeLink = document.getElementById('theme-style');
 
