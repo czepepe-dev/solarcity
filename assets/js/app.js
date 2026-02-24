@@ -1,51 +1,41 @@
-async function zobrazitVsechnyProdukty() {
-  const cilovyDiv = document.getElementById('vypis-nejnovejsich-veci');
-  if (!cilovyDiv) return;
+async function nactiProdukty() {
+  const container = document.getElementById('nove-produkty') || document.getElementById('vypis-nejnovejsich-veci') || document.getElementById('productos-grid');
+  if (!container) return;
 
   try {
-    // 1. Získáme seznam souborů z GitHubu s časovou značkou, aby se obešla cache
-    const apiAdresa = `https://api.github.com/repos/czepepe-dev/solarcity/contents/data/productos?t=${Date.now()}`;
-    const odpoved = await fetch(apiAdresa);
+    const response = await fetch(`https://api.github.com/repos/czepepe-dev/solarcity/contents/data/productos?t=${Date.now()}`);
+    if (!response.ok) throw new Error('GitHub API error');
+    const files = await response.json();
+    const jsonFiles = files.filter(f => f.name.endsWith('.json'));
+
+    const nactene = await Promise.all(jsonFiles.map(async (f) => {
+      try {
+        const res = await fetch(`/data/productos/${f.name}?t=${Date.now()}`);
+        if (!res.ok) return null;
+        const data = await res.json();
+        data.url_slug = f.name.replace('.json', '');
+        data.sort_id = data.id ? parseInt(data.id) : 0;
+        return data;
+      } catch (e) { return null; }
+    }));
+
+    const platneProdukty = nactene.filter(p => p !== null);
+
+    // Detekce kategorie podle názvu souboru (např. powerbanks.html)
+    const pagename = window.location.pathname.split("/").pop();
+    let filtrovane = platneProdukty;
     
-    if (!odpoved.ok) throw new Error('API nedostupné');
-    
-    const soubory = await odpoved.json();
-    const jsonSoubory = soubory.filter(s => s.name.endsWith('.json'));
+    if (pagename.includes('powerbanks')) filtrovane = platneProdukty.filter(p => p.categoria === 'Powerbanks');
+    if (pagename.includes('paneles')) filtrovane = platneProdukty.filter(p => p.categoria === 'Paneles');
+    if (pagename.includes('luces')) filtrovane = platneProdukty.filter(p => p.categoria === 'Luces');
 
-    // 2. Načteme obsah všech nalezených souborů paralelně
-    const nactenaData = await Promise.all(
-      jsonSoubory.map(async (soubor) => {
-        try {
-          // Použijeme download_url z GitHubu pro maximální čerstvost
-          const res = await fetch(`${soubor.download_url}?t=${Date.now()}`);
-          if (!res.ok) return null;
-          
-          const pData = await res.json();
-          
-          // Přidáme slug (název souboru bez .json) pro URL
-          pData.url_slug = soubor.name.replace('.json', '');
-          
-          // Určíme klíč pro řazení (priorita je pole "id" v JSONu)
-          pData.sortKey = pData.id ? parseInt(pData.id) : 0;
-          
-          return pData;
-        } catch (e) {
-          console.error(`Chyba načítání souboru ${soubor.name}:`, e);
-          return null;
-        }
-      })
-    );
+    // SEŘAZENÍ: Sestupně podle ID
+    filtrovane.sort((a, b) => b.sort_id - a.sort_id);
 
-    // 3. SEŘAZENÍ: Od nejvyššího ID po nejnižší
-    const serazeneProdukty = nactenaData
-      .filter(p => p !== null)
-      .sort((a, b) => b.sortKey - a.sortKey);
-
-    // 4. VYKRESLENÍ DO HTML
-    cilovyDiv.innerHTML = serazeneProdukty.map(p => `
+    container.innerHTML = filtrovane.map(p => `
       <div class="produkt-card">
         <div class="produkt-image-container">
-            <img src="${p.imagen}" alt="${p.nombre}" onclick="window.location.href='producto.html?slug=${p.url_slug}'" style="cursor:pointer;">
+          <img src="${p.imagen}" alt="${p.nombre}" onclick="window.location.href='producto.html?slug=${p.url_slug}'" style="cursor:pointer;">
         </div>
         <h3 class="produkt-nazev">${p.nombre}</h3>
         <p class="produkt-cena">${p.precio}</p>
@@ -56,30 +46,20 @@ async function zobrazitVsechnyProdukty() {
       </div>
     `).join('');
 
-  } catch (chyba) {
-    console.error("Chyba při vykreslování produktů:", chyba);
-    cilovyDiv.innerHTML = "<p>Error al cargar productos.</p>";
+  } catch (err) {
+    console.error("Chyba:", err);
   }
 }
 
-// Spuštění hlavní funkce
-zobrazitVsechnyProdukty();
-
-// Funkce pro přepínání témat (Day/Night)
 document.addEventListener('DOMContentLoaded', () => {
-    const themeBtn = document.getElementById('theme-toggle');
-    const themeStyle = document.getElementById('theme-style');
-
-    if (themeBtn && themeStyle) {
-        themeBtn.addEventListener('click', () => {
-            const currentTheme = themeStyle.getAttribute('href');
-            if (currentTheme.includes('day')) {
-                themeStyle.setAttribute('href', 'assets/css/style-night.css');
-                themeBtn.textContent = 'Día';
-            } else {
-                themeStyle.setAttribute('href', 'assets/css/style-day.css');
-                themeBtn.textContent = 'Noche';
-            }
-        });
-    }
+  nactiProdukty();
+  const btn = document.getElementById('theme-toggle');
+  const style = document.getElementById('theme-style');
+  if (btn && style) {
+    btn.addEventListener('click', () => {
+      const isDay = style.getAttribute('href').includes('day');
+      style.setAttribute('href', isDay ? 'assets/css/style-night.css' : 'assets/css/style-day.css');
+      btn.textContent = isDay ? 'Día' : 'Noche';
+    });
+  }
 });
