@@ -291,7 +291,7 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   .topbar nav { display: none; }
   .topbar { flex-direction: column; text-align: center; gap: 10px; }
 
-  /* Produkt na indexu – konečně správná velikost */
+  /* PRODUKT NA INDEXU – FINÁLNĚ OPRAVENO */
   #nove-produkty .produkt-card {
     max-width: 480px !important;
     width: 100% !important;
@@ -300,9 +300,10 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
     text-align: center !important;
   }
 
-  /* Produkt v kategorii – sjednocení */
+  /* PRODUKT V KATEGORII – STEJNÁ VELIKOST */
   .produkty-grid .produkt-card {
     max-width: 480px !important;
+    width: 100% !important;
     margin-left: auto !important;
     margin-right: auto !important;
   }
