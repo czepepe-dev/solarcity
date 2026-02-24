@@ -71,12 +71,12 @@ body {
 }
 
 /* ------------------------------
-    KATEGORÍAS – NOVÝ ZELENÝ STYL
+    KATEGORÍAS – PC VERZE ZMENŠENO
 ------------------------------ */
 .categorias .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  column-gap: 50px;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  column-gap: 40px;
   row-gap: 12px;
   justify-items: center;
   justify-content: center;
@@ -89,9 +89,9 @@ body {
   text-decoration: none;
   color: #ffffff;
   width: 100%;
-  max-width: 150px;
-  padding: 14px;
-  font-size: 17px;
+  max-width: 130px;
+  padding: 10px;
+  font-size: 14px;
   font-weight: 800;
   text-transform: uppercase;
   display: flex;
@@ -108,11 +108,11 @@ body {
 }
 
 /* ------------------------------
-    PRODUKTOVÁ KARTA
+    PRODUKTOVÁ KARTA – PC ZMENŠENÍ TLAČÍTEK
 ------------------------------ */
 .produkt-card {
   width: 100%;
-  max-width: 320px;
+  max-width: 300px;
   border: 1px solid #eee;
   border-radius: 12px;
   padding: 15px;
@@ -132,35 +132,35 @@ body {
 
 .produkt-card img {
   width: 100%;
-  height: 250px;
+  height: 240px;
   object-fit: cover;
   border-radius: 10px;
   margin-bottom: 12px;
   cursor: pointer;
 }
 
-.produkt-nazev { font-size: 1.1rem; margin: 10px 0; font-weight: 600; }
-.produkt-cena { color: #d62828; font-size: 1.4rem; font-weight: 700; margin-bottom: 10px; }
-.produkt-popis { font-size: 0.9rem; color: #666; margin-bottom: 15px; line-height: 1.4; text-align: center; }
+.produkt-nazev { font-size: 1rem; margin: 10px 0; font-weight: 600; }
+.produkt-cena { color: #d62828; font-size: 1.3rem; font-weight: 700; margin-bottom: 10px; }
+.produkt-popis { font-size: 0.85rem; color: #666; margin-bottom: 15px; line-height: 1.4; text-align: center; }
 
 /* ------------------------------
-    NOVÉ ZELENÉ TLAČÍTKA
+    TLAČÍTKA – PC ZMENŠENÁ
 ------------------------------ */
 .produkt-buttons {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   width: 100%;
   margin-top: auto;
 }
 
-/* ORDENAR – plné zelené tlačítko */
+/* ORDENAR */
 .produkt-btn {
   flex: 1;
-  padding: 14px 20px;
+  padding: 10px 14px;
   border-radius: 8px;
   font-weight: 800;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
   text-align: center;
   text-decoration: none;
   border: none;
@@ -176,14 +176,14 @@ body {
   box-shadow: 0 6px 14px rgba(0, 128, 0, 0.45);
 }
 
-/* DETALLES – bílé tlačítko s okrajem, stejný efekt jako ORDENAR */
+/* DETALLES – bez výplně, stejný 3D efekt, po hoveru jen zhoupnutí */
 .produkt-info-btn {
   flex: 1;
-  padding: 14px 20px;
+  padding: 10px 14px;
   border-radius: 8px;
   font-weight: 800;
   cursor: pointer;
-  font-size: 16px;
+  font-size: 14px;
   text-align: center;
   text-decoration: none;
   background: white;
@@ -191,13 +191,14 @@ body {
   border: 3px solid #1FAF3A;
   transition: 0.25s ease;
   text-transform: uppercase;
+  box-shadow: 0 4px 10px rgba(0, 128, 0, 0.25);
 }
 
 .produkt-info-btn:hover {
-  background: linear-gradient(to top, #0A7A1C, #1FAF3A, #6CFF7A);
-  color: white;
   transform: translateY(-3px);
-  box-shadow: 0 6px 14px rgba(0, 128, 0, 0.45);
+  box-shadow: 0 6px 14px rgba(0, 128, 0, 0.35);
+  background: white;
+  color: #0A7A1C;
 }
 
 /* ------------------------------
@@ -242,6 +243,7 @@ body {
   line-height: 1.6;
   margin-bottom: 30px;
   color: #444;
+  text-align: left;
 }
 .product-description ul, .product-description ol { padding-left: 20px; margin-bottom: 20px; }
 .product-description li { margin-bottom: 8px; }
@@ -324,28 +326,45 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
     MOBILNÍ OPTIMALIZACE
 ------------------------------ */
 @media (max-width: 768px) {
+
   .topbar nav { display: none; }
   .topbar { flex-direction: column; text-align: center; gap: 10px; }
-  
+
   .product-container { flex-direction: column; align-items: center; }
   .product-image img { max-width: 100%; }
 
   .hero { width: 95%; padding: 20px 10px; }
 
-  #nove-produkty, .produkty-grid {
-    grid-template-columns: 1fr;
-    max-width: 320px;
+  /* Produkt na indexu – zarovnání na střed */
+  .produkt-card {
+    max-width: 340px;
     margin-left: auto;
     margin-right: auto;
-    padding: 10px;
+    text-align: center;
   }
 
+  .produkt-popis {
+    text-align: justify;
+  }
+
+  /* Produkt v kategorii – zarovnání na střed */
+  .produkty-grid .produkt-card {
+    max-width: 340px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Tlačítka v detailu produktu vedle sebe */
+  .produkt-buttons {
+    flex-direction: row;
+  }
+
+  /* Categorías – 2 sloupce */
   .categorias .grid {
     grid-template-columns: repeat(2, 1fr);
     column-gap: 20px;
   }
 
-  /* Zmenšení tlačítek Categorías na mobilu */
   .card {
     padding: 10px;
     font-size: 14px;
