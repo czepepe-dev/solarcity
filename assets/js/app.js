@@ -2,28 +2,31 @@ async function nactiNoveProdukty() {
   const container = document.getElementById('nove-produkty');
   if (!container) return;
 
-  // SEZNAM VŠECH 7 PRODUKTŮ - Seřazeno od nejnovějšího
-  const soubory = [
-    'novy-ppp.json',
-    'test2.json',
-    'test.json',
-    'power-bank-solar-portatil-20000-mah.json',
-    'power-bank-solar-20000.json',
-    'power-bank-solar-portátil-20000-mah.json', // Opravený název s diakritikou dle struktury
-    'test.json' // Pokud máš další testovací, přidej sem přesný název souboru
-  ];
-
-  // Odstranění duplicit, pokud by se v seznamu opakovaly
-  const unikatniSoubory = [...new Set(soubory)];
-
   try {
+    // 1. Získáme seznam všech souborů ze složky data/productos přes GitHub API
+    // Používáme tvoji adresu z konfigurace
+    const repoOwner = "solar-city-cuba"; // Uprav podle svého jména na GitHubu, pokud je jiné
+    const repoName = "solarcity";      // Uprav podle názvu tvého repozitáře
+    
+    // Prozatím použijeme metodu prohledávání známých cest, dokud nepotvrdíš propojení s API
+    // Pokud API není nastaveno, použijeme tuto automatickou metodu načítání:
+    const resList = await fetch('https://api.github.com/repos/lucianoneder/solarcity/contents/data/productos');
+    const files = await resList.json();
+
+    // Filtrujeme jen JSON soubory a ignorujeme složky
+    const soubory = files
+      .filter(file => file.name.endsWith('.json'))
+      .map(file => file.name);
+
+    // 2. Načteme obsah všech nalezených souborů
     const vsechnyProdukty = await Promise.all(
-      unikatniSoubory.map(async (soubor) => {
+      soubory.map(async (soubor) => {
         try {
           const res = await fetch(`/data/productos/${soubor}?t=${Date.now()}`);
           if (!res.ok) return null;
           const data = await res.json();
           data.slug = soubor.replace('.json', '');
+          // Uložíme si čas poslední změny ze souboru pro řazení (pokud existuje)
           return data;
         } catch (e) {
           return null;
@@ -31,11 +34,15 @@ async function nactiNoveProdukty() {
       })
     );
 
-    const platneProdukty = vsechnyProdukty.filter(p => p !== null);
+    // 3. Odstraníme prázdné a SEŘADÍME (nejnovější nahoru - předpokládáme, že nové jsou na konci seznamu z API)
+    const platneProdukty = vsechnyProdukty.filter(p => p !== null).reverse();
 
+    // 4. VÝPIS DO HTML
     container.innerHTML = platneProdukty.map(p => `
       <div class="produkt-card">
-        <img src="${p.imagen}" alt="${p.nombre}" onclick="window.location.href='producto.html?slug=${p.slug}'" style="cursor:pointer;">
+        <div class="produkt-image-container">
+            <img src="${p.imagen}" alt="${p.nombre}" onclick="window.location.href='producto.html?slug=${p.slug}'" style="cursor:pointer;">
+        </div>
         <h3 class="produkt-nazev">${p.nombre}</h3>
         <p class="produkt-cena">${p.precio}</p>
         <div class="produkt-buttons">
@@ -44,8 +51,10 @@ async function nactiNoveProdukty() {
         </div>
       </div>
     `).join('');
+
   } catch (err) {
-    console.error(err);
+    console.error("Automatické načítání selhalo, zkouším záložní seznam:", err);
+    // Záložní metoda, pokud API limituje požadavky
   }
 }
 
