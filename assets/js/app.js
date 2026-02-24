@@ -3,14 +3,14 @@ async function nactiNoveProdukty() {
   if (!container) return;
 
   try {
-    // 1. Načtení seznamu souborů z GitHubu s náhodným číslem proti mezipaměti
+    // 1. Získáme seznam souborů z tvého GitHubu
     const response = await fetch(`https://api.github.com/repos/czepepe-dev/solarcity/contents/data/productos?t=${Date.now()}`);
-    if (!response.ok) throw new Error('Nelze načíst seznam produktů');
+    if (!response.ok) throw new Error('Nelze načíst seznam');
     const files = await response.json();
 
     const jsonFiles = files.filter(f => f.name.endsWith('.json'));
 
-    // 2. Načtení obsahu všech produktů
+    // 2. Načteme obsah všech produktů
     const nacteneProdukty = await Promise.all(
       jsonFiles.map(async (file) => {
         try {
@@ -18,11 +18,6 @@ async function nactiNoveProdukty() {
           if (!res.ok) return null;
           const data = await res.json();
           data.slug = file.name.replace('.json', '');
-          
-          // Pokud produkt nemá ID, zkusíme ho vytáhnout z názvu souboru nebo data
-          // Toto zajistí, že i nové produkty bez ID se zařadí správně
-          data.sortValue = data.id ? parseInt(data.id) : Date.now();
-          
           return data;
         } catch (e) {
           return null;
@@ -30,17 +25,19 @@ async function nactiNoveProdukty() {
       })
     );
 
-    // 3. SEŘAZENÍ: Od nejnovějšího (nejvyšší sortValue/ID)
+    // 3. SEŘAZENÍ: Podle ID sestupně (od nejvyššího k nejnižšímu)
     const platneProdukty = nacteneProdukty
       .filter(p => p !== null)
-      .sort((a, b) => b.sortValue - a.sortValue);
+      .sort((a, b) => {
+        const idA = a.id ? parseInt(a.id) : 0;
+        const idB = b.id ? parseInt(b.id) : 0;
+        return idB - idA;
+      });
 
-    // 4. Vykreslení do HTML
+    // 4. Vykreslení
     container.innerHTML = platneProdukty.map(p => `
       <div class="produkt-card">
-        <div class="produkt-image-container">
-            <img src="${p.imagen}" alt="${p.nombre}" onclick="window.location.href='producto.html?slug=${p.slug}'" style="cursor:pointer;">
-        </div>
+        <img src="${p.imagen}" alt="${p.nombre}" onclick="window.location.href='producto.html?slug=${p.slug}'" style="cursor:pointer;">
         <h3 class="produkt-nazev">${p.nombre}</h3>
         <p class="produkt-cena">${p.precio}</p>
         <div class="produkt-buttons">
@@ -51,11 +48,11 @@ async function nactiNoveProdukty() {
     `).join('');
 
   } catch (err) {
-    console.error("Chyba při načítání:", err);
+    console.error("Chyba:", err);
   }
 }
 
-// Spuštění funkce
+// Spuštění
 nactiNoveProdukty();
 
 // Tlačítko témat
@@ -65,6 +62,5 @@ if (btn && themeLink) {
   btn.addEventListener('click', () => {
     const isDay = themeLink.getAttribute('href').includes('day');
     themeLink.setAttribute('href', isDay ? 'assets/css/style-night.css' : 'assets/css/style-day.css');
-    btn.textContent = isDay ? 'Día' : 'Noche';
   });
 }
