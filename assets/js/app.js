@@ -1,10 +1,16 @@
 async function nactiProdukty() {
-  const container = document.getElementById('nove-produkty') || document.getElementById('vypis-nejnovejsich-veci') || document.getElementById('productos-grid');
+  // Najde kontejner na indexu i v kategoriích
+  const container = document.getElementById('nove-produkty') || 
+                    document.getElementById('vypis-nejnovejsich-veci') || 
+                    document.getElementById('productos-grid') ||
+                    document.querySelector('.produkty-grid');
+                    
   if (!container) return;
 
   try {
+    // Načtení seznamu ze složky přes GitHub API
     const response = await fetch(`https://api.github.com/repos/czepepe-dev/solarcity/contents/data/productos?t=${Date.now()}`);
-    if (!response.ok) throw new Error('GitHub API error');
+    if (!response.ok) throw new Error('GitHub API nedostupné');
     const files = await response.json();
     const jsonFiles = files.filter(f => f.name.endsWith('.json'));
 
@@ -19,20 +25,19 @@ async function nactiProdukty() {
       } catch (e) { return null; }
     }));
 
-    const platneProdukty = nactene.filter(p => p !== null);
+    let produkty = nactene.filter(p => p !== null);
 
-    // Detekce kategorie podle názvu souboru (např. powerbanks.html)
-    const pagename = window.location.pathname.split("/").pop();
-    let filtrovane = platneProdukty;
-    
-    if (pagename.includes('powerbanks')) filtrovane = platneProdukty.filter(p => p.categoria === 'Powerbanks');
-    if (pagename.includes('paneles')) filtrovane = platneProdukty.filter(p => p.categoria === 'Paneles');
-    if (pagename.includes('luces')) filtrovane = platneProdukty.filter(p => p.categoria === 'Luces');
+    // Automatické filtrování podle kategorie (pokud jsme v souboru kategorie)
+    const pagename = window.location.pathname.toLowerCase();
+    if (pagename.includes('powerbanks')) produkty = produkty.filter(p => p.categoria === 'Powerbanks');
+    else if (pagename.includes('paneles')) produkty = produkty.filter(p => p.categoria === 'Paneles');
+    else if (pagename.includes('luces')) produkty = produkty.filter(p => p.categoria === 'Luces');
 
-    // SEŘAZENÍ: Sestupně podle ID
-    filtrovane.sort((a, b) => b.sort_id - a.sort_id);
+    // SEŘAZENÍ: Nejnovější (nejvyšší ID) jako první
+    produkty.sort((a, b) => b.sort_id - a.sort_id);
 
-    container.innerHTML = filtrovane.map(p => `
+    // Vykreslení
+    container.innerHTML = produkty.map(p => `
       <div class="produkt-card">
         <div class="produkt-image-container">
           <img src="${p.imagen}" alt="${p.nombre}" onclick="window.location.href='producto.html?slug=${p.url_slug}'" style="cursor:pointer;">
@@ -47,19 +52,9 @@ async function nactiProdukty() {
     `).join('');
 
   } catch (err) {
-    console.error("Chyba:", err);
+    console.error("Chyba při načítání produktů:", err);
   }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  nactiProdukty();
-  const btn = document.getElementById('theme-toggle');
-  const style = document.getElementById('theme-style');
-  if (btn && style) {
-    btn.addEventListener('click', () => {
-      const isDay = style.getAttribute('href').includes('day');
-      style.setAttribute('href', isDay ? 'assets/css/style-night.css' : 'assets/css/style-day.css');
-      btn.textContent = isDay ? 'Día' : 'Noche';
-    });
-  }
-});
+// Spuštění po načtení stránky
+document.addEventListener('DOMContentLoaded', nactiProdukty);
