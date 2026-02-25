@@ -9,18 +9,12 @@
   z-index: 9999;
   background: #fafafa;
   border-bottom: 1px solid #e0e0e0;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.12); /* jemný stín */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
 }
 
 /* aby se obsah neposouval pod hlavičku */
 body {
-  padding-top: 120px; /* výška hlavičky */
-}
-
-
-/* aby se obsah neposouval pod hlavičku */
-body {
-  padding-top: 120px; /* výška hlavičky */
+  padding-top: 120px;
 }
 
 /* ------------------------------
@@ -180,7 +174,7 @@ body {
   margin-top: auto;
 }
 
-/* ORDENAR */
+/* ORDENAR – zelené CTA */
 .produkt-btn {
   flex: 1;
   padding: 10px 14px;
@@ -200,33 +194,6 @@ body {
 
 .produkt-btn:hover {
   transform: translateY(-3px);
-  box-shadow: 0 6px 14px rgba(0, 128, 0, 0.45);
-}
-
-/* DETALLES + VOLVER – sjednocené */
-.produkt-info-btn,
-.volver-btn {
-  flex: 1;
-  padding: 10px 14px;
-  border-radius: 8px;
-  font-weight: 800;
-  cursor: pointer;
-  font-size: 14px;
-  text-align: center;
-  text-decoration: none;
-  background: white;
-  color: #0A7A1C;
-  border: none;
-  text-transform: uppercase;
-  box-shadow: 0 4px 10px rgba(0, 128, 0, 0.35);
-  transition: 0.25s ease;
-}
-
-.produkt-info-btn:hover,
-.volver-btn:hover {
-  transform: translateY(-3px);
-  background: white;
-  color: #0A7A1C;
   box-shadow: 0 6px 14px rgba(0, 128, 0, 0.45);
 }
 
@@ -316,7 +283,6 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   .topbar nav { display: none; }
   .topbar { flex-direction: column; text-align: center; gap: 10px; }
 
-  /* PRODUKT NA INDEXU – FINÁLNÍ OPRAVA */
   #nove-produkty .produkt-card {
     max-width: 480px !important;
     width: 100% !important;
@@ -330,31 +296,12 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
     height: auto !important;
   }
 
-  /* PRODUKT V KATEGORII – STEJNÁ VELIKOST */
   .produkty-grid .produkt-card {
     max-width: 480px !important;
     width: 100% !important;
     margin-left: auto !important;
     margin-right: auto !important;
   }
-
-/* ============================================
-   DETAIL PRODUKTU – SJEDNOCENÍ TLAČÍTEK
-============================================ */
-.product-page .produkt-btn,
-.product-page .volver-btn {
-  padding: 10px 14px !important;
-  font-size: 14px !important;
-  font-weight: 800 !important;
-  border-radius: 8px !important;
-  line-height: 1.2 !important;
-  height: auto !important;
-  text-transform: uppercase !important;
-  font-family: inherit !important; /* stejné písmo jako ORDENAR */
-  letter-spacing: 0 !important; /* sjednocení */
-}
-
-
 
   .intro p {
     text-align: justify;
@@ -374,26 +321,13 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
     font-size: 14px;
     max-width: 120px;
   }
-   /* ============================================
-   DETAIL PRODUKTU – VOLVER = ORDENAR (FINÁLNÍ)
-============================================ */
-.product-page .volver-btn {
-  background: linear-gradient(to top, #0A7A1C, #1FAF3A, #6CFF7A) !important;
-  color: #ffffff !important;
-  padding: 10px 14px !important;
-  font-size: 14px !important;
-  font-weight: 800 !important;
-  border-radius: 8px !important;
-  line-height: 1.2 !important;
-  height: auto !important;
-  text-transform: uppercase !important;
-  box-shadow: 0 4px 10px rgba(0, 128, 0, 0.35) !important;
-  border: none !important;
-  font-family: inherit !important;
-  letter-spacing: 0 !important;
 }
 
-/* ORDENAR v detailu – sjednocení */
+/* ============================================
+   DETAIL PRODUKTU – ČISTÉ SJEDNOCENÍ TLAČÍTEK
+============================================ */
+
+/* ORDENAR – zelené CTA */
 .product-page .produkt-btn {
   padding: 10px 14px !important;
   font-size: 14px !important;
@@ -402,60 +336,10 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   line-height: 1.2 !important;
   height: auto !important;
   text-transform: uppercase !important;
-}
-
-   /* ============================================
-   VOLVER = ORDENAR (ULTIMÁTNÍ PŘEPSÁNÍ)
-============================================ */
-.product-page .produkt-buttons .volver-btn {
-  background: linear-gradient(to top, #0A7A1C, #1FAF3A, #6CFF7A) !important;
-  color: #ffffff !important;
-  padding: 10px 14px !important;
-  font-size: 14px !important;
-  font-weight: 800 !important;
-  border-radius: 8px !important;
-  line-height: 1.2 !important;
-  height: auto !important;
-  text-transform: uppercase !important;
-  box-shadow: 0 4px 10px rgba(0, 128, 0, 0.35) !important;
-  border: none !important;
   font-family: inherit !important;
-  letter-spacing: 0 !important;
 }
 
-/* ============================================
-   DETAIL PRODUKTU – VOLVER = ORDENAR (FINÁLNÍ)
-============================================ */
-.product-page .produkt-info-btn {
-  background: linear-gradient(to top, #0A7A1C, #1FAF3A, #6CFF7A) !important;
-  color: #ffffff !important;
-  padding: 10px 14px !important;
-  font-size: 14px !important;
-  font-weight: 800 !important;
-  border-radius: 8px !important;
-  line-height: 1.2 !important;
-  height: auto !important;
-  text-transform: uppercase !important;
-  box-shadow: 0 4px 10px rgba(0, 128, 0, 0.35) !important;
-  border: none !important;
-  font-family: inherit !important;
-  letter-spacing: 0 !important;
-}
-
-/* ORDENAR v detailu – sjednocení */
-.product-page .produkt-btn {
-  padding: 10px 14px !important;
-  font-size: 14px !important;
-  font-weight: 800 !important;
-  border-radius: 8px !important;
-  line-height: 1.2 !important;
-  height: auto !important;
-  text-transform: uppercase !important;
-}
-
-/* ============================================
-   DETAIL PRODUKTU – VOLVER = DETALLES
-============================================ */
+/* DETALLES + VOLVER – bílé sekundární tlačítko */
 .product-page .produkt-info-btn {
   background: white !important;
   color: #0A7A1C !important;
