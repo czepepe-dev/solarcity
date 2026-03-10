@@ -35,8 +35,9 @@ async function nactiProdukty(kategorie) {
 
 async function nactiNoveProdukty() {
   const seznam = await ziskejSeznamSouboru();
-  
-  // LOGIKA: Na mobilu chceme jen 3 produkty pod sebou, na PC 10 pro slider
+  if (seznam.length === 0) return;
+
+  // Na mobilu jen 3, na PC 10
   const limit = window.innerWidth < 768 ? 3 : 10;
   const novinky = seznam.slice(0, limit); 
 
@@ -48,9 +49,11 @@ async function nactiNoveProdukty() {
       data.slug = file.replace(".json", "");
       produkty.push(data);
     } catch (e) {
-      console.error("Chyba při načítání produktu:", file, e);
+      console.error("Chyba načítání:", file);
     }
   }
+  
+  console.log("Načteno novinek:", produkty.length);
   vykresliKarty(produkty, "nove-produkty");
 }
 
