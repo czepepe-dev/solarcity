@@ -75,7 +75,7 @@ function scrollSlider(direction) {
   const slider = document.getElementById("nove-produkty");
   if (!slider) return;
   
-  // Posun o fixní šířku karty (300) + mezeru (20)
+  // Posun o celou šířku karty (300) + mezeru (20)
   const scrollAmount = 320; 
   
   slider.scrollBy({
