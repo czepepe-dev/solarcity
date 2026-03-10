@@ -476,7 +476,7 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
 }
 
 /* ============================================
-    OPRAVA: PRODUKTOVÝ SLIDER (VLOŽIT NA KONEC)
+    FINÁLNÍ OPRAVA: PŘESNĚ 3 PRODUKTY VE SLIDERU
 ============================================ */
 
 /* 1. Obal pro šipky a slider */
@@ -486,35 +486,38 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   align-items: center;
   width: 100%;
   margin: 30px auto;
-  max-width: 1200px;
+  max-width: 1200px; /* Toto musí odpovídat zbytku webu */
 }
 
-/* 2. Samotný kontejner s produkty - ZRUŠENÍ GRIDU */
+/* 2. Kontejner slideru */
 #nove-produkty.produkty-slider {
-  display: flex !important;      /* Vynutí řazení vedle sebe */
-  grid-template-columns: none !important; /* Zruší starý grid */
+  display: flex !important;
+  grid-template-columns: none !important;
   flex-direction: row !important;
-  overflow-x: auto !important;   /* Povolí horizontální posun */
+  overflow-x: auto !important;
   scroll-behavior: smooth;
-  gap: 20px;
-  padding: 20px 5px;
+  gap: 20px; /* Mezera mezi kartami */
+  padding: 20px 0;
   width: 100%;
-  scrollbar-width: none;         /* Skryje scrollbar ve Firefoxu */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 #nove-produkty.produkty-slider::-webkit-scrollbar {
-  display: none;                 /* Skryje scrollbar v Chrome/Safari */
+  display: none;
 }
 
-/* 3. Nastavení šířky karty v rámci slideru */
+/* 3. VÝPOČET ŠÍŘKY: (100 % - (počet mezer * velikost mezery)) / počet viditelných karet */
 #nove-produkty.produkty-slider .produkt-card {
-  min-width: 280px !important;
-  max-width: 300px !important;
-  flex: 0 0 auto !important;     /* Zabrání smrštění karet */
+  /* Pro 3 produkty: (100% - 2 mezery po 20px) / 3 */
+  flex: 0 0 calc((100% - 40px) / 3) !important; 
+  min-width: calc((100% - 40px) / 3) !important;
+  max-width: calc((100% - 40px) / 3) !important;
   margin: 0 !important;
+  box-sizing: border-box;
 }
 
-/* 4. Styly šipek */
+/* 4. Šipky */
 .slider-arrow {
   background: white;
   border: none;
@@ -538,14 +541,23 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
 .slider-arrow:hover {
   background: #1FAF3A;
   color: white;
-  transform: translateY(-50%) scale(1.1);
 }
 
-.slider-arrow.left { left: -20px; }
-.slider-arrow.right { right: -20px; }
+.slider-arrow.left { left: -25px; }
+.slider-arrow.right { right: -25px; }
 
-/* Skrytí šipek na mobilu (tam se scrolluje prstem) */
+/* 5. Mobilní zobrazení (1.5 produktu, aby bylo jasné, že se dá scrollovat) */
 @media (max-width: 768px) {
   .slider-arrow { display: none; }
-  .slider-wrapper { padding: 0 10px; }
+  
+  #nove-produkty.produkty-slider .produkt-card {
+    /* Na mobilu ukážeme 1 celé a kousek druhého */
+    flex: 0 0 calc(80%) !important;
+    min-width: calc(80%) !important;
+    max-width: calc(80%) !important;
+  }
+  
+  .slider-wrapper {
+    padding: 0 10px;
+  }
 }
