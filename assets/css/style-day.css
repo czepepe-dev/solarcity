@@ -474,3 +474,78 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   .slider-arrow.left { left: 5px; }
   .slider-arrow.right { right: 5px; }
 }
+
+/* ============================================
+    OPRAVA: PRODUKTOVÝ SLIDER (VLOŽIT NA KONEC)
+============================================ */
+
+/* 1. Obal pro šipky a slider */
+.slider-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 30px auto;
+  max-width: 1200px;
+}
+
+/* 2. Samotný kontejner s produkty - ZRUŠENÍ GRIDU */
+#nove-produkty.produkty-slider {
+  display: flex !important;      /* Vynutí řazení vedle sebe */
+  grid-template-columns: none !important; /* Zruší starý grid */
+  flex-direction: row !important;
+  overflow-x: auto !important;   /* Povolí horizontální posun */
+  scroll-behavior: smooth;
+  gap: 20px;
+  padding: 20px 5px;
+  width: 100%;
+  scrollbar-width: none;         /* Skryje scrollbar ve Firefoxu */
+}
+
+#nove-produkty.produkty-slider::-webkit-scrollbar {
+  display: none;                 /* Skryje scrollbar v Chrome/Safari */
+}
+
+/* 3. Nastavení šířky karty v rámci slideru */
+#nove-produkty.produkty-slider .produkt-card {
+  min-width: 280px !important;
+  max-width: 300px !important;
+  flex: 0 0 auto !important;     /* Zabrání smrštění karet */
+  margin: 0 !important;
+}
+
+/* 4. Styly šipek */
+.slider-arrow {
+  background: white;
+  border: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  color: #0A7A1C;
+  font-size: 24px;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.slider-arrow:hover {
+  background: #1FAF3A;
+  color: white;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.slider-arrow.left { left: -20px; }
+.slider-arrow.right { right: -20px; }
+
+/* Skrytí šipek na mobilu (tam se scrolluje prstem) */
+@media (max-width: 768px) {
+  .slider-arrow { display: none; }
+  .slider-wrapper { padding: 0 10px; }
+}
