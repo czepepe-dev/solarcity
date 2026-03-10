@@ -269,24 +269,53 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   .topbar nav { display: none; }
   .topbar { flex-direction: column; text-align: center; gap: 10px; }
 
+  /* --- OPRAVA SLIDERU NA MOBILU --- */
+  .slider-wrapper {
+    max-width: 85% !important; /* Prostor pro šipky po stranách */
+    margin: 20px auto !important;
+  }
+
+  #nove-produkty {
+    display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    overflow-x: hidden !important; /* Schováme posuvník, ovládáme šipkami */
+    gap: 0 !important; /* Aby posun o clientWidth byl přesný */
+  }
+
   #nove-produkty .produkt-card {
-    max-width: 480px !important;
-    width: 100% !important;
-    margin: 0 auto !important;
-    text-align: center !important;
-    display: block !important;
+    flex: 0 0 100% !important; /* Jedna karta na celou šířku kontejneru */
+    min-width: 100% !important;
+    max-width: 100% !important;
+    height: 600px !important; /* Větší výška, aby nebyl oříznut obrázek */
+    margin: 0 !important;
+    display: flex !important;
+    flex-direction: column !important;
   }
 
   #nove-produkty .produkt-card img {
     width: 100% !important;
-    height: auto !important;
+    height: 280px !important;
+    object-fit: contain !important;
   }
 
+  /* Zobrazení a pozice šipek na mobilu */
+  .slider-arrow {
+    display: flex !important;
+    width: 40px !important;
+    height: 40px !important;
+  }
+
+  .slider-arrow.left { left: -45px !important; }
+  .slider-arrow.right { right: -45px !important; }
+
+  /* --- OSTATNÍ PRVKY (KATEGORIE A TEXT) --- */
   .produkty-grid .produkt-card {
     max-width: 480px !important;
     width: 100% !important;
     margin-left: auto !important;
     margin-right: auto !important;
+    height: 580px !important; /* Sjednocení výšky i v kategoriích */
   }
 
   .intro p {
