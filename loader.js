@@ -75,8 +75,8 @@ function scrollSlider(direction) {
   const slider = document.getElementById("nove-produkty");
   if (!slider) return;
   
-  // Posun o celou šířku karty (300) + mezeru (20)
-  const scrollAmount = 320; 
+  // Dynamicky zjistíme šířku kontejneru (vždy posune o to, co je vidět)
+  const scrollAmount = slider.clientWidth; 
   
   slider.scrollBy({
     left: direction * scrollAmount,
