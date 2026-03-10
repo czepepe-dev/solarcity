@@ -8,7 +8,7 @@ async function ziskejSeznamSouboru() {
     const resp = await fetch(url);
     if (!resp.ok) return [];
     const files = await resp.json();
-    // Odfiltrujeme JSONy a seznam OBRÁTÍME, aby nejnovější soubory byly na začátku
+    // Seřazení od nejnovějšího (otočení abecedního seznamu z GitHubu)
     return files
       .filter(f => f.name.endsWith('.json'))
       .map(f => f.name)
@@ -17,7 +17,7 @@ async function ziskejSeznamSouboru() {
 }
 
 async function nactiProdukty(kategorie) {
-  const seznam = await ziskejSeznamSouboru(); // Již seřazeno od nejnovějšího
+  const seznam = await ziskejSeznamSouboru();
   const produkty = [];
   const container = document.getElementById("produkty");
   if (container) container.innerHTML = "<p>Cargando productos...</p>";
@@ -40,13 +40,12 @@ async function nactiProdukty(kategorie) {
 }
 
 async function nactiNoveProdukty() {
-  const seznam = await ziskejSeznamSouboru(); // Již seřazeno od nejnovějšího
+  const seznam = await ziskejSeznamSouboru();
   const produkty = [];
-  
-  // Vezmeme prvních 9 souborů (protože seznam už je reverse)
-  const nejnovejsiSoubory = seznam.slice(0, 9); 
+  // Jelikož je seznam už otočený v ziskejSeznamSouboru, bereme prvních 9
+  const posledni = seznam.slice(0, 9); 
 
-  for (const file of nejnovejsiSoubory) {
+  for (const file of posledni) {
     try {
       const resp = await fetch(`/${PRODUCT_PATH}/${file}?t=${Date.now()}`);
       const data = await resp.json();
@@ -65,8 +64,7 @@ function vykresliKarty(produkty, containerId) {
   produkty.forEach(p => {
     const detailUrl = `/producto.html?slug=${p.slug}`;
     
-    // Odstranění HTML značek a Markdownu pro čistý náhledový text
-    const cistyText = (p.descripcion || "").replace(/<[^>]*>?/gm, '').replace(/[#*`_]/g, "");
+    const cistyText = (p.descripcion || "").replace(/[#*`_]/g, "");
     const shortText = cistyText.substring(0, 100);
 
     cont.innerHTML += `
