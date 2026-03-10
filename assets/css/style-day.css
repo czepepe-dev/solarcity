@@ -410,3 +410,67 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   transform: translateY(-3px) !important;
   box-shadow: 0 6px 14px rgba(0, 128, 0, 0.45) !important;
 }
+
+/* ------------------------------
+    PRODUKTOVÝ SLIDER (NOVINKY)
+------------------------------ */
+.slider-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 30px auto;
+}
+
+.produkty-slider {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  gap: 25px;
+  padding: 10px 5px;
+  width: 100%;
+  scrollbar-width: none; /* Firefox */
+}
+
+.produkty-slider::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
+}
+
+.produkty-slider .produkt-card {
+  min-width: 280px;
+  flex: 0 0 auto;
+}
+
+.slider-arrow {
+  background: white;
+  border: none;
+  box-shadow: 0 4px 10px rgba(0, 128, 0, 0.35);
+  color: #0A7A1C;
+  font-size: 24px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.25s ease;
+}
+
+.slider-arrow:hover {
+  background: #1FAF3A;
+  color: white;
+}
+
+.slider-arrow.left { left: -15px; }
+.slider-arrow.right { right: -15px; }
+
+@media (max-width: 768px) {
+  .slider-arrow { display: none; } /* Na mobilu stačí swipe prstem */
+  .slider-arrow.left { left: 5px; }
+  .slider-arrow.right { right: 5px; }
+}
