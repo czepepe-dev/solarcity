@@ -476,88 +476,70 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
 }
 
 /* ============================================
-    FINÁLNÍ OPRAVA: PŘESNĚ 3 PRODUKTY VE SLIDERU
+   FINÁLNÍ OPRAVA: PŘESNĚ 3 PRODUKTY A ŠIPKY
 ============================================ */
 
-/* 1. Obal pro šipky a slider */
 .slider-wrapper {
   position: relative;
   display: flex;
   align-items: center;
   width: 100%;
-  margin: 30px auto;
-  max-width: 1200px; /* Toto musí odpovídat zbytku webu */
+  max-width: 1100px; /* Upravte podle šířky vašeho webu */
+  margin: 0 auto;
+  overflow: visible;
 }
 
-/* 2. Kontejner slideru */
 #nove-produkty.produkty-slider {
   display: flex !important;
-  grid-template-columns: none !important;
   flex-direction: row !important;
-  overflow-x: auto !important;
+  grid-template-columns: none !important; /* Zruší grid ze starého kódu */
+  overflow-x: hidden !important; /* Skryje ořezané produkty */
   scroll-behavior: smooth;
-  gap: 20px; /* Mezera mezi kartami */
-  padding: 20px 0;
+  gap: 20px;
   width: 100%;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  padding: 20px 0;
 }
 
-#nove-produkty.produkty-slider::-webkit-scrollbar {
-  display: none;
-}
-
-/* 3. VÝPOČET ŠÍŘKY: (100 % - (počet mezer * velikost mezery)) / počet viditelných karet */
 #nove-produkty.produkty-slider .produkt-card {
-  /* Pro 3 produkty: (100% - 2 mezery po 20px) / 3 */
-  flex: 0 0 calc((100% - 40px) / 3) !important; 
+  /* VÝPOČET: (100% šířky - 2 mezery po 20px) / 3 produkty */
+  flex: 0 0 calc((100% - 40px) / 3) !important;
   min-width: calc((100% - 40px) / 3) !important;
   max-width: calc((100% - 40px) / 3) !important;
   margin: 0 !important;
   box-sizing: border-box;
 }
 
-/* 4. Šipky */
+/* Styl šipek */
 .slider-arrow {
-  background: white;
-  border: none;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-  color: #0A7A1C;
-  font-size: 24px;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  cursor: pointer;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  background: white;
+  border: none;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  color: #0A7A1C;
+  font-size: 20px;
+  cursor: pointer;
   z-index: 100;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.3s ease;
-}
-
-.slider-arrow:hover {
-  background: #1FAF3A;
-  color: white;
 }
 
 .slider-arrow.left { left: -25px; }
 .slider-arrow.right { right: -25px; }
 
-/* 5. Mobilní zobrazení (1.5 produktu, aby bylo jasné, že se dá scrollovat) */
+/* Mobilní verze: ukážeme 1.2 produktu, aby uživatel viděl, že se dá scrollovat prstem */
 @media (max-width: 768px) {
-  .slider-arrow { display: none; }
-  
+  #nove-produkty.produkty-slider {
+    overflow-x: auto !important; /* Na mobilu povolíme prst */
+  }
   #nove-produkty.produkty-slider .produkt-card {
-    /* Na mobilu ukážeme 1 celé a kousek druhého */
-    flex: 0 0 calc(80%) !important;
-    min-width: calc(80%) !important;
-    max-width: calc(80%) !important;
+    flex: 0 0 80% !important;
+    min-width: 80% !important;
   }
-  
-  .slider-wrapper {
-    padding: 0 10px;
-  }
+  .slider-arrow { display: none; }
 }
