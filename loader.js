@@ -8,7 +8,6 @@ async function ziskejSeznamSouboru() {
     const resp = await fetch(url);
     if (!resp.ok) return [];
     const files = await resp.json();
-    // GitHub vrací soubory abecedně, což zajistí nové produkty (2026...) na začátku
     return files.filter(f => f.name.endsWith('.json')).map(f => f.name);
   } catch (e) { return []; }
 }
@@ -23,10 +22,8 @@ async function nactiProdukty(kategorie) {
     try {
       const resp = await fetch(`/${PRODUCT_PATH}/${file}?t=${Date.now()}`);
       const data = await resp.json();
-      
       const katVJsonu = String(data.categoria || "").toLowerCase().trim();
       const katHledana = String(kategorie || "").toLowerCase().trim();
-
       if (katVJsonu === katHledana) {
         data.slug = file.replace(".json", "");
         produkty.push(data);
@@ -38,9 +35,7 @@ async function nactiProdukty(kategorie) {
 
 async function nactiNoveProdukty() {
   const seznam = await ziskejSeznamSouboru();
-  // Načteme až 10 novinek pro funkční slider
   const novinky = seznam.slice(0, 10); 
-
   const produkty = [];
   for (const file of novinky) {
     try {
@@ -57,12 +52,10 @@ function vykresliKarty(produkty, containerId) {
   const cont = document.getElementById(containerId);
   if (!cont) return;
   cont.innerHTML = produkty.length === 0 ? "<p>No hay productos disponibles.</p>" : "";
-  
   produkty.forEach(p => {
     const detailUrl = `/producto.html?slug=${p.slug}`;
     const cistyText = (p.descripcion || "").replace(/<[^>]*>?/gm, '').replace(/[#*`_]/g, "");
     const shortText = cistyText.substring(0, 100);
-
     cont.innerHTML += `
       <div class="produkt-card">
         <img src="${p.imagen}" alt="${p.nombre}" class="produkt-img" onclick="window.location.href='${detailUrl}'">
@@ -77,21 +70,15 @@ function vykresliKarty(produkty, containerId) {
   });
 }
 
-/**
- * OPRAVENÁ FUNKCE PRO ŠIPKY
- * Dynamicky počítá posun tak, aby vždy odrolovala přesně o jednu viditelnou kartu.
- */
+// POSUN SLIDERU
 function scrollSlider(direction) {
   const slider = document.getElementById("nove-produkty");
   if (!slider) return;
-  
-  // Získáme první kartu v seznamu pro výpočet její šířky
   const firstCard = slider.querySelector('.produkt-card');
   if (!firstCard) return;
-
-  // Šířka karty + gap (mezera 20px definovaná v CSS)
-  const scrollAmount = firstCard.offsetWidth + 20; 
   
+  // Posun o šířku karty + mezera
+  const scrollAmount = firstCard.offsetWidth + 20; 
   slider.scrollBy({
     left: direction * scrollAmount,
     behavior: 'smooth'
