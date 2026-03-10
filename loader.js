@@ -8,16 +8,16 @@ async function ziskejSeznamSouboru() {
     const resp = await fetch(url);
     if (!resp.ok) return [];
     const files = await resp.json();
-    // Seřazení od nejnovějšího (otočení abecedního seznamu z GitHubu)
-    return files
-      .filter(f => f.name.endsWith('.json'))
-      .map(f => f.name)
-      .reverse(); 
+    // GitHub vrací soubory abecedně (0-9, A-Z)
+    return files.filter(f => f.name.endsWith('.json')).map(f => f.name);
   } catch (e) { return []; }
 }
 
 async function nactiProdukty(kategorie) {
-  const seznam = await ziskejSeznamSouboru();
+  const seznamAbecedni = await ziskejSeznamSouboru();
+  // Pro výpis kategorie otočíme seznam, aby nejnovější (abecedně poslední) byl nahoře
+  const seznam = seznamAbecedni.reverse(); 
+  
   const produkty = [];
   const container = document.getElementById("produkty");
   if (container) container.innerHTML = "<p>Cargando productos...</p>";
@@ -40,11 +40,12 @@ async function nactiProdukty(kategorie) {
 }
 
 async function nactiNoveProdukty() {
-  const seznam = await ziskejSeznamSouboru();
-  const produkty = [];
-  // Jelikož je seznam už otočený v ziskejSeznamSouboru, bereme prvních 9
-  const posledni = seznam.slice(0, 9); 
+  const seznamAbecedni = await ziskejSeznamSouboru();
+  // Vezmeme posledních 3-9 souborů (abecedně) a otočíme je
+  // Změněno na slice(-3) pro čistý design úvodní strany
+  const posledni = seznamAbecedni.slice(-3).reverse(); 
 
+  const produkty = [];
   for (const file of posledni) {
     try {
       const resp = await fetch(`/${PRODUCT_PATH}/${file}?t=${Date.now()}`);
@@ -64,7 +65,8 @@ function vykresliKarty(produkty, containerId) {
   produkty.forEach(p => {
     const detailUrl = `/producto.html?slug=${p.slug}`;
     
-    const cistyText = (p.descripcion || "").replace(/[#*`_]/g, "");
+    // Vyčištění popisu od HTML a Markdown znaků
+    const cistyText = (p.descripcion || "").replace(/<[^>]*>?/gm, '').replace(/[#*`_]/g, "");
     const shortText = cistyText.substring(0, 100);
 
     cont.innerHTML += `
