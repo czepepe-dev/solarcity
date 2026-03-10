@@ -292,30 +292,38 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
 }
 
 /* ============================================
-    2. BAREVNÉ SCHÉMA TLAČÍTEK
+    2. BAREVNÉ SCHÉMA TLAČÍTEK (Nová modrá #1877F2)
 ============================================ */
+
+/* ORDENAR - Modrá barva #1877F2 */
 .product-page .produkt-btn, .produkt-card .produkt-btn, .produkt-btn {
-  background: #169DEF !important;
+  background: #1877F2 !important;
   color: white !important;
   border: none !important;
-  box-shadow: 0 4px 10px rgba(22, 157, 239, 0.3) !important;
+  box-shadow: 0 4px 10px rgba(24, 119, 242, 0.3) !important;
   flex: 1 !important;
 }
 
+/* DETALLES / VOLVER - Bílá s modrým textem #1877F2 */
 .product-page .produkt-info-btn, .produkt-card .produkt-info-btn, .produkt-info-btn {
   background: white !important;
-  color: #169DEF !important;
+  color: #1877F2 !important;
   border: 1px solid #eee !important;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05) !important;
   flex: 1 !important;
 }
 
+/* CATEGORIAS - Zelená barva */
 .categorias .card {
   background: linear-gradient(to top, #0A7A1C, #1FAF3A, #6CFF7A) !important;
   color: white !important;
   border: none !important;
   box-shadow: 0 4px 10px rgba(0, 128, 0, 0.35) !important;
   width: 100% !important;
+}
+
+.produkt-btn:hover, .produkt-info-btn:hover, .categorias .card:hover {
+  transform: translateY(-3px) !important;
 }
 
 /* ============================================
@@ -329,10 +337,10 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   margin-top: 20px !important;
 }
 
-/* Sjednocení mezery NAD sekcí Categorías */
+/* Optimalizovaná mezera NAD sekcí Categorías */
 .categorias {
-  margin-top: 60px !important; /* Mezera nad nadpisem "Categorías" */
-  padding-top: 20px !important;
+  margin-top: 35px !important; /* Sníženo pro lepší vzhled */
+  padding-top: 10px !important;
 }
 
 .categorias h2 { margin-bottom: 5px !important; }
@@ -347,7 +355,7 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   align-items: center;
   width: 100%;
   max-width: 940px; 
-  margin: 20px auto 40px auto;
+  margin: 20px auto 30px auto;
   overflow: visible;
 }
 
@@ -383,7 +391,7 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   height: 45px;
   border-radius: 50%;
   box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-  color: #169DEF;
+  color: #1877F2;
   font-size: 20px;
   cursor: pointer;
   z-index: 100;
@@ -422,14 +430,13 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   .produkt-card { 
     width: 92% !important; 
     max-width: 350px !important; 
-    height: auto !important; /* Okno se přizpůsobí obsahu */
+    height: auto !important; 
     min-height: 540px !important;
-    padding-bottom: 25px !important; /* Rezerva dole pro tlačítka */
+    padding-bottom: 25px !important; 
     display: flex !important;
     flex-direction: column !important;
   }
 
-  /* Tlačítka v detailu na mobilu */
   .product-info .produkt-buttons { flex-direction: row !important; justify-content: center !important; }
   .slider-arrow { display: none !important; }
 
