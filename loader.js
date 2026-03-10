@@ -74,10 +74,8 @@ function vykresliKarty(produkty, containerId) {
 function scrollSlider(direction) {
   const slider = document.getElementById("nove-produkty");
   if (!slider) return;
-  
-  // Dynamicky zjistíme šířku kontejneru (vždy posune o to, co je vidět)
+  // Na mobilu i PC posune o šířku aktuálně viditelného okna
   const scrollAmount = slider.clientWidth; 
-  
   slider.scrollBy({
     left: direction * scrollAmount,
     behavior: 'smooth'
