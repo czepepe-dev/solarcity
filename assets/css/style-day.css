@@ -78,20 +78,6 @@ body {
 }
 
 /* ------------------------------
-    GRIDY – SJEDNOCENÉ
------------------------------- */
-#nove-produkty,
-.produkty-grid,
-.produkty-grid-3 {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 320px));
-  justify-content: center;
-  gap: 30px;
-  width: 100%;
-  margin: 30px auto;
-}
-
-/* ------------------------------
     KATEGORÍAS – PC VERZE
 ------------------------------ */
 .categorias .grid {
@@ -440,4 +426,58 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
     min-width: 280px !important;
   }
   .slider-arrow { display: none; }
+}
+/* ============================================
+   FINÁLNÍ OPRAVA: 3 KARTY + VĚTŠÍ VÝŠKA
+============================================ */
+
+/* Obal pro slider (musí mít max-width pro 3 karty) */
+.slider-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 940px; /* 3x 300px + 2x 20px mezera */
+  margin: 40px auto;
+  overflow: visible;
+}
+
+#nove-produkty {
+  display: flex !important; /* Vynucení flexu místo gridu */
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  gap: 20px !important;
+  width: 100% !important;
+  overflow-x: hidden !important; 
+  scroll-behavior: smooth;
+  padding: 20px 0 !important;
+  margin: 0 !important;
+}
+
+/* Karta produktu - zvětšená výška na 580px pro obrázek */
+#nove-produkty .produkt-card {
+  flex: 0 0 300px !important;
+  min-width: 300px !important;
+  max-width: 300px !important;
+  height: 580px !important; /* Zvětšeno, aby byl vidět obrázek */
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Zajištění, aby obrázek nebyl useknutý */
+#nove-produkty .produkt-card img {
+  height: 280px !important; /* Větší prostor pro foto */
+  object-fit: contain !important; /* Zobrazí celý obrázek bez ořezu */
+}
+
+/* Oprava levé šipky - pozice */
+.slider-arrow.left { left: -60px !important; }
+.slider-arrow.right { right: -60px !important; }
+
+@media (max-width: 1100px) {
+  .slider-wrapper { max-width: 90%; }
+  .slider-arrow.left { left: -20px !important; }
+  .slider-arrow.right { right: -20px !important; }
 }
