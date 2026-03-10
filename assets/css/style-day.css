@@ -262,66 +262,50 @@ footer {
 footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
 
 /* ------------------------------
-    MOBILNÍ OPTIMALIZACE (NÁVRAT K JEDNODUCHÉMU SEZNAMU)
+    MOBILNÍ OPTIMALIZACE
 ------------------------------ */
 @media (max-width: 768px) {
 
-  .topbar nav { display: none !important; }
-  .topbar { 
-    flex-direction: column !important; 
-    text-align: center !important; 
-    gap: 10px !important; 
-  }
+  .topbar nav { display: none; }
+  .topbar { flex-direction: column; text-align: center; gap: 10px; }
 
-  /* Skrytí šipek na mobilu, protože nebudou potřeba */
-  .slider-arrow { display: none !important; }
-
-  /* Zrušení slideru a návrat k řazení pod sebe */
-  #nove-produkty {
-    display: flex !important;
-    flex-direction: column !important; /* Produkty pod sebou */
-    align-items: center !important;
-    gap: 20px !important;
-    overflow: visible !important;
+  #nove-produkty .produkt-card {
+    max-width: 480px !important;
     width: 100% !important;
-  }
-
-  /* Nastavení karet pro mobil */
-  #nove-produkty .produkt-card,
-  .produkty-grid .produkt-card,
-  #produkty .produkt-card {
-    flex: none !important;
-    width: 90% !important;
-    max-width: 400px !important;
-    height: auto !important; /* Výška se přizpůsobí obsahu */
-    min-height: 550px !important;
     margin: 0 auto !important;
-    display: flex !important;
-    flex-direction: column !important;
+    text-align: center !important;
+    display: block !important;
   }
 
-  /* Oprava obrázků, aby nebyly oříznuté */
-  .produkt-card img {
-    height: 250px !important;
-    object-fit: contain !important;
+  #nove-produkty .produkt-card img {
     width: 100% !important;
+    height: auto !important;
   }
 
-  /* Kategorie (grid 2x2) */
-  .categorias .grid {
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 15px !important;
-    padding: 0 10px !important;
-  }
-
-  .card {
-    padding: 15px 10px !important;
-    font-size: 14px !important;
+  .produkty-grid .produkt-card {
+    max-width: 480px !important;
+    width: 100% !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
   }
 
   .intro p {
-    text-align: justify !important;
-    padding: 0 15px !important;
+    text-align: justify;
+  }
+
+  .produkt-buttons {
+    flex-direction: row !important;
+  }
+
+  .categorias .grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    column-gap: 20px !important;
+  }
+
+  .card {
+    padding: 10px;
+    font-size: 14px;
+    max-width: 120px;
   }
 }
 
