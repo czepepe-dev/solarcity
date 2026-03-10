@@ -8,6 +8,7 @@ async function ziskejSeznamSouboru() {
     const resp = await fetch(url);
     if (!resp.ok) return [];
     const files = await resp.json();
+    // GitHub vrací soubory abecedně, což zajistí nové produkty (2026...) na začátku
     return files.filter(f => f.name.endsWith('.json')).map(f => f.name);
   } catch (e) { return []; }
 }
@@ -37,7 +38,7 @@ async function nactiProdukty(kategorie) {
 
 async function nactiNoveProdukty() {
   const seznam = await ziskejSeznamSouboru();
-  // Načteme až 10 novinek, aby bylo čím scrollovat
+  // Načteme až 10 novinek pro funkční slider
   const novinky = seznam.slice(0, 10); 
 
   const produkty = [];
@@ -76,11 +77,21 @@ function vykresliKarty(produkty, containerId) {
   });
 }
 
-// Funkce pro ovládání šipek slideru
+/**
+ * OPRAVENÁ FUNKCE PRO ŠIPKY
+ * Dynamicky počítá posun tak, aby vždy odrolovala přesně o jednu viditelnou kartu.
+ */
 function scrollSlider(direction) {
   const slider = document.getElementById("nove-produkty");
   if (!slider) return;
-  const scrollAmount = 320; // Šířka jedné karty + gap
+  
+  // Získáme první kartu v seznamu pro výpočet její šířky
+  const firstCard = slider.querySelector('.produkt-card');
+  if (!firstCard) return;
+
+  // Šířka karty + gap (mezera 20px definovaná v CSS)
+  const scrollAmount = firstCard.offsetWidth + 20; 
+  
   slider.scrollBy({
     left: direction * scrollAmount,
     behavior: 'smooth'
