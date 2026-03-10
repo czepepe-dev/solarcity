@@ -8,17 +8,12 @@ async function ziskejSeznamSouboru() {
     const resp = await fetch(url);
     if (!resp.ok) return [];
     const files = await resp.json();
-    // GitHub vrací: 
-    // 1. 2026-powerbank... (začíná číslem)
-    // 2. cargador...
-    // 3. power-bank...
     return files.filter(f => f.name.endsWith('.json')).map(f => f.name);
   } catch (e) { return []; }
 }
 
 async function nactiProdukty(kategorie) {
   const seznam = await ziskejSeznamSouboru(); 
-  // Neotáčíme - 2026-powerbank je už na začátku díky abecedě
   const produkty = [];
   const container = document.getElementById("produkty");
   if (container) container.innerHTML = "<p>Cargando productos...</p>";
@@ -42,11 +37,11 @@ async function nactiProdukty(kategorie) {
 
 async function nactiNoveProdukty() {
   const seznam = await ziskejSeznamSouboru();
-  // Vezmeme prostě první 3 soubory ze seznamu (kde je 2026... první)
-  const prvniTri = seznam.slice(0, 3); 
+  // Načteme až 10 novinek, aby bylo čím scrollovat
+  const novinky = seznam.slice(0, 10); 
 
   const produkty = [];
-  for (const file of prvniTri) {
+  for (const file of novinky) {
     try {
       const resp = await fetch(`/${PRODUCT_PATH}/${file}?t=${Date.now()}`);
       const data = await resp.json();
@@ -78,5 +73,16 @@ function vykresliKarty(produkty, containerId) {
           <button class="produkt-info-btn" onclick="window.location.href='${detailUrl}'">DETALLES</button>
         </div>
       </div>`;
+  });
+}
+
+// Funkce pro ovládání šipek slideru
+function scrollSlider(direction) {
+  const slider = document.getElementById("nove-produkty");
+  if (!slider) return;
+  const scrollAmount = 320; // Šířka jedné karty + gap
+  slider.scrollBy({
+    left: direction * scrollAmount,
+    behavior: 'smooth'
   });
 }
