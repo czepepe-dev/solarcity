@@ -324,13 +324,12 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
 }
 
 /* ============================================
-   DETAIL PRODUKTU – FINÁLNÍ SJEDNOCENÍ
-   ORDENAR + DETALLES + VOLVER = STEJNÁ VELIKOST
+   Sjednocení tlačítek (Detail i Karta)
 ============================================ */
-
-/* společné rozměry pro všechna tlačítka v detailu */
 .product-page .produkt-btn,
-.product-page .produkt-info-btn {
+.product-page .produkt-info-btn,
+.produkt-card .produkt-btn,
+.produkt-card .produkt-info-btn {
   flex: 1 !important;
   padding: 12px 16px !important;
   font-size: 14px !important;
@@ -344,111 +343,65 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   box-sizing: border-box !important;
   font-family: inherit !important;
   text-transform: uppercase !important;
+  transition: 0.25s ease !important;
 }
 
-/* ORDENAR – zelené CTA */
-.product-page .produkt-btn {
-  background: linear-gradient(to top, #0A7A1C, #1FAF3A, #6CFF7A) !important;
-  color: white !important;
-  cursor: pointer !important;
-}
-
-/* DETALLES + VOLVER – bílé sekundární */
-.product-page .produkt-info-btn {
-  background: white !important;
-  color: #0A7A1C !important;
-  border: none !important;
-  box-shadow: 0 4px 10px rgba(0, 128, 0, 0.35) !important;
-  cursor: pointer !important;
-}
-
-/* Hover efekt */
-.product-page .produkt-info-btn:hover {
-  transform: translateY(-3px) !important;
-  box-shadow: 0 6px 14px rgba(0, 128, 0, 0.45) !important;
-}
-
-/* ============================================
-   INDEX – ORDENAR + DETALLES = STEJNÁ VELIKOST
-============================================ */
-
-/* společné rozměry pro obě tlačítka */
-.produkt-card .produkt-btn,
-.produkt-card .produkt-info-btn {
-  flex: 1 !important;
-  padding: 12px 16px !important;
-  font-size: 14px !important;
-  font-weight: 800 !important;
-  line-height: 1.2 !important;
-  height: 48px !important;
-  border-radius: 8px !important;
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  box-sizing: border-box !important;
-  font-family: inherit !important;
-}
-
-/* ORDENAR – zelené */
+/* Zelené tlačítko (ORDENAR) */
+.product-page .produkt-btn,
 .produkt-card .produkt-btn {
   background: linear-gradient(to top, #0A7A1C, #1FAF3A, #6CFF7A) !important;
   color: white !important;
-  cursor: pointer !important;
+  border: none !important;
+  box-shadow: 0 4px 10px rgba(0, 128, 0, 0.35) !important;
 }
 
-/* DETALLES – bílé */
+/* Bílé tlačítko (DETALLES / VOLVER) */
+.product-page .produkt-info-btn,
 .produkt-card .produkt-info-btn {
   background: white !important;
   color: #0A7A1C !important;
-  border: none !important;
-  box-shadow: 0 4px 10px rgba(0, 128, 0, 0.35) !important;
-  cursor: pointer !important;
+  border: 1px solid #eee !important;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05) !important;
 }
 
-/* Hover efekt */
-.produkt-card .produkt-info-btn:hover {
+.produkt-info-btn:hover {
   transform: translateY(-3px) !important;
-  box-shadow: 0 6px 14px rgba(0, 128, 0, 0.45) !important;
+  box-shadow: 0 6px 14px rgba(0, 128, 0, 0.2) !important;
 }
 
 /* ============================================
-   FINÁLNÍ VYČIŠTĚNÝ SLIDER (3 KARTY V ŘADĚ)
+   OPRAVENÝ SLIDER (3 karty v řadě, původní velikost)
 ============================================ */
-
-/* Omezíme šířku celého obalu, aby karty nebyly roztáhlé */
 .slider-wrapper {
   position: relative;
   display: flex;
   align-items: center;
   width: 100%;
-  /* 3 karty po 300px + 2 mezery po 20px = 940px */
-  max-width: 940px; 
+  max-width: 940px; /* 3x 300px + 2x 20px mezera */
   margin: 40px auto;
-  overflow: visible;
 }
 
-#nove-produkty.produkty-slider {
+#nove-produkty {
   display: flex !important;
   flex-direction: row !important;
   flex-wrap: nowrap !important;
   gap: 20px !important;
   width: 100% !important;
-  overflow-x: hidden !important; /* Skryje 4. kartu */
+  overflow-x: hidden !important; 
   scroll-behavior: smooth;
   padding: 20px 0 !important;
   margin: 0 !important;
 }
 
-/* Karta má zpět svých 300px */
-#nove-produkty.produkty-slider .produkt-card {
-  flex: 0 0 300px !important;
+#nove-produkty .produkt-card {
+  flex: 0 0 300px !important; /* Původní fixní šířka */
   min-width: 300px !important;
   max-width: 300px !important;
+  min-height: 520px !important; /* Sjednocení výšky oken */
   box-sizing: border-box !important;
-  margin: 0 !important;
 }
 
-/* Šipky posunuté vně kontejneru */
+/* Šipky */
 .slider-arrow {
   position: absolute;
   top: 50%;
@@ -458,7 +411,7 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   width: 45px;
   height: 45px;
   border-radius: 50%;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
   color: #0A7A1C;
   font-size: 20px;
   cursor: pointer;
@@ -466,30 +419,23 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: 0.2s ease;
-}
-
-.slider-arrow:hover {
-  background: #1FAF3A;
-  color: white;
-  transform: translateY(-50%) scale(1.1);
 }
 
 .slider-arrow.left { left: -60px; }
 .slider-arrow.right { right: -60px; }
 
-/* Mobilní zobrazení */
+/* Mobilní úpravy */
 @media (max-width: 1100px) {
   .slider-wrapper { max-width: 90%; }
-  .slider-arrow.left { left: -40px; }
-  .slider-arrow.right { right: -40px; }
+  .slider-arrow.left { left: -25px; }
+  .slider-arrow.right { right: -25px; }
 }
 
 @media (max-width: 768px) {
-  #nove-produkty.produkty-slider {
-    overflow-x: auto !important; /* Na mobilu umožníme prst */
+  #nove-produkty {
+    overflow-x: auto !important; /* Na mobilu umožní swipe */
   }
-  #nove-produkty.produkty-slider .produkt-card {
+  #nove-produkty .produkt-card {
     flex: 0 0 280px !important;
     min-width: 280px !important;
   }
