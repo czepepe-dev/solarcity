@@ -262,69 +262,53 @@ footer {
 footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
 
 /* ------------------------------
-    MOBILNÍ OPTIMALIZACE (NÁVRAT K JEDNODUCHÉMU SEZNAMU)
+    MOBILNÍ OPTIMALIZACE - NÁVRAT K SEZNAMU
 ------------------------------ */
 @media (max-width: 768px) {
-
   .topbar nav { display: none !important; }
-  .topbar { 
-    flex-direction: column !important; 
-    text-align: center !important; 
-    gap: 10px !important; 
+  .topbar { flex-direction: column; gap: 10px; }
+
+  /* Na mobilu nepotřebujeme speciální obal slideru */
+  .slider-wrapper {
+    display: block !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
   }
 
-  /* Skrytí šipek na mobilu, protože nebudou potřeba */
-  .slider-arrow { display: none !important; }
-
-  /* Zrušení slideru a návrat k řazení pod sebe */
+  /* Zrušíme omezení slideru a seřadíme pod sebe */
   #nove-produkty {
     display: flex !important;
     flex-direction: column !important; /* Produkty pod sebou */
-    align-items: center !important;
-    gap: 20px !important;
-    overflow: visible !important;
+    gap: 25px !important;
+    overflow: visible !important; /* Důležité: aby produkty nezmizely */
     width: 100% !important;
+    padding: 10px 0 !important;
   }
 
-  /* Nastavení karet pro mobil */
   #nove-produkty .produkt-card,
-  .produkty-grid .produkt-card,
   #produkty .produkt-card {
-    flex: none !important;
-    width: 90% !important;
-    max-width: 400px !important;
-    height: auto !important; /* Výška se přizpůsobí obsahu */
-    min-height: 550px !important;
+    width: 92% !important;
+    max-width: 350px !important;
     margin: 0 auto !important;
+    height: auto !important;
+    min-height: 520px !important;
     display: flex !important;
     flex-direction: column !important;
+    flex: none !important; /* Zruší flex-shrink z PC verze */
   }
 
-  /* Oprava obrázků, aby nebyly oříznuté */
-  .produkt-card img {
-    height: 250px !important;
-    object-fit: contain !important;
-    width: 100% !important;
+  /* Skrytí šipek na mobilu */
+  .slider-arrow {
+    display: none !important;
   }
 
-  /* Kategorie (grid 2x2) */
+  /* Oprava kategorií (2 sloupce) */
   .categorias .grid {
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 15px !important;
-    padding: 0 10px !important;
-  }
-
-  .card {
-    padding: 15px 10px !important;
-    font-size: 14px !important;
-  }
-
-  .intro p {
-    text-align: justify !important;
-    padding: 0 15px !important;
+    padding: 0 10px;
   }
 }
-
 /* ============================================
    Sjednocení tlačítek (Detail i Karta)
 ============================================ */
