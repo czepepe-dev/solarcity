@@ -74,11 +74,10 @@ function vykresliKarty(produkty, containerId) {
 function scrollSlider(direction) {
   const slider = document.getElementById("nove-produkty");
   if (!slider) return;
-  const firstCard = slider.querySelector('.produkt-card');
-  if (!firstCard) return;
   
-  // Posun o šířku karty + mezera
-  const scrollAmount = firstCard.offsetWidth + 20; 
+  // Posun o fixní šířku karty (300) + mezeru (20)
+  const scrollAmount = 320; 
+  
   slider.scrollBy({
     left: direction * scrollAmount,
     behavior: 'smooth'
