@@ -288,7 +288,6 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   transition: 0.25s ease !important;
 }
 
-/* Zelené tlačítko (ORDENAR) */
 .product-page .produkt-btn,
 .produkt-card .produkt-btn {
   background: linear-gradient(to top, #0A7A1C, #1FAF3A, #6CFF7A) !important;
@@ -297,7 +296,6 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   box-shadow: 0 4px 10px rgba(0, 128, 0, 0.35) !important;
 }
 
-/* Bílé tlačítko (DETALLES / VOLVER) */
 .product-page .produkt-info-btn,
 .produkt-card .produkt-info-btn {
   background: white !important;
@@ -312,7 +310,7 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
 }
 
 /* ============================================
-    2. PC VERZE - OPRAVENÝ SLIDER A KATEGORIE
+    2. PC VERZE - SLIDER A KATEGORIE
 ============================================ */
 .slider-wrapper {
   position: relative;
@@ -354,7 +352,6 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   object-fit: contain !important;
 }
 
-/* Šipky (PC verze) */
 .slider-arrow {
   position: absolute;
   top: 50%;
@@ -373,13 +370,10 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   align-items: center;
   justify-content: center;
 }
-
 .slider-arrow.left { left: -60px !important; }
 .slider-arrow.right { right: -60px !important; }
 
-/* Grid pro kategorie na PC */
-#produkty, 
-.produkty-grid {
+#produkty, .produkty-grid {
   display: grid !important;
   grid-template-columns: repeat(auto-fit, 300px) !important;
   justify-content: center !important;
@@ -390,9 +384,8 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
 }
 
 /* ============================================
-    3. MOBILNÍ OPTIMALIZACE (POUZE JEDEN BLOK)
+    3. MOBILNÍ OPTIMALIZACE (POUZE PRO MOBIL)
 ============================================ */
-
 @media (max-width: 1100px) {
   .slider-wrapper { max-width: 90%; }
   .slider-arrow.left { left: -20px !important; }
@@ -403,7 +396,6 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   .topbar nav { display: none !important; }
   .topbar { flex-direction: column; gap: 10px; }
 
-  /* Zrušení slideru na mobilu */
   .slider-wrapper {
     display: block !important;
     max-width: 100% !important;
@@ -411,10 +403,12 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
     overflow: visible !important;
   }
 
-  /* Seřazení produktů pod sebe */
-  #nove-produkty {
+  /* Produkty pod sebou a vycentrované */
+  #nove-produkty, #produkty, .produkty-grid {
     display: flex !important;
     flex-direction: column !important;
+    align-items: center !important; /* Vycentrování na střed */
+    grid-template-columns: 1fr !important; /* Zrušení gridu z PC */
     gap: 25px !important;
     overflow: visible !important;
     width: 100% !important;
@@ -422,10 +416,7 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
     height: auto !important;
   }
 
-  /* Úprava karet pro mobilní výpis */
-  #nove-produkty .produkt-card,
-  #produkty .produkt-card,
-  .produkty-grid .produkt-card {
+  .produkt-card {
     width: 92% !important;
     max-width: 350px !important;
     margin: 0 auto !important;
@@ -434,19 +425,29 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
     flex: none !important;
   }
 
-  /* Skrytí šipek */
-  .slider-arrow {
-    display: none !important;
-  }
+  .slider-arrow { display: none !important; }
 
-  /* Kategorie na mobilu - 2 sloupce */
+  /* KATEGORIE - Oprava velikosti tlačítek */
   .categorias .grid {
+    display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 15px !important;
-    padding: 0 10px;
+    padding: 0 15px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
 
-  /* Zarovnání úvodního textu */
+  .categorias .card {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 100% !important; /* Tlačítko vyplní svůj sloupec */
+    height: 60px !important; /* Dostatečná výška pro prst */
+    padding: 10px !important;
+    box-sizing: border-box !important;
+    text-align: center !important;
+  }
+
   .intro p {
     text-align: justify !important;
     padding: 0 15px !important;
