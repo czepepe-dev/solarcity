@@ -411,109 +411,44 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   box-shadow: 0 6px 14px rgba(0, 128, 0, 0.45) !important;
 }
 
-/* ------------------------------
-    PRODUKTOVÝ SLIDER (NOVINKY)
------------------------------- */
-.slider-wrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 100%;
-  margin: 30px auto;
-}
-
-.produkty-slider {
-  display: flex;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  gap: 25px;
-  padding: 10px 5px;
-  width: 100%;
-  scrollbar-width: none; /* Firefox */
-}
-
-.produkty-slider::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Edge */
-}
-
-.produkty-slider .produkt-card {
-  min-width: 280px;
-  flex: 0 0 auto;
-}
-
-.slider-arrow {
-  background: white;
-  border: none;
-  box-shadow: 0 4px 10px rgba(0, 128, 0, 0.35);
-  color: #0A7A1C;
-  font-size: 24px;
-  width: 45px;
-  height: 45px;
-  border-radius: 50%;
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: 0.25s ease;
-}
-
-.slider-arrow:hover {
-  background: #1FAF3A;
-  color: white;
-}
-
-.slider-arrow.left { left: -15px; }
-.slider-arrow.right { right: -15px; }
-
-@media (max-width: 768px) {
-  .slider-arrow { display: none; } /* Na mobilu stačí swipe prstem */
-  .slider-arrow.left { left: 5px; }
-  .slider-arrow.right { right: 5px; }
-}
-
 /* ============================================
-   OPRAVA: PŘESNĚ 3 PRODUKTY V ŘADĚ
+   FINÁLNÍ VYČIŠTĚNÝ SLIDER (3 KARTY V ŘADĚ)
 ============================================ */
 
-/* Obal pro slider */
+/* Omezíme šířku celého obalu, aby karty nebyly roztáhlé */
 .slider-wrapper {
   position: relative;
   display: flex;
   align-items: center;
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
+  /* 3 karty po 300px + 2 mezery po 20px = 940px */
+  max-width: 940px; 
+  margin: 40px auto;
+  overflow: visible;
 }
 
-/* Kontejner slideru - VYNUCENÍ FLEXU */
 #nove-produkty.produkty-slider {
   display: flex !important;
   flex-direction: row !important;
-  flex-wrap: nowrap !important; /* Produkty nesmí skákat pod sebe */
-  justify-content: flex-start !important;
-  gap: 20px !important; /* Mezera mezi kartami */
+  flex-wrap: nowrap !important;
+  gap: 20px !important;
   width: 100% !important;
-  overflow-x: hidden !important; /* Skryje 4. a další produkt */
+  overflow-x: hidden !important; /* Skryje 4. kartu */
   scroll-behavior: smooth;
   padding: 20px 0 !important;
+  margin: 0 !important;
 }
 
-/* VÝPOČET PRO 3 PRODUKTY:
-   Každý produkt má šířku: (100% - 2 mezery) / 3 
-*/
+/* Karta má zpět svých 300px */
 #nove-produkty.produkty-slider .produkt-card {
-  flex: 0 0 calc((100% - 40px) / 3) !important;
-  min-width: calc((100% - 40px) / 3) !important;
-  max-width: calc((100% - 40px) / 3) !important;
+  flex: 0 0 300px !important;
+  min-width: 300px !important;
+  max-width: 300px !important;
   box-sizing: border-box !important;
   margin: 0 !important;
 }
 
-/* Šipky */
+/* Šipky posunuté vně kontejneru */
 .slider-arrow {
   position: absolute;
   top: 50%;
@@ -531,19 +466,32 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   display: flex;
   align-items: center;
   justify-content: center;
+  transition: 0.2s ease;
 }
 
-.slider-arrow.left { left: -22px; }
-.slider-arrow.right { right: -22px; }
+.slider-arrow:hover {
+  background: #1FAF3A;
+  color: white;
+  transform: translateY(-50%) scale(1.1);
+}
 
-/* Mobil: 1 produkt na celou šířku */
+.slider-arrow.left { left: -60px; }
+.slider-arrow.right { right: -60px; }
+
+/* Mobilní zobrazení */
+@media (max-width: 1100px) {
+  .slider-wrapper { max-width: 90%; }
+  .slider-arrow.left { left: -40px; }
+  .slider-arrow.right { right: -40px; }
+}
+
 @media (max-width: 768px) {
   #nove-produkty.produkty-slider {
-    overflow-x: auto !important;
+    overflow-x: auto !important; /* Na mobilu umožníme prst */
   }
   #nove-produkty.produkty-slider .produkt-card {
-    flex: 0 0 90% !important;
-    min-width: 90% !important;
+    flex: 0 0 280px !important;
+    min-width: 280px !important;
   }
   .slider-arrow { display: none; }
 }
