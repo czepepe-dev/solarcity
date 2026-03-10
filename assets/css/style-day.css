@@ -288,17 +288,13 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   text-decoration: none !important;
   cursor: pointer !important;
   padding: 0 16px !important;
-  margin: 0 !important; /* Reset marginů */
+  margin: 0 !important;
 }
 
 /* ============================================
     2. BAREVNÉ SCHÉMA TLAČÍTEK
 ============================================ */
-
-/* ORDENAR - Modrá barva (169DEF) */
-.product-page .produkt-btn,
-.produkt-card .produkt-btn,
-.produkt-btn {
+.product-page .produkt-btn, .produkt-card .produkt-btn, .produkt-btn {
   background: #169DEF !important;
   color: white !important;
   border: none !important;
@@ -306,10 +302,7 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   flex: 1 !important;
 }
 
-/* DETALLES / VOLVER - Bílá barva s modrým textem */
-.product-page .produkt-info-btn,
-.produkt-card .produkt-info-btn,
-.produkt-info-btn {
+.product-page .produkt-info-btn, .produkt-card .produkt-info-btn, .produkt-info-btn {
   background: white !important;
   color: #169DEF !important;
   border: 1px solid #eee !important;
@@ -317,7 +310,6 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   flex: 1 !important;
 }
 
-/* CATEGORIAS - Zelená barva */
 .categorias .card {
   background: linear-gradient(to top, #0A7A1C, #1FAF3A, #6CFF7A) !important;
   color: white !important;
@@ -326,23 +318,24 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   width: 100% !important;
 }
 
-/* Efekty při najetí */
 .produkt-btn:hover, .produkt-info-btn:hover, .categorias .card:hover {
   transform: translateY(-3px) !important;
 }
 
 /* ============================================
-    3. STRUKTURA TLAČÍTEK (Vedle sebe)
+    3. STRUKTURA TLAČÍTEK A SEKCE CATEGORIAS
 ============================================ */
-.produkt-buttons, 
-.product-info .produkt-buttons,
-.product-page .produkt-buttons {
+.produkt-buttons, .product-page .produkt-buttons {
   display: flex !important;
-  flex-direction: row !important; /* Vynucení vedle sebe */
+  flex-direction: row !important;
   gap: 10px !important;
   width: 100% !important;
   margin-top: 20px !important;
 }
+
+/* Sjednocení mezery pod nadpisem Categorías */
+.categorias h2 { margin-bottom: 5px !important; }
+.categorias p { margin-top: 0 !important; margin-bottom: 20px !important; }
 
 /* ============================================
     4. PC VERZE - SLIDER A KATEGORIE
@@ -353,7 +346,7 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   align-items: center;
   width: 100%;
   max-width: 940px; 
-  margin: 40px auto;
+  margin: 20px auto 40px auto; /* Snížen horní margin */
   overflow: visible;
 }
 
@@ -365,12 +358,10 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   width: 100% !important;
   overflow-x: hidden !important; 
   scroll-behavior: smooth;
-  padding: 20px 0 !important;
+  padding: 10px 0 !important;
 }
 
-#nove-produkty .produkt-card,
-.produkty-grid .produkt-card,
-#produkty .produkt-card {
+#nove-produkty .produkt-card, .produkty-grid .produkt-card, #produkty .produkt-card {
   flex: 0 0 300px !important;
   min-width: 300px !important;
   max-width: 300px !important;
@@ -379,10 +370,7 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   flex-direction: column !important;
 }
 
-.produkt-card img {
-  height: 280px !important;
-  object-fit: contain !important;
-}
+.produkt-card img { height: 280px !important; object-fit: contain !important; }
 
 .slider-arrow {
   position: absolute;
@@ -412,7 +400,7 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   gap: 30px !important;
   width: 100% !important;
   max-width: 1200px !important;
-  margin: 30px auto !important;
+  margin: 20px auto !important;
 }
 
 /* ============================================
@@ -421,51 +409,27 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
 @media (max-width: 768px) {
   .topbar nav { display: none !important; }
   .topbar { flex-direction: column; gap: 10px; }
+  .slider-wrapper { display: block !important; max-width: 100% !important; margin-bottom: 20px !important; }
 
-  .slider-wrapper {
-    display: block !important;
-    max-width: 100% !important;
-  }
-
-  /* Seřazení produktů pod sebe na hlavní straně */
   #nove-produkty, #produkty, .produkty-grid {
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
     gap: 25px !important;
-    height: auto !important;
   }
 
-  .produkt-card {
-    width: 92% !important;
-    max-width: 350px !important;
-    height: auto !important;
-    min-height: 520px !important;
-  }
+  .produkt-card { width: 92% !important; max-width: 350px !important; height: auto !important; min-height: 520px !important; }
 
-  /* Tlačítka v detailu produktu na mobilu vedle sebe */
-  .product-container {
-    flex-direction: column !important;
-    align-items: center !important;
-  }
-
-  .product-info .produkt-buttons {
-    flex-direction: row !important; /* Vedle sebe na mobilu v detailu */
-    justify-content: center !important;
-  }
-
+  /* Tlačítka v detailu na mobilu */
+  .product-info .produkt-buttons { flex-direction: row !important; justify-content: center !important; }
   .slider-arrow { display: none !important; }
 
-  /* Kategorie na mobilu - 2 sloupce */
+  /* Kategorie mobil - sjednocení mezer */
   .categorias .grid {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 12px !important;
     padding: 0 15px !important;
-  }
-
-  .intro p {
-    text-align: justify !important;
-    padding: 0 15px !important;
+    margin-top: 10px !important;
   }
 }
