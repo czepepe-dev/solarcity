@@ -35,7 +35,11 @@ async function nactiProdukty(kategorie) {
 
 async function nactiNoveProdukty() {
   const seznam = await ziskejSeznamSouboru();
-  const novinky = seznam.slice(0, 10); 
+  
+  // LOGIKA: Na mobilu chceme jen 3 produkty pod sebou, na PC 10 pro slider
+  const limit = window.innerWidth < 768 ? 3 : 10;
+  const novinky = seznam.slice(0, limit); 
+
   const produkty = [];
   for (const file of novinky) {
     try {
@@ -43,7 +47,9 @@ async function nactiNoveProdukty() {
       const data = await resp.json();
       data.slug = file.replace(".json", "");
       produkty.push(data);
-    } catch (e) {}
+    } catch (e) {
+      console.error("Chyba při načítání produktu:", file, e);
+    }
   }
   vykresliKarty(produkty, "nove-produkty");
 }
