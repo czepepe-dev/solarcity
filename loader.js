@@ -8,16 +8,17 @@ async function ziskejSeznamSouboru() {
     const resp = await fetch(url);
     if (!resp.ok) return [];
     const files = await resp.json();
-    // GitHub vrací soubory abecedně (0-9, A-Z)
+    // GitHub vrací: 
+    // 1. 2026-powerbank... (začíná číslem)
+    // 2. cargador...
+    // 3. power-bank...
     return files.filter(f => f.name.endsWith('.json')).map(f => f.name);
   } catch (e) { return []; }
 }
 
 async function nactiProdukty(kategorie) {
-  const seznamAbecedni = await ziskejSeznamSouboru();
-  // Pro výpis kategorie otočíme seznam, aby nejnovější (abecedně poslední) byl nahoře
-  const seznam = seznamAbecedni.reverse(); 
-  
+  const seznam = await ziskejSeznamSouboru(); 
+  // Neotáčíme - 2026-powerbank je už na začátku díky abecedě
   const produkty = [];
   const container = document.getElementById("produkty");
   if (container) container.innerHTML = "<p>Cargando productos...</p>";
@@ -40,13 +41,12 @@ async function nactiProdukty(kategorie) {
 }
 
 async function nactiNoveProdukty() {
-  const seznamAbecedni = await ziskejSeznamSouboru();
-  // Vezmeme posledních 3-9 souborů (abecedně) a otočíme je
-  // Změněno na slice(-3) pro čistý design úvodní strany
-  const posledni = seznamAbecedni.slice(-3).reverse(); 
+  const seznam = await ziskejSeznamSouboru();
+  // Vezmeme prostě první 3 soubory ze seznamu (kde je 2026... první)
+  const prvniTri = seznam.slice(0, 3); 
 
   const produkty = [];
-  for (const file of posledni) {
+  for (const file of prvniTri) {
     try {
       const resp = await fetch(`/${PRODUCT_PATH}/${file}?t=${Date.now()}`);
       const data = await resp.json();
@@ -64,8 +64,6 @@ function vykresliKarty(produkty, containerId) {
   
   produkty.forEach(p => {
     const detailUrl = `/producto.html?slug=${p.slug}`;
-    
-    // Vyčištění popisu od HTML a Markdown znaků
     const cistyText = (p.descripcion || "").replace(/<[^>]*>?/gm, '').replace(/[#*`_]/g, "");
     const shortText = cistyText.substring(0, 100);
 
