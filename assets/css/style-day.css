@@ -481,3 +481,32 @@ footer a { color: #1FAF3A; text-decoration: none; font-weight: 600; }
   .slider-arrow.left { left: -20px !important; }
   .slider-arrow.right { right: -20px !important; }
 }
+
+/* ============================================
+   OPRAVA KATEGORIÍ (3 PRODUKTY V ŘADĚ NA STŘED)
+============================================ */
+#produkty, 
+.produkty-grid {
+  display: grid !important;
+  /* Vytvoří 3 sloupce o fixní šířce 300px */
+  grid-template-columns: repeat(auto-fit, 300px) !important;
+  justify-content: center !important; /* Zarovnání na střed */
+  gap: 30px !important;
+  width: 100% !important;
+  max-width: 1200px !important;
+  margin: 30px auto !important;
+}
+
+/* Sjednocení výšky a obrázků i pro kategorie */
+.produkty-grid .produkt-card,
+#produkty .produkt-card {
+  height: 580px !important; /* Stejná výška jako na indexu */
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.produkty-grid .produkt-card img,
+#produkty .produkt-card img {
+  height: 280px !important;
+  object-fit: contain !important;
+}
